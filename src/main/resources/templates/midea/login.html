@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:inkscape="">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 
 <th:block th:replace="~{/midea/login :: setContent(~{this::content} )}">
 
     <th:block th:fragment="setContent(content)">
 
+        <!--=================================================== 헤더 ===================================================-->
+        <th:block th:replace="~{/default/fragments/header}" ></th:block>
 
         <link th:href="@{/css/login.css}" rel="stylesheet">
 
-        <div class="container right-panel-active">
+        <div class="container right-panel-active" >
             <!-- Sign Up -->
             <div class="container__form container--signup">
                 <form action="#" class="form" id="form1">

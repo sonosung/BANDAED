@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!--<base href="/bandaed/">-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>MIDEA</title>
+    <meta name="description" content=""/>
+
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+
+    <noscript>
+        <style>
+            @keyframes pulse {}.animated {  animation-play-state: running !important;}#horizontalMenu {  display: none;}#verticalMenu {  display: block;}#menuButton {  display: flex;}
+        </style>
+    </noscript>
+    <!--<script nonce='4cf8b093-48d3-44c5-81e7-bacf1258fe90'>
+        !function(){"use strict";function t(t,n){let e;return(...o)=>{clearTimeout(e),e=setTimeout((()=>{t(...o)}),n)}}class n{constructor(){this.callbacks=[],window.addEventListener("DOMContentLoaded",(()=>this.onDOMContentLoaded()))}onDOMContentLoaded(){this.callbacks.sort(((t,n)=>t.priority-n.priority)).forEach((({callback:t})=>t()))}runOnLoad(t){"loading"===document.readyState?this.callbacks.push(t):t.callback()}}function e(t,e=Number.MAX_VALUE){var o;(window.canva_scriptExecutor=null!==(o=window.canva_scriptExecutor)&&void 0!==o?o:new n).runOnLoad({callback:t,priority:e})}class o{constructor(t){this.items=[],this.previousWidth=document.documentElement.clientWidth,this.previousHeight=window.innerHeight;const n=t((()=>this.onWindowResize()),100);window.addEventListener("resize",n)}onWindowResize(){const t=document.documentElement.clientWidth,n=window.innerHeight,e=this.previousWidth!==t,o=this.previousHeight!==n;this.items.forEach((t=>{const n=()=>{t.callback(),t.executed=!0};(!t.executed||e&&t.options.runOnWidthChange||o&&t.options.runOnHeightChange)&&n()})),this.previousWidth=t,this.previousHeight=n}runOnResize(t,n){this.items.push({callback:t,options:n,executed:n.runOnLoad}),this.items.sort(((t,n)=>t.options.priority-n.options.priority)),n.runOnLoad&&e(t,n.priority)}}function i(n,e,i=t){var r;(window.canva_debounceResize=null!==(r=window.canva_debounceResize)&&void 0!==r?r:new o(i)).runOnResize(n,{runOnLoad:!1,runOnWidthChange:!0,runOnHeightChange:!1,priority:Number.MAX_VALUE,...e})}const r="&#45;&#45;minfs",c="&#45;&#45;rzf",a="&#45;&#45;rfso",s="&#45;&#45;bfso";function u(t,n,e=.001){return Math.abs(t-n)<e}function d(t,n){return window.getComputedStyle(t).getPropertyValue(n)}function l(t,n,e){t.style.setProperty(n,e)}function m(t,n){const e=document.createElement("div");e.style.setProperty(t,n),document.body.append(e);const o=d(e,t);return e.remove(),o}function f(){const t=function(){const t=parseFloat(m("font-size","0.1px"));return t>1?t:0}(),n=function(t){const n=2*Math.max(t,1);return n/parseFloat(m("font-size",`${n}px`))}(t);if(function(t){if(0===t)return;l(document.documentElement,r,`${t}px`),i((()=>{const n=100*t,{clientWidth:e}=document.documentElement;l(document.documentElement,c,n>e?(e/n).toPrecision(4):null)}),{runOnLoad:!0})}(t*Math.max(1,n)),u(n,1))return;const e=u(parseFloat(d(document.documentElement,"font-size")),parseFloat(m("grid-template-columns","1rem")));l(document.documentElement,e?a:s,n.toPrecision(4))}function h(){document.querySelectorAll("img, image, video, svg").forEach((t=>t.addEventListener("contextmenu",(t=>t.preventDefault()))))}const p=t=>{const n={type:"CLICKED_LINK",link:t.currentTarget.getAttribute("href")};navigator.sendBeacon("_api/analytics/events",JSON.stringify(n))};function g(){[...document.querySelectorAll("a[href][data-interstitial-link]")].forEach((t=>{t.addEventListener("click",p)}))}const v="&#45;&#45;sbw",w="&#45;&#45;inner1Vh";function y(t,n,e){t.style.setProperty(n,e)}function E(){y(document.documentElement,w,window.innerHeight/100+"px"),function(){const t=window.innerWidth-document.documentElement.clientWidth;y(document.documentElement,v,t>=0?`${t}px`:null)}()}var b;const O="undefined"!=typeof window?null===(b=window.navigator)||void 0===b?void 0:b.userAgent:void 0;const L=!(!O||(A=O,!A.match(/AppleWebKit\//)||A.match(/Chrome\//)||A.match(/Chromium\//)));var A;function x(){document.querySelectorAll("svg").forEach((t=>t.style.background="url('data:image/png;base64,')"))}let C;function W(){C||(C=Array.from(document.querySelectorAll("foreignObject")).filter((t=>0===t.getBoundingClientRect().width)));const t=function(){const t=document.createElement("div");t.style.fontSize="100vw",document.body.append(t);const n=parseFloat(window.getComputedStyle(t).fontSize);return t.remove(),n/window.innerWidth}();Array.from(C).forEach((n=>function(t){return new Promise(((n,e)=>{const o=t.querySelector("img");o&&!o.complete?(o.addEventListener("load",(()=>n())),o.addEventListener("error",(()=>e()))):n()}))}(n).finally((()=>function(t,n){const e=Array.from(t.children);e.forEach(((t,n)=>{if(t.hasAttribute("data-foreign-object-container"))t.style.transformOrigin="",t.style.transform="";else{const o=document.createElement("div");o.setAttribute("data-foreign-object-container",""),t.insertAdjacentElement("beforebegin",o),t.remove(),o.append(t),e[n]=o}}));const o=t.getScreenCTM();if(!o)return;const{a:i,b:r,c:c,d:a}=o.scale(n);e.forEach((t=>{if(!t.hasAttribute("data-foreign-object-container"))return;const{style:n}=t;n.transformOrigin="0px 0px",n.transform=`matrix(${i}, ${r}, ${c}, ${a}, 0, 0)`}))}(n,t)))))}[function(){e(f)},function(){i(E,{runOnLoad:!0,runOnHeightChange:!0,priority:1})},function(){L&&i(W,{runOnLoad:!0})},function(){L&&e(x)},function(){e(h)},function(){e(g)}].forEach((t=>t()))}();
+    </script>
+    <script nonce="4cf8b093-48d3-44c5-81e7-bacf1258fe90">
+        window.C_CAPTCHA_IMPLEMENTATION = 'RECAPTCHA';
+    </script>
+    <script nonce="4cf8b093-48d3-44c5-81e7-bacf1258fe90">
+        window.C_CAPTCHA_KEY = '6Ldk59waAAAAAMPqkICbJjfMivZLCGtTpa6Wn6zO';
+    </script>-->
+</head>
+<body>
+
+<th:block th:replace="~{/midea/home :: setContent(~{this::content} )}">
+
+    <th:block th:fragment="setContent(content)">
+        <div id="root">
+
+            <!--=================================================== 헤더 ===================================================-->
+            <th:block th:replace="~{/default/fragments/header}" ></th:block>
+
+            <!--=================================================== home ===================================================-->
+
+            <a id="home" aria-hidden="true" style="visibility:hidden;"></a>
+            <section id="CX4RZotPCaDGTzXz"
+                     style="position:relative;overflow:hidden;display:grid;align-items:center;grid-template-columns:auto 100rem auto;z-index:0;">
+                <div id="Z53rlIKaUkgqLEcI"
+                     style="grid-area:1 / 1 / 2 / 4;display:grid;position:absolute;min-height:100%;min-width:100%;">
+                    <div id="e4CDAKpXZ1GZIWVj" style="z-index:0;">
+                        <div id="vmu3kDXyqvSq8C4K"
+                             style="box-sizing:border-box;width:100%;height:100%;transform:rotate(0deg);">
+                            <div id="vILbt60NSPTdieGz" style="width:100%;height:100%;opacity:1.0;">
+                                <div id="h0xBPVUE6stpv5xO"
+                                     style="background-color:#000000;opacity:1.0;transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="qja2XaOFASaF0YEC" style="display:grid;position:relative;grid-area:1 / 2 / 2 / 3;">
+                    <div id="oEVlTuELgV3GPX7r" style="z-index:1;">
+                        <div id="h0GPuj8v4YzcqSPi" style="box-sizing:border-box;width:100%;height:100%;">
+                            <div class="animation_container" style="width:100%;height:100%;">
+                                <div class="animated"
+                                     style="width:100%;height:100%;animation:breathe-LEFT-c9b289ff-e298-4975-9c5e-e244e5522b75 5000ms 100ms both paused;">
+                                    <div id="jYiXKFgzNOMJGRAH" style="width:100%;height:100%;opacity:1.0;">
+                                        <div id="gQvbcU7VT58426zo"
+                                             style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
+                                            <div id="lVSYjpWjA2yFMFPC"
+                                                 style="width:calc(100% * max(1, var(--scale-fill, 1)));height:calc(253.34353486% / min(1, var(--scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
+                                                <img th:src="@{/assets/images/mainImg.jpg}" loading="lazy"
+                                                     th:attr="srcset=@{/assets/images/5344a5e35d1c529b220801378e65a510.jpg} +  ' 820w, ' + @{/assets/images/mainImg.jpg} + ' 1639w'"
+                                                     sizes="(max-width: 375px) 100vw, (min-width: 375.05px) and (max-width: 480px) 100vw, (min-width: 480.05px) and (max-width: 768px) 100vw, (min-width: 768.05px) and (max-width: 1024px) 100vw, (min-width: 1024.05px) 100vw"
+                                                     style="width:100%;height:100%;display:block;object-fit:cover;object-position:50% 32.87809323%;transform:translate(-50%, -32.87809323%) rotate(0deg);">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ZbgpdfrwbxLGIj44" style="z-index:5;">
+                        <div id="hQ895FwP2rtcYDn4" style="box-sizing:border-box;width:100%;height:100%;">
+                            <div class="animation_container" style="width:100%;height:100%;">
+                                <div class="animated"
+                                     style="width:100%;height:100%;animation:breathe-LEFT-953a2182-85e3-4a44-a15b-be9151930145 5000ms 100ms both paused;">
+                                    <div id="vIfyCP1rxh8SCJeY"
+                                         style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
+                                        <p id="tYfdhObjUhwDwDnP"
+                                           style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:0.97778944em;text-transform:none;letter-spacing:0em;">
+                                            <span id="BIjivIKtWJxQZKzZ"
+                                                  style="color:#ffffff;">#3 Team_Project</span><br></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="FuKxOrGrqUk1S7wB" style="z-index:4;">
+                        <div id="Mrl4fB9nmltMrGYO" style="box-sizing:border-box;width:100%;height:100%;">
+                            <div class="animation_container" style="width:100%;height:100%;">
+                                <div class="animated"
+                                     style="width:100%;height:100%;animation:breathe-LEFT-b540f91a-db66-4869-a98a-dc6d6c1c3f23 5000ms 100ms both paused;">
+                                    <div id="ubvJZxgMLlGpGnE8"
+                                         style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
+                                        <p id="oJbsNVlqFSd6tIyW"
+                                           style="color:#ffffff;font-family:YAFdJsZqKzQ-0;line-height:0.99999875em;text-transform:uppercase;letter-spacing:0em;">
+                                            <span id="LJumjStoFib0KKYC" style="color:#ffffff;">BANDAED</span><br></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="iPxXDUcScmKs3yRO" style="z-index:3;">
+                        <div id="E2f3YuwevR7b1dRK" style="box-sizing:border-box;width:100%;height:100%;">
+                            <div class="animation_container" style="width:100%;height:100%;">
+                                <div class="animated"
+                                     style="width:100%;height:100%;animation:breathe-LEFT-856eb83d-4a30-41c1-a480-908fec0fcf70 5000ms 100ms both paused;">
+                                    <div id="cMIWIGB6LEUs4bQZ"
+                                         style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
+                                        <p id="bVYPkPF90LqIZrTC"
+                                           style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:0.97778944em;text-transform:none;letter-spacing:0em;">
+                                            <span id="vFoiKjf6I7Wdfhmq" style="color:#ffffff;">Creative Portfolio</span><br>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="dDwhpswVZBnY8mn4" style="z-index:2;">
+                        <div id="Je2neOzJhsbL0Ocg" style="box-sizing:border-box;width:100%;height:100%;">
+                            <div class="animation_container" style="width:100%;height:100%;">
+                                <div class="animated"
+                                     style="width:100%;height:100%;animation:breathe-RIGHT-ecc0c6b9-11eb-4e2f-aa9a-2efe70fd48f0 5000ms 100ms both paused;">
+                                    <div id="qeBjffiUVEaxlK6D"
+                                         style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
+                                        <p id="N3fcsJG6bwEZnpLE"
+                                           style="color:#ffffff;font-family:YAFdJVKCSFM-0;line-height:0.97779138em;text-transform:none;letter-spacing:0em;">
+                                            <span id="uvr1BtTkHee2qaze" style="color:#ffffff;">문승호(팀장), 김별</span><br>
+                                        </p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--=================================================== mindlist ===================================================-->
+            <th:block th:replace="~{/midea/mindlist}" ></th:block>
+
+            <!--=================================================== community ===================================================-->
+            <th:block th:replace="~{/midea/community}" ></th:block>
+
+            <!--=================================================== contact ===================================================-->
+            <th:block th:replace="~{/midea/contact}" ></th:block>
+
+            <!--=================================================== page-5 ===================================================-->
+
+            <a id="page-5" aria-hidden="true" style="visibility:hidden;"></a>
+            <section id="K4BnzHQmoWBWbDwr"
+                     style="position:relative;overflow:hidden;display:grid;align-items:center;grid-template-columns:auto 100rem auto;z-index:0;margin-top:-1px;">
+                <div id="MLpObbOlm4BIQpfs"
+                     style="grid-area:1 / 1 / 2 / 4;display:grid;position:absolute;min-height:100%;min-width:100%;">
+                    <div id="ex2JiB0OCHwfZQlV" style="z-index:0;">
+                        <div id="Lg3moXfL8guk2JSH"
+                             style="box-sizing:border-box;width:100%;height:100%;transform:rotate(0deg);">
+                            <div id="ZwH7BBpnJ7X853Gx" style="width:100%;height:100%;opacity:1.0;">
+                                <div id="O0in5AgmmOTFjZGo"
+                                     style="background-color:#000000;opacity:1.0;transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="kIUorIBmxJYZbpJ3" style="display:grid;position:relative;grid-area:1 / 2 / 2 / 3;">
+                    <div id="IqlZipY262IwhCQQ">
+                        <div id="aNQMJJbrGvI2Gpre" style="display:grid;position:relative;grid-area:2 / 2 / 5 / 4;">
+                            <div id="ksh0vtuychv9dThl" style="z-index:9;">
+                                <div id="vlYicxttTtydt6mr" style="padding-top:58.0289372%;">
+                                    <div id="rdbna7RXVswDjJuo"
+                                         style="position:absolute;top:0px;left:0px;width:100%;height:100%;">
+                                        <div class="animation_container" style="width:100%;height:100%;">
+                                            <div class="animated"
+                                                 style="width:100%;height:100%;animation:breathe-LEFT-ad52dd6a-2517-478f-bc46-868f7a83e5a6 5000ms 100ms both paused;">
+                                                <div id="VVyQGkTnbNYgsCBu" style="width:100%;height:100%;opacity:1.0;">
+                                                    <div id="FvkoihjOGi1wVkIc"
+                                                         style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
+                                                        <div id="fnPRUgR0H6R0NdBv"
+                                                             style="width:calc(100% * max(1, var(--scale-fill, 1)));height:calc(114.88521052% / min(1, var(--scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
+                                                            <img src="images/16cce9c22e4e76380e9013cfacfe6be3.jpg"
+                                                                 alt="Black and White Cow in Cage" loading="lazy"
+                                                                 style="width:100%;height:100%;display:block;object-fit:cover;object-position:50% 50%;transform:translate(-50%, -50%) rotate(0deg);">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="AVHmYIRX1INC5gpC" style="z-index:1;">
+                        <div id="MFr0PMXqHcdQsy8e"
+                             style="box-sizing:border-box;width:100%;height:100%;transform:rotate(0deg);">
+                            <div id="cKvYXXtucSu2JTcq"
+                                 style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
+                                <p id="caME02y9hBVJ7NeF"
+                                   style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:1.17172668em;"><span
+                                        id="xFNnU8T8xm3lRyJw"
+                                        style="color:#ffffff;font-style:italic;">Love between Animals</span></p>
+                                <p id="pRJJSjKXz0TmIID5"
+                                   style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:1.17172668em;text-transform:none;letter-spacing:0em;">
+                                    <span id="IQZymYlMFDox4SdC" style="color:#ffffff;font-style:italic;">2022</span><br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="T2PaRaMEOcmvhHoV">
+                        <div id="d7haQXCv4sca36Em" style="display:grid;position:relative;grid-area:6 / 3 / 9 / 7;">
+                            <div id="wYQDqK6X0vmGwc9u" style="z-index:7;">
+                                <div id="eo3lPSElF1vrJrLf" style="padding-top:58.0289372%;">
+                                    <div id="IpYLX7zdGn6B99Gw"
+                                         style="position:absolute;top:0px;left:0px;width:100%;height:100%;">
+                                        <div class="animation_container" style="width:100%;height:100%;">
+                                            <div class="animated"
+                                                 style="width:100%;height:100%;animation:breathe-LEFT-0264d775-4af1-4e0a-bc72-483ad9ff579f 5000ms 100ms both paused;">
+                                                <div id="lHK6n8hqBnR5ebER" style="width:100%;height:100%;opacity:1.0;">
+                                                    <div id="VfufAbMNs4Kp6Rov"
+                                                         style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
+                                                        <div id="tKBixsb5R4EFpGSH"
+                                                             style="width:calc(100% * max(1, var(--scale-fill, 1)));height:calc(258.49172367% / min(1, var(--scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
+                                                            <img src="images/ec164233f18dd615d3aa97a8b8484630.jpg"
+                                                                 alt="Person Holding White and Brown Horse"
+                                                                 loading="lazy"
+                                                                 srcset="images/464d65552bf14b6116a628ba05882a14.jpg 467w, images/ec164233f18dd615d3aa97a8b8484630.jpg 700w"
+                                                                 sizes="(max-width: 375px) 24.92826644vw, (min-width: 375.05px) and (max-width: 480px) 24.92826644vw, (min-width: 480.05px) and (max-width: 768px) 24.92826644vw, (min-width: 768.05px) and (max-width: 1024px) 24.92826644vw, (min-width: 1024.05px) 24.92826644vw"
+                                                                 style="width:100%;height:100%;display:block;object-fit:cover;object-position:50% 37.84479158%;transform:translate(-50%, -37.84479158%) rotate(0deg);">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="EhnWIElDzUkKkqys" style="z-index:2;">
+                        <div id="JKw3N8nupiVRmJlB"
+                             style="box-sizing:border-box;width:100%;height:100%;transform:rotate(0deg);">
+                            <div id="PUJh1LVICKFWUBe7"
+                                 style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
+                                <p id="eQ4O0aNjav2PWgB5"
+                                   style="color:#ffffff;direction:ltr;font-family:YAFdJsEGkW0-0;margin-left:0em;line-height:1.17172668em;text-align:left;text-transform:none;letter-spacing:0em;">
+                            <span id="TOxLLznSaDGmzTBT"
+                                  style="text-decoration-line:none;color:#ffffff;font-style:italic;">A Human&#x27;s Touch</span>
+                                </p>
+                                <p id="rs1VuibwyAgelBOD"
+                                   style="color:#ffffff;direction:ltr;font-family:YAFdJsEGkW0-0;margin-left:0em;line-height:1.17172668em;text-align:left;text-transform:none;letter-spacing:0em;">
+                            <span id="pr9Tuqi8YnjvV56X"
+                                  style="text-decoration-line:none;color:#ffffff;font-style:italic;">2022</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="AdGNGuDaMSqjsASG">
+                        <div id="NkPeSutn4wOoOnvR" style="display:grid;position:relative;grid-area:10 / 5 / 13 / 10;">
+                            <div id="V556B4qHbkmQiU7O" style="z-index:5;">
+                                <div id="hYyPGHKpDxeJ3lgw" style="padding-top:58.0289372%;">
+                                    <div id="KmlAGnbF0NjIsGSZ"
+                                         style="position:absolute;top:0px;left:0px;width:100%;height:100%;">
+                                        <div class="animation_container" style="width:100%;height:100%;">
+                                            <div class="animated"
+                                                 style="width:100%;height:100%;animation:breathe-RIGHT-9d640475-8c3e-4a3d-a1ff-c70d988691e4 5000ms 100ms both paused;">
+                                                <div id="HYLotsSe67qEK26w" style="width:100%;height:100%;opacity:1.0;">
+                                                    <div id="U6sNwThEIP1m1jOU"
+                                                         style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
+                                                        <div id="b13FVy5QseqdfJUM"
+                                                             style="width:calc(103.98484292% * max(1, var(--scale-fill, 1)));height:calc(119.46320569% / min(1, var(--scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
+                                                            <img src="images/c6a4fde836d2d13c11bdda82fa5b6cbf.jpg"
+                                                                 alt="Boy in Blue Jacket Sitting Beside White Cow"
+                                                                 loading="lazy"
+                                                                 srcset="images/43c2941a410a4a4d126cd138e114d9fc.jpg 700w, images/c6a4fde836d2d13c11bdda82fa5b6cbf.jpg 1050w"
+                                                                 sizes="(max-width: 375px) 25.9216187vw, (min-width: 375.05px) and (max-width: 480px) 25.9216187vw, (min-width: 480.05px) and (max-width: 768px) 25.9216187vw, (min-width: 768.05px) and (max-width: 1024px) 25.9216187vw, (min-width: 1024.05px) 25.9216187vw"
+                                                                 style="width:100%;height:100%;display:block;object-fit:cover;object-position:51.91606911% 50%;transform:translate(-51.91606911%, -50%) rotate(0deg);">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="kJhBUa6Uzhvgi5Fn" style="z-index:3;">
+                        <div id="G4YDm6go2qE5U2I3"
+                             style="box-sizing:border-box;width:100%;height:100%;transform:rotate(0deg);">
+                            <div id="orisET8gzxE88Ph6"
+                                 style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
+                                <p id="cVCKAyJE7OZ4N7XG"
+                                   style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:1.17172668em;"><span
+                                        id="I7zkP6aF8rIvMF87"
+                                        style="color:#ffffff;font-style:italic;">Care and Connection</span></p>
+                                <p id="E4rEeucRnTiKeyD6"
+                                   style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:1.17172668em;text-transform:none;letter-spacing:0em;">
+                                    <span id="QmnN4DIFuEjoavSC" style="color:#ffffff;font-style:italic;">2022</span><br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--=================================================== qualifications ===================================================-->
+
+            <a id="qualifications" aria-hidden="true" style="visibility:hidden;"></a>
+            <section id="Fi9uVyiD47i4lsLW"
+                     style="position:relative;overflow:hidden;display:grid;align-items:center;grid-template-columns:auto 100rem auto;z-index:0;margin-top:-1px;">
+                <div id="P5Id1FQHefYI0AzA"
+                     style="grid-area:1 / 1 / 2 / 4;display:grid;position:absolute;min-height:100%;min-width:100%;">
+                    <div id="SkpeRLswmgEo6bZE" style="z-index:0;">
+                        <div id="pUyNWxLkcqemymt3"
+                             style="box-sizing:border-box;width:100%;height:100%;transform:rotate(0deg);">
+                            <div id="gI5eE1GtS0g8WNRM" style="width:100%;height:100%;opacity:1.0;">
+                                <div id="dZb8wVU4xXjkoxCa"
+                                     style="background-color:#000000;opacity:1.0;transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="gDolTaqNPdj66jCR" style="display:grid;position:relative;grid-area:1 / 2 / 2 / 3;">
+                    <div id="ZH4PAfvYAj5umtus" style="z-index:5;">
+                        <div id="Si0DhbnSg5LjUCbF"
+                             style="box-sizing:border-box;width:100%;height:100%;transform:rotate(0deg);">
+                            <div id="IZp8xgsAk9RLqGs9"
+                                 style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
+                                <p id="y7l1UzL5BZ1xI3Mp"
+                                   style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:0.98529557em;text-transform:uppercase;letter-spacing:0em;">
+                                    <span id="Zf27SrVRHv104vhO" style="color:#ffffff;">Experience</span><br></p></div>
+                        </div>
+                    </div>
+                    <div id="drGaDyl7voAIi9mP" style="z-index:6;">
+                        <div id="TEwo00g03X7rHSw4"
+                             style="box-sizing:border-box;width:100%;height:100%;transform:rotate(0deg);">
+                            <div id="mxwGgMQvibWfr3OH"
+                                 style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
+                                <p id="Vajbw9x12gFiAit5"
+                                   style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:1.16666667em;text-align:justify;">
+                                    <span id="cnmSuU51eiAsqidN" style="color:#ffffff;">Freelance Photographer</span></p>
+                                <p id="YcLAkJ8HCsjoQpVp"
+                                   style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:1.16666667em;text-align:justify;">
+                                    <span id="lvZlJmi5bFaM6XUe"
+                                          style="color:#ffffff;">2022-present, FP Alliance Agency</span>
+                                </p>
+                                <p id="Gv5uanl6I3NIJj8P"
+                                   style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:1.16666667em;text-align:justify;white-space:pre;">
+                                    <br></p>
+                                <p id="bmgkk5vis4y2e9Ls"
+                                   style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:1.16666667em;text-align:justify;">
+                                    <span id="wRnp8FcGeUDbBjVz" style="color:#ffffff;">Photographer </span></p>
+                                <p id="wx4cBrNxLYSOUDcB"
+                                   style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:1.16666667em;text-align:justify;text-transform:none;letter-spacing:0em;">
+                            <span id="w0DK9EL4D2HvNv6m"
+                                  style="color:#ffffff;">2021-present, Jeffries Town Council</span><br></p></div>
+                        </div>
+                    </div>
+                    <div id="JBhHN9pDBqGQ0GEa" style="z-index:3;">
+                        <div id="gIhx9nbga8u2i8p8"
+                             style="box-sizing:border-box;width:100%;height:100%;transform:rotate(0deg);">
+                            <div id="vq7jbO9NX9W2jF35"
+                                 style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
+                                <p id="bcnkNm6zCjDcFi9W"
+                                   style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:0.98529557em;text-transform:uppercase;letter-spacing:0em;">
+                                    <span id="GRpe0l9omF5j8p1N" style="color:#ffffff;">Skills</span><br></p></div>
+                        </div>
+                    </div>
+                    <div id="aGmgQH6ZQp39AWqN" style="z-index:4;">
+                        <div id="f6GYx0nqFOlhqt6R"
+                             style="box-sizing:border-box;width:100%;height:100%;transform:rotate(0deg);">
+                            <div id="rDSmhq1gsfw0HCas"
+                                 style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
+                                <p id="WjaDyzbRW9Vi2kvP"
+                                   style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:1.16666181em;text-align:justify;">
+                                    <span id="yG7o13LUP3Jk7GMK" style="color:#ffffff;">⎼ Nature Photography</span></p>
+                                <p id="Kh9MooMSSWtcmnwI"
+                                   style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:1.16666181em;text-align:justify;">
+                                    <span id="FPepKRrUuivfoWC6" style="color:#ffffff;">⎼ Generalist Photography</span>
+                                </p>
+                                <p id="S6J4xMEPeXRzM8n3"
+                                   style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:1.16666181em;text-align:justify;text-transform:none;letter-spacing:0em;">
+                                    <span id="oTbyEzw8UOe1TM8Z" style="color:#ffffff;">⎼</span><span
+                                        id="hOq4AJqLUveFpeRo"
+                                        style="color:#ffffff;white-space:pre-wrap;">  </span><span
+                                        id="wTn55sldpFvibkdj" style="color:#ffffff;">Landscape Photography</span><br>
+                                </p></div>
+                        </div>
+                    </div>
+                    <div id="Zs89tZ8hYKkcik3O" style="z-index:1;">
+                        <div id="jDVDS8mMFjKKxCim" style="padding-top:157.79092702%;">
+                            <div id="Twf60cSt26WOnFPe"
+                                 style="position:absolute;top:0px;left:0px;width:100%;height:100%;">
+                                <div class="animation_container" style="width:100%;height:100%;">
+                                    <div class="animated"
+                                         style="width:100%;height:100%;animation:breathe-RIGHT-2bce7e44-8499-4143-b923-f4b305714349 5000ms 100ms both paused;">
+                                        <div id="OYHd724Nko6I0l06" style="width:100%;height:100%;opacity:1.0;">
+                                            <div id="FXyxWrc70WdM9QQw"
+                                                 style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
+                                                <div id="e2Rc6imD8511Qa2H"
+                                                     style="width:calc(100% * max(1, var(--scale-fill, 1)));height:calc(100% / min(1, var(--scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
+                                                    <img src="images/e8ac3d4b3d4a9e1d6f80a288e17dcb86.png"
+                                                         alt="Photo Of Grass During Daytime" loading="lazy"
+                                                         srcset="images/fc77b3c23846b2bd97dbd1d03b3418a9.png 503w, images/e8ac3d4b3d4a9e1d6f80a288e17dcb86.png 755w"
+                                                         sizes="(max-width: 375px) 23.09234455vw, (min-width: 375.05px) and (max-width: 480px) 23.09234455vw, (min-width: 480.05px) and (max-width: 768px) 23.09234455vw, (min-width: 768.05px) and (max-width: 1024px) 23.09234455vw, (min-width: 1024.05px) 23.09234455vw"
+                                                         style="width:100%;height:100%;display:block;object-fit:cover;object-position:50% 50%;transform:translate(-50%, -50%) rotate(0deg);">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="BTnqzl7DBNk2T8SF" style="z-index:2;">
+                        <div id="GPDzWtI5gKBKwb0j" style="padding-top:157.79092702%;">
+                            <div id="TV0anlZYTilSHVwU"
+                                 style="position:absolute;top:0px;left:0px;width:100%;height:100%;">
+                                <div class="animation_container" style="width:100%;height:100%;">
+                                    <div class="animated"
+                                         style="width:100%;height:100%;animation:breathe-RIGHT-4f36d438-e044-4138-8a37-6bc70ee8ff96 5000ms 100ms both paused;">
+                                        <div id="hS1YUAA3Gols0qx9" style="width:100%;height:100%;opacity:1.0;">
+                                            <div id="gDYgoIsTDvmD2fWi"
+                                                 style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
+                                                <div id="YPrpPA6Fi5ZJbuKW"
+                                                     style="width:calc(100% * max(1, var(--scale-fill, 1)));height:calc(100% / min(1, var(--scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
+                                                    <img src="images/a0ca6c83532a7529502fc44e585eb0fa.png"
+                                                         alt="Photo Of Clouds During Daytime" loading="lazy"
+                                                         srcset="images/2857b6c536453b8dd99890350a235a26.png 503w, images/a0ca6c83532a7529502fc44e585eb0fa.png 755w"
+                                                         sizes="(max-width: 375px) 23.09234455vw, (min-width: 375.05px) and (max-width: 480px) 23.09234455vw, (min-width: 480.05px) and (max-width: 768px) 23.09234455vw, (min-width: 768.05px) and (max-width: 1024px) 23.09234455vw, (min-width: 1024.05px) 23.09234455vw"
+                                                         style="width:100%;height:100%;display:block;object-fit:cover;object-position:50% 50%;transform:translate(-50%, -50%) rotate(0deg);">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--=================================================== about ===================================================-->
+
+            <a id="about" aria-hidden="true" style="visibility:hidden;"></a>
+            <section id="sJ2wpZQDVlOaYtp1"
+                     style="position:relative;overflow:hidden;display:grid;align-items:center;grid-template-columns:auto 100rem auto;z-index:0;margin-top:-1px;">
+                <div id="cnodzTdIk8BpdyYE"
+                     style="grid-area:1 / 1 / 2 / 4;display:grid;position:absolute;min-height:100%;min-width:100%;">
+                    <div id="B5KGspj6Eu13tTca" style="z-index:0;">
+                        <div id="xoFN9n3a9VYEcLVQ"
+                             style="box-sizing:border-box;width:100%;height:100%;transform:rotate(0deg);">
+                            <div id="cm3V7DkzRnG7yVsx" style="width:100%;height:100%;opacity:1.0;">
+                                <div id="KLTM0yxbAsbWhyxS"
+                                     style="background-color:#000000;opacity:1.0;transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="GJLz9QeKOcrpnsnH" style="display:grid;position:relative;grid-area:1 / 2 / 2 / 3;">
+                    <div id="DlyN3cUMzVaPttaq" style="z-index:6;">
+                        <div id="GZ39BHrOcZxvY5OG" style="box-sizing:border-box;width:100%;height:100%;">
+                            <div class="animation_container" style="width:100%;height:100%;">
+                                <div class="animated"
+                                     style="width:100%;height:100%;animation:tectonic-LEFT-c77fd735-1dd9-4cf3-9f2a-f6b21fae6ae6 3560ms 100ms both paused, linear_fade 400ms linear both paused;">
+                                    <div id="xVHqli5rlcalDFm2"
+                                         style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
+                                        <p id="JEqieebC5ltbaMo9"
+                                           style="color:#ffffff;font-family:YAFdJsZqKzQ-0;line-height:0.99311894em;text-transform:uppercase;letter-spacing:0em;">
+                                    <span id="wnHkkhDaLgRnqf2M"
+                                          style="color:#ffffff;">I'd love to hear from you
+                                    </span><br>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="kCzG9vxzEk0VUjEK">
+                        <div id="hayG6VGpf7M7JpsD" style="display:grid;position:relative;grid-area:4 / 4 / 5 / 5;">
+                            <div id="Vh4Vp2NkKcoWALrd" style="z-index:3;">
+                                <div id="lajxpho9ncZm2wpU" style="box-sizing:border-box;width:100%;height:100%;">
+                                    <div class="animation_container" style="width:100%;height:100%;">
+                                        <div class="animated"
+                                             style="width:100%;height:100%;animation:tectonic-RIGHT-8581af6e-84cb-4287-b2cd-d88736b2facd 5000ms 100ms both paused, linear_fade 400ms linear both paused;">
+                                            <div id="MgXGtCkuc9LdJtJF"
+                                                 style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
+                                                <p id="WDMkweYyO8LGbd45"
+                                                   style="color:#ffffff;font-family:YAFdJsZqKzQ-0;line-height:1.18835782em;text-transform:uppercase;letter-spacing:0em;">
+                                                    <span id="Fk0OmKAaLsPAa3iR" style="color:#ffffff;">Notion</span><br>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="y0stQnIbCzftZMjP" style="z-index:2;">
+                                <div id="fHBIpOLfbSXxO8me" style="box-sizing:border-box;width:100%;height:100%;">
+                                    <div class="animation_container" style="width:100%;height:100%;">
+                                        <div class="animated"
+                                             style="width:100%;height:100%;animation:tectonic-RIGHT-d209c738-1735-4e92-9aac-b2467d74b744 5000ms 100ms both paused, linear_fade 400ms linear both paused;">
+                                            <div id="ovJ4XgziiqZzqriB"
+                                                 style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
+                                                <p id="h1fOL2Klsk5QMPQH"
+                                                   style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:1.18307558em;text-transform:none;letter-spacing:0em;">
+                                                    <a id="ApfAnjnvlQuHdJBc" target="_blank" rel="noopener"
+                                                       th:href="@{https://www.notion.so/sonosung/97155e93bb074222bea02b38052a2a36?v=8c89407c5cd4423a9c707bed226a8a21}"
+                                                       style="text-decoration-line:underline;color:#ffffff;font-style:italic;pointer-events:all;"
+                                                       data-interstitial-link="">Notion/BANDAED
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="y8GNwDE2NO77NBX5" style="z-index:5;">
+                                <div id="NNGrWfgKrHQKf5I8" style="box-sizing:border-box;width:100%;height:100%;">
+                                    <div th:class="@{animation_container}" style="width:100%;height:100%;">
+                                        <div th:class="@{animated}"
+                                             style="width:100%;height:100%;animation:tectonic-RIGHT-35e01fcb-dd63-4cc4-ad70-538a72379ddd 5000ms 100ms both paused, linear_fade 400ms linear both paused;">
+                                            <div id="WmMo20ULae3T9ywa"
+                                                 style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
+                                                <p id="rOxl6gnTR1OQmWe7"
+                                                   style="color:#ffffff;font-family:YAFdJsZqKzQ-0;line-height:1.18835782em;text-transform:uppercase;letter-spacing:0em;">
+                                                    <span id="XghhO55akk9vgiRS" style="color:#ffffff;">Github
+                                                    </span><br>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="swMy1HPmntyhW5Eh" style="z-index:4;">
+                                <div id="VqizktTXJpEcL5yI" style="box-sizing:border-box;width:100%;height:100%;">
+                                    <div class="animation_container" style="width:100%;height:100%;">
+                                        <div class="animated"
+                                             style="width:100%;height:100%;animation:tectonic-RIGHT-4d4bafe0-ec24-470b-95e7-8cba9d68bf31 5000ms 100ms both paused, linear_fade 400ms linear both paused;">
+                                            <div id="UOIel0PziKMyRQGp"
+                                                 style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
+                                                <p id="Z0AdyjIj5VHaayzR"
+                                                   style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:1.18307558em;text-transform:none;letter-spacing:0em;">
+                                                    <a id="wbGWdIlKjD5pdllI" target="_blank" rel="noopener"
+                                                       th:href="@{https://github.com/sonosung/MIDEA}"
+                                                       style="text-decoration-line:underline;color:#ffffff;font-style:italic;pointer-events:all;"
+                                                       data-interstitial-link="">Github/MIDEA
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <script
+                    th:src="@{/js/939898b427480d700449229ff00dbb8a6f9f77442b532f697866e6914ab8843a.js}" async=""
+                    nonce="4cf8b093-48d3-44c5-81e7-bacf1258fe90">
+            </script>
+
+            <script th:src="@{/js/388fb330498371d4935abbff11d34d4c30842ca3c4a128cdd290d29db98acb41.js}" async=""
+                    nonce="4cf8b093-48d3-44c5-81e7-bacf1258fe90">
+            </script>
+
+            <script th:src="@{/js/781b7c2778641097cc201ef02652a4376abe12baf4b506965843770004e198e1.js}" async=""
+                    nonce="4cf8b093-48d3-44c5-81e7-bacf1258fe90">
+            </script>
+        </div>
+
+        <th:block th:replace="~{/default/fragments/footer}" ></th:block>
+
+
+    </th:block>
+</th:block>
+</body>
+</html>

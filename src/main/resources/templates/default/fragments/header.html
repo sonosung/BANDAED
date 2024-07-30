@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="header">
+
+<nav style="position:sticky;top:0px;font-family:YAFdJsEGkW0-0, -apple-system, BlinkMacSystemFont, sans-serif;display:flex;justify-content:flex-end;align-items:center;background-color:#000000;border-bottom:1px solid rgba(0, 0, 0, 0.07);z-index:1;text-overflow:ellipsis;height:50px;box-sizing:border-box;">
+    <input id="menuToggle" type="checkbox" style="display:none;"></input>
+    <label id="menuButton" for="menuToggle">
+        <div id="menuButtonIcon" style="width:24px;padding:8px;">
+            <svg viewBox="0 0 24.0 24.0" preserveAspectRatio="none"
+                 style="background:url(&#x27;data:image/png;base64,&#x27;);">
+                <path d="M5.75 5.25h12.5a.75.75 0 1 1 0 1.5H5.75a.75.75 0 0 1 0-1.5zm0 6h12.5a.75.75 0 1 1 0 1.5H5.75a.75.75 0 1 1 0-1.5zm0 6h12.5a.75.75 0 1 1 0 1.5H5.75a.75.75 0 1 1 0-1.5z"></path>
+            </svg>
+        </div>
+    </label>
+    <ul id="verticalMenu">
+        <li class="navMenuLink">
+            <a class="navMenuLinkContent"
+               th:href="@{home#home}" title="Home" target="_self">Home</a>
+        </li>
+        <li class="navMenuLink">
+            <a class="navMenuLinkContent"
+               th:href="@{home#mindlist}" title="Mindlist" target="_self">Mindlist</a>
+        </li>
+        <li class="navMenuLink">
+            <a class="navMenuLinkContent"
+               th:href="@{home#community}" title="Community" target="_self">Community</a>
+        </li>
+        <li class="navMenuLink">
+            <a class="navMenuLinkContent"
+               th:href="@{home#contact}" title="Contact" target="_self">Contact</a>
+        </li>
+        <li class="navMenuLink">
+            <a class="navMenuLinkContent"
+               th:href="@{home#about}" title="About" target="_self">About</a>
+        </li>
+        <li class="navMenuLink">
+            <a class="navMenuLinkContent"
+               th:href="@{login}" title="login" target="_self">Login</a>
+        </li>
+    </ul>
+
+    <ul id="horizontalMenu" style="margin:0;padding:0;visibility:hidden;">
+        <li class="navMenuLink">
+            <a class="navMenuLinkContent"
+               th:href="@{home#home}" title="Home" target="_self">Home</a>
+        </li>
+        <li class="navMenuLink">
+            <a class="navMenuLinkContent"
+               th:href="@{home#mindlist}" title="Mindlist" target="_self">Mindlist</a>
+        </li>
+        <li class="navMenuLink">
+            <a class="navMenuLinkContent"
+               th:href="@{home#community}" title="Community" target="_self">Community</a>
+        </li>
+        <li class="navMenuLink">
+            <a class="navMenuLinkContent"
+               th:href="@{home#contact}" title="Contact" target="_self">Contact</a>
+        </li>
+        <li class="navMenuLink">
+            <a class="navMenuLinkContent"
+               th:href="@{home#about}" title="About" target="_self">About</a>
+        </li>
+        <li class="navMenuLink">
+            <a class="navMenuLinkContent"
+               th:href="@{login}" title="login" target="_self">Login</a>
+        </li>
+    </ul>
+</nav>

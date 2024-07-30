@@ -12,11 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor //자동 주입을 위한 Annotation
 public class MideaController {
 
-    @GetMapping("/login")
-    public void login(){
-
-        log.info("login......................");
-
+    @GetMapping({"/home", "/login", "/contact", "/about", "/index"})
+    public void midea(){
+        log.info("midea......................");
     }
 
 }
