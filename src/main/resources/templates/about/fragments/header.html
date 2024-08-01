@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="header">
+
+<nav style="position:sticky;top:0px;font-family:YAFdJVKCSFM-0, -apple-system, BlinkMacSystemFont, sans-serif;display:flex;justify-content:flex-end;align-items:center;background-color:#000000;border-bottom:1px solid rgba(0, 0, 0, 0.07);z-index:1;text-overflow:ellipsis;height:50px;box-sizing:border-box;">
+    <input id="menuToggle" type="checkbox" style="display:none;"></input><label id="menuButton" for="menuToggle">
+    <div id="menuButtonIcon" style="width:24px;padding:8px;">
+        <svg viewBox="0 0 24.0 24.0" preserveAspectRatio="none"
+             style="background:url(&#x27;data:image/png;base64,&#x27;);">
+            <path d="M5.75 5.25h12.5a.75.75 0 1 1 0 1.5H5.75a.75.75 0 0 1 0-1.5zm0 6h12.5a.75.75 0 1 1 0 1.5H5.75a.75.75 0 1 1 0-1.5zm0 6h12.5a.75.75 0 1 1 0 1.5H5.75a.75.75 0 1 1 0-1.5z"></path>
+        </svg>
+    </div>
+</label>
+    <ul id="verticalMenu">
+        <li class="navMenuLink"><a class="navMenuLinkContent" th:href="@{midea#midea}"
+                                   title="MIDEA" target="_self">MIDEA</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent" href="https://keam.my.canva.site/mideatest#about"
+                                   title="About" target="_self">About</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent"
+                                   href="https://keam.my.canva.site/mideatest#environment" title="Environment"
+                                   target="_self">Environment</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent"
+                                   href="https://keam.my.canva.site/mideatest#work-so-far" title="WORK SO FAR"
+                                   target="_self">WORK SO FAR</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent"
+                                   href="https://keam.my.canva.site/mideatest#ui%EC%A0%95%EC%9D%98%EC%84%9C"
+                                   title="UI정의서" target="_self">UI정의서</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent" href="https://keam.my.canva.site/mideatest#home"
+                                   title="home" target="_self">home</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent"
+                                   href="https://keam.my.canva.site/mideatest#mindlist-%EA%B4%80%EB%A6%AC%EC%9E%90"
+                                   title="mindlist(관리자)" target="_self">mindlist(관리자)</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent"
+                                   href="https://keam.my.canva.site/mideatest#mindlist-%EC%9C%A0%EC%A0%80"
+                                   title="mindlist(유저)" target="_self">mindlist(유저)</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent" href="https://keam.my.canva.site/mideatest#community"
+                                   title="community" target="_self">community</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent" href="https://keam.my.canva.site/mideatest#contact"
+                                   title="contact" target="_self">contact</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent" href="https://keam.my.canva.site/mideatest#login-ui"
+                                   title="login-UI" target="_self">login-UI</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent"
+                                   href="https://keam.my.canva.site/mideatest#login-table" title="login-Table"
+                                   target="_self">login-Table</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent"
+                                   href="https://keam.my.canva.site/mideatest#login-structure"
+                                   title="login-Structure" target="_self">login-Structure</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent" href="https://keam.my.canva.site/mideatest#about-2"
+                                   title="about" target="_self">about</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent" href="https://keam.my.canva.site/mideatest#splint"
+                                   title="Splint" target="_self">Splint</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent" href="https://keam.my.canva.site/mideatest#finish"
+                                   title="finish" target="_self">finish</a></li>
+    </ul>
+    <ul id="horizontalMenu" style="margin:0;padding:0;visibility:hidden;">
+        <li class="navMenuLink"><a class="navMenuLinkContent" th:href="@{midea#midea}"
+                                   title="MIDEA" target="_self">MIDEA</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent" href="https://keam.my.canva.site/mideatest#about"
+                                   title="About" target="_self">About</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent"
+                                   href="https://keam.my.canva.site/mideatest#environment" title="Environment"
+                                   target="_self">Environment</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent"
+                                   href="https://keam.my.canva.site/mideatest#work-so-far" title="WORK SO FAR"
+                                   target="_self">WORK SO FAR</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent"
+                                   href="https://keam.my.canva.site/mideatest#ui%EC%A0%95%EC%9D%98%EC%84%9C"
+                                   title="UI정의서" target="_self">UI정의서</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent" href="https://keam.my.canva.site/mideatest#home"
+                                   title="home" target="_self">home</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent"
+                                   href="https://keam.my.canva.site/mideatest#mindlist-%EA%B4%80%EB%A6%AC%EC%9E%90"
+                                   title="mindlist(관리자)" target="_self">mindlist(관리자)</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent"
+                                   href="https://keam.my.canva.site/mideatest#mindlist-%EC%9C%A0%EC%A0%80"
+                                   title="mindlist(유저)" target="_self">mindlist(유저)</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent" href="https://keam.my.canva.site/mideatest#community"
+                                   title="community" target="_self">community</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent" href="https://keam.my.canva.site/mideatest#contact"
+                                   title="contact" target="_self">contact</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent" href="https://keam.my.canva.site/mideatest#login-ui"
+                                   title="login-UI" target="_self">login-UI</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent"
+                                   href="https://keam.my.canva.site/mideatest#login-table" title="login-Table"
+                                   target="_self">login-Table</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent"
+                                   href="https://keam.my.canva.site/mideatest#login-structure"
+                                   title="login-Structure" target="_self">login-Structure</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent" href="https://keam.my.canva.site/mideatest#about-2"
+                                   title="about" target="_self">about</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent" href="https://keam.my.canva.site/mideatest#splint"
+                                   title="Splint" target="_self">Splint</a></li>
+        <li class="navMenuLink"><a class="navMenuLinkContent" href="https://keam.my.canva.site/mideatest#finish"
+                                   title="finish" target="_self">finish</a></li>
+    </ul>
+</nav>
