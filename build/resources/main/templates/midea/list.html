@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<!--=================================================== 헤더 ===================================================-->
 <th:block th:replace="~{/layout/basic :: setContent(~{this::content} )}">
 
     <th:block th:fragment="content">
 
-        <h1 class="mt-4">midea List Page
+        <h1 class="mt-4">GuestBook List Page
             <span>
                 <a th:href="@{/midea/register}">
                     <button type="button" class="btn btn-outline-primary">REGISTER</button>
@@ -14,7 +13,7 @@
             </span>
         </h1>
 
-        <form action="/midea/list" method="get" id="searchForm">
+        <form action="/guestbook/list" method="get" id="searchForm">
             <div class="input-group">
 
                 <input type="hidden" name="page" value="1">
@@ -101,14 +100,14 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal=header">
-                        <h5 class="modal-title">글쓰기 등록 완료</h5>
+                        <h5 class="modal-title">Modal title</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
 
                     <div class="modal-body">
-                        <p>You've successfully registered!!</p>
+                        <p>Modal body text goes here.</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -132,18 +131,6 @@
                 searchForm.submit();
             });
         </script>
-
-        <script th:src="@{/js/939898b427480d700449229ff00dbb8a6f9f77442b532f697866e6914ab8843a.js}" async=""
-                nonce="4cf8b093-48d3-44c5-81e7-bacf1258fe90"></script>
-
-
-        <script th:src="@{/js/388fb330498371d4935abbff11d34d4c30842ca3c4a128cdd290d29db98acb41.js}" async=""
-                nonce="4cf8b093-48d3-44c5-81e7-bacf1258fe90"></script>
-
-
-        <script th:src="@{/js/781b7c2778641097cc201ef02652a4376abe12baf4b506965843770004e198e1.js}" async=""
-                nonce="4cf8b093-48d3-44c5-81e7-bacf1258fe90"></script>
-
 
 
     </th:block>

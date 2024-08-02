@@ -26,9 +26,6 @@
 
     <body>
 
-    <!--=================================================== 헤더 ===================================================-->
-    <th:block th:replace="~{/default/fragments/header}" ></th:block>
-
     <div class="d-flex" id="wrapper">
 
         <!-- Sidebar -->
@@ -87,12 +84,9 @@
     </div>
     <!-- /#wrapper -->
 
-    <!--=================================================== 풋터 ===================================================-->
-    <th:block th:replace="~{/default/fragments/footer}" ></th:block>
-
     <!-- Bootstrap core JavaScript -->
-    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
-    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/class/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/class/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
     <!-- Menu Toggle Script -->
     <script>
@@ -100,19 +94,6 @@
           e.preventDefault();
           $("#wrapper").toggleClass("toggled");
         });
-    </script>
-
-    <script
-            th:src="@{/js/939898b427480d700449229ff00dbb8a6f9f77442b532f697866e6914ab8843a.js}" async=""
-            nonce="4cf8b093-48d3-44c5-81e7-bacf1258fe90">
-    </script>
-
-    <script th:src="@{/js/388fb330498371d4935abbff11d34d4c30842ca3c4a128cdd290d29db98acb41.js}" async=""
-            nonce="4cf8b093-48d3-44c5-81e7-bacf1258fe90">
-    </script>
-
-    <script th:src="@{/js/781b7c2778641097cc201ef02652a4376abe12baf4b506965843770004e198e1.js}" async=""
-            nonce="4cf8b093-48d3-44c5-81e7-bacf1258fe90">
     </script>
 
     </body>
