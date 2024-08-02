@@ -3,7 +3,7 @@
 
 <th:block th:replace="~{/layout/basic :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
-        <h1 class="mt-4">GuestBook Modify Page</h1>
+        <h1 class="mt-4">midea Modify Page</h1>
 
         <form action="/midea/modify" method="post">
             <!-- 페이지 번호 -->
@@ -56,7 +56,7 @@
             $(".removeBtn").click(function(){
 
                 actionForm
-                .attr("action", "/guestbook/remove")
+                .attr("action", "/midea/remove")
                 .attr("method", "post");
 
                 actionForm.submit();
@@ -70,7 +70,7 @@
             }
 
             actionForm
-                .attr("action", "/guestbook/modify")
+                .attr("action", "/midea/modify")
                 .attr("method", "post")
                 .submit();
             });
@@ -90,7 +90,7 @@
             actionForm.append(keyword);
 
             actionForm
-                .attr("action", "/guestbook/list")
+                .attr("action", "/midea/list")
                 .attr("method", "get");
             console.log(actionForm.html()); // 먼저 확인후에 주석 처리
             actionForm.submit();

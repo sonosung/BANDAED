@@ -9,7 +9,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>p118~p122</title>
+        <title>MIDEA</title>
 
         <!-- Bootstrap core CSS -->
         <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
@@ -26,11 +26,14 @@
 
     <body>
 
+    <!--=================================================== 헤더 ===================================================-->
+    <th:block th:replace="~{/default/fragments/header}" ></th:block>
+
     <div class="d-flex" id="wrapper">
 
         <!-- Sidebar -->
         <div class="bg-light border-right" id="sidebar-wrapper">
-            <div class="sidebar-heading">Start Bootstrap </div>
+            <div class="sidebar-heading">MIDEA</div>
             <div class="list-group list-group-flush">
                 <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
                 <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
@@ -77,6 +80,7 @@
 
             <div class="container-fluid">
                 <th:block th:replace = "${content}"></th:block>
+<!--                <th:block th:replace = "${mindlist}"></th:block>-->
             </div>
         </div>
         <!-- /#page-content-wrapper -->
@@ -85,8 +89,8 @@
     <!-- /#wrapper -->
 
     <!-- Bootstrap core JavaScript -->
-    <script th:src="@{/class/vendor/jquery/jquery.min.js}"></script>
-    <script th:src="@{/class/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
     <!-- Menu Toggle Script -->
     <script>
@@ -95,6 +99,9 @@
           $("#wrapper").toggleClass("toggled");
         });
     </script>
+
+    <!--=================================================== 풋터 ===================================================-->
+    <th:block th:replace="~{/default/fragments/footer}" ></th:block>
 
     </body>
 </th:block>

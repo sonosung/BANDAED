@@ -15,13 +15,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
-@RequestMapping("/midea")
+@RequestMapping("/mindlist")
 @Log4j2
 @RequiredArgsConstructor //자동 주입을 위한 Annotation
-public class MideaController {
+public class MindlistController {
 
     @GetMapping({"/home", "/mindlist", "/community", "/contact", "/about", "/login", "/index"})
-    public void midea(){
+    public void mindlist(){
 
         log.info("midea......................");
     }
