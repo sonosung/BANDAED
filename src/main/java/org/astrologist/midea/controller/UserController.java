@@ -40,10 +40,7 @@ public class UserController {
             }
 
             // UserDTO를 User 엔티티로 변환하여 저장
-            User user = new User();
-            user.setNickname(userDTO.getNickname());
-            user.setEmail(userDTO.getEmail());
-            user.setPassword(userDTO.getPassword());
+            User user = userDTO.toEntity(); // toEntity 메서드를 사용하여 DTO를 엔티티로 변환
             userService.saveUser(user);
             return "redirect:/midea/login";
         } catch (Exception e) {

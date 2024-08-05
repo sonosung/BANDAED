@@ -1,5 +1,7 @@
 package org.astrologist.midea.dto;
 
+import org.astrologist.midea.entity.User;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -96,5 +98,20 @@ public class UserDTO {
 
     public void setEnergetic(boolean energetic) {
         this.energetic = energetic;
+    }
+
+    // DTO to Entity conversion
+    public User toEntity() {
+        return User.builder()
+                .nickname(this.nickname)
+                .email(this.email)
+                .password(this.password)
+                .happy(this.happy)
+                .sad(this.sad)
+                .calm(this.calm)
+                .stressed(this.stressed)
+                .joyful(this.joyful)
+                .energetic(this.energetic)
+                .build();
     }
 }
