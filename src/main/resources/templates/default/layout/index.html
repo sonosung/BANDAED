@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="~{/media/home :: setContent(~{this::content} )}">
+
 <head>
     <!--<base href="/bandaed/">-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -10,519 +10,42 @@
 
     <link th:href="@{/css/styles.css}" rel="stylesheet">
 
-    <style>
-        @keyframes pulse {
-        }
-        .animated {
-             animation-play-state: running !important;
-        }
-        #horizontalMenu {
-             display: none;
-        }
-        #verticalMenu {
-             display: block;
-        }
-        #menuButton {
-             display: flex;
-        }
-
-    </style>
-
+    <noscript>
+        <style>
+            @keyframes pulse {}.animated {  animation-play-state: running !important;}#horizontalMenu {  display: none;}#verticalMenu {  display: block;}#menuButton {  display: flex;}
+        </style>
+    </noscript>
+    <script nonce='4cf8b093-48d3-44c5-81e7-bacf1258fe90'>
+        !function(){"use strict";function t(t,n){let e;return(...o)=>{clearTimeout(e),e=setTimeout((()=>{t(...o)}),n)}}class n{constructor(){this.callbacks=[],window.addEventListener("DOMContentLoaded",(()=>this.onDOMContentLoaded()))}onDOMContentLoaded(){this.callbacks.sort(((t,n)=>t.priority-n.priority)).forEach((({callback:t})=>t()))}runOnLoad(t){"loading"===document.readyState?this.callbacks.push(t):t.callback()}}function e(t,e=Number.MAX_VALUE){var o;(window.canva_scriptExecutor=null!==(o=window.canva_scriptExecutor)&&void 0!==o?o:new n).runOnLoad({callback:t,priority:e})}class o{constructor(t){this.items=[],this.previousWidth=document.documentElement.clientWidth,this.previousHeight=window.innerHeight;const n=t((()=>this.onWindowResize()),100);window.addEventListener("resize",n)}onWindowResize(){const t=document.documentElement.clientWidth,n=window.innerHeight,e=this.previousWidth!==t,o=this.previousHeight!==n;this.items.forEach((t=>{const n=()=>{t.callback(),t.executed=!0};(!t.executed||e&&t.options.runOnWidthChange||o&&t.options.runOnHeightChange)&&n()})),this.previousWidth=t,this.previousHeight=n}runOnResize(t,n){this.items.push({callback:t,options:n,executed:n.runOnLoad}),this.items.sort(((t,n)=>t.options.priority-n.options.priority)),n.runOnLoad&&e(t,n.priority)}}function i(n,e,i=t){var r;(window.canva_debounceResize=null!==(r=window.canva_debounceResize)&&void 0!==r?r:new o(i)).runOnResize(n,{runOnLoad:!1,runOnWidthChange:!0,runOnHeightChange:!1,priority:Number.MAX_VALUE,...e})}const r="&#45;&#45;minfs",c="&#45;&#45;rzf",a="&#45;&#45;rfso",s="&#45;&#45;bfso";function u(t,n,e=.001){return Math.abs(t-n)<e}function d(t,n){return window.getComputedStyle(t).getPropertyValue(n)}function l(t,n,e){t.style.setProperty(n,e)}function m(t,n){const e=document.createElement("div");e.style.setProperty(t,n),document.body.append(e);const o=d(e,t);return e.remove(),o}function f(){const t=function(){const t=parseFloat(m("font-size","0.1px"));return t>1?t:0}(),n=function(t){const n=2*Math.max(t,1);return n/parseFloat(m("font-size",`${n}px`))}(t);if(function(t){if(0===t)return;l(document.documentElement,r,`${t}px`),i((()=>{const n=100*t,{clientWidth:e}=document.documentElement;l(document.documentElement,c,n>e?(e/n).toPrecision(4):null)}),{runOnLoad:!0})}(t*Math.max(1,n)),u(n,1))return;const e=u(parseFloat(d(document.documentElement,"font-size")),parseFloat(m("grid-template-columns","1rem")));l(document.documentElement,e?a:s,n.toPrecision(4))}function h(){document.querySelectorAll("img, image, video, svg").forEach((t=>t.addEventListener("contextmenu",(t=>t.preventDefault()))))}const p=t=>{const n={type:"CLICKED_LINK",link:t.currentTarget.getAttribute("href")};navigator.sendBeacon("_api/analytics/events",JSON.stringify(n))};function g(){[...document.querySelectorAll("a[href][data-interstitial-link]")].forEach((t=>{t.addEventListener("click",p)}))}const v="&#45;&#45;sbw",w="&#45;&#45;inner1Vh";function y(t,n,e){t.style.setProperty(n,e)}function E(){y(document.documentElement,w,window.innerHeight/100+"px"),function(){const t=window.innerWidth-document.documentElement.clientWidth;y(document.documentElement,v,t>=0?`${t}px`:null)}()}var b;const O="undefined"!=typeof window?null===(b=window.navigator)||void 0===b?void 0:b.userAgent:void 0;const L=!(!O||(A=O,!A.match(/AppleWebKit\//)||A.match(/Chrome\//)||A.match(/Chromium\//)));var A;function x(){document.querySelectorAll("svg").forEach((t=>t.style.background="url('data:image/png;base64,')"))}let C;function W(){C||(C=Array.from(document.querySelectorAll("foreignObject")).filter((t=>0===t.getBoundingClientRect().width)));const t=function(){const t=document.createElement("div");t.style.fontSize="100vw",document.body.append(t);const n=parseFloat(window.getComputedStyle(t).fontSize);return t.remove(),n/window.innerWidth}();Array.from(C).forEach((n=>function(t){return new Promise(((n,e)=>{const o=t.querySelector("img");o&&!o.complete?(o.addEventListener("load",(()=>n())),o.addEventListener("error",(()=>e()))):n()}))}(n).finally((()=>function(t,n){const e=Array.from(t.children);e.forEach(((t,n)=>{if(t.hasAttribute("data-foreign-object-container"))t.style.transformOrigin="",t.style.transform="";else{const o=document.createElement("div");o.setAttribute("data-foreign-object-container",""),t.insertAdjacentElement("beforebegin",o),t.remove(),o.append(t),e[n]=o}}));const o=t.getScreenCTM();if(!o)return;const{a:i,b:r,c:c,d:a}=o.scale(n);e.forEach((t=>{if(!t.hasAttribute("data-foreign-object-container"))return;const{style:n}=t;n.transformOrigin="0px 0px",n.transform=`matrix(${i}, ${r}, ${c}, ${a}, 0, 0)`}))}(n,t)))))}[function(){e(f)},function(){i(E,{runOnLoad:!0,runOnHeightChange:!0,priority:1})},function(){L&&i(W,{runOnLoad:!0})},function(){L&&e(x)},function(){e(h)},function(){e(g)}].forEach((t=>t()))}();
+    </script>
+    <script nonce="4cf8b093-48d3-44c5-81e7-bacf1258fe90">
+        window.C_CAPTCHA_IMPLEMENTATION = 'RECAPTCHA';
+    </script>
+    <script nonce="4cf8b093-48d3-44c5-81e7-bacf1258fe90">
+        window.C_CAPTCHA_KEY = '6Ldk59waAAAAAMPqkICbJjfMivZLCGtTpa6Wn6zO';
+    </script>
 </head>
 <body>
-<div id="root">
-    <!--=================================================== 헤더 ===================================================-->
 
-    <th:block th:replace="~{/fragments/header}" ></th:block>
-
-    <th:block th:replace="~{/midea/index :: setContent(~{this::content} )}">
+<th:block th:replace="~{/midea/home :: setContent(~{this::content} )}">
 
     <th:block th:fragment="setContent(content)">
+        <div id="root">
 
-            <!--=================================================== home ===================================================-->
+            <!--=================================================== 헤더 ===================================================-->
+            <th:block th:replace="~{/default/fragments/header}" ></th:block>
 
-            <a id="home" aria-hidden="true" style="visibility:hidden;"></a>
-            <section id="CX4RZotPCaDGTzXz"
-                     style="position:relative;overflow:hidden;display:grid;align-items:center;grid-template-columns:auto 100rem auto;z-index:0;">
-                <div id="Z53rlIKaUkgqLEcI"
-                     style="grid-area:1 / 1 / 2 / 4;display:grid;position:absolute;min-height:100%;min-width:100%;">
-                    <div id="e4CDAKpXZ1GZIWVj" style="z-index:0;">
-                        <div id="vmu3kDXyqvSq8C4K"
-                             style="box-sizing:border-box;width:100%;height:100%;transform:rotate(0deg);">
-                            <div id="vILbt60NSPTdieGz" style="width:100%;height:100%;opacity:1.0;">
-                                <div id="h0xBPVUE6stpv5xO"
-                                     style="background-color:#000000;opacity:1.0;transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="qja2XaOFASaF0YEC" style="display:grid;position:relative;grid-area:1 / 2 / 2 / 3;">
-                    <div id="oEVlTuELgV3GPX7r" style="z-index:1;">
-                        <div id="h0GPuj8v4YzcqSPi" style="box-sizing:border-box;width:100%;height:100%;">
-                            <div class="animation_container" style="width:100%;height:100%;">
-                                <div class="animated"
-                                     style="width:100%;height:100%;animation:breathe-LEFT-c9b289ff-e298-4975-9c5e-e244e5522b75 5000ms 100ms both paused;">
-                                    <div id="jYiXKFgzNOMJGRAH" style="width:100%;height:100%;opacity:1.0;">
-                                        <div id="gQvbcU7VT58426zo"
-                                             style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
-                                            <div id="lVSYjpWjA2yFMFPC"
-                                                 style="width:calc(100% * max(1, var(--scale-fill, 1)));height:calc(253.34353486% / min(1, var(--scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
-                                                <img th:src="@{/assets/images/mainImg.jpg}" loading="lazy"
-                                                     th:attr="srcset=@{/assets/images/5344a5e35d1c529b220801378e65a510.jpg} +  ' 820w, ' + @{/assets/images/mainImg.jpg} + ' 1639w'"
-                                                     sizes="(max-width: 375px) 100vw, (min-width: 375.05px) and (max-width: 480px) 100vw, (min-width: 480.05px) and (max-width: 768px) 100vw, (min-width: 768.05px) and (max-width: 1024px) 100vw, (min-width: 1024.05px) 100vw"
-                                                     style="width:100%;height:100%;display:block;object-fit:cover;object-position:50% 32.87809323%;transform:translate(-50%, -32.87809323%) rotate(0deg);">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="ZbgpdfrwbxLGIj44" style="z-index:5;">
-                        <div id="hQ895FwP2rtcYDn4" style="box-sizing:border-box;width:100%;height:100%;">
-                            <div class="animation_container" style="width:100%;height:100%;">
-                                <div class="animated"
-                                     style="width:100%;height:100%;animation:breathe-LEFT-953a2182-85e3-4a44-a15b-be9151930145 5000ms 100ms both paused;">
-                                    <div id="vIfyCP1rxh8SCJeY"
-                                         style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
-                                        <p id="tYfdhObjUhwDwDnP"
-                                           style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:0.97778944em;text-transform:none;letter-spacing:0em;">
-                                            <span id="BIjivIKtWJxQZKzZ"
-                                                  style="color:#ffffff;">#3 Team_Project</span><br></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="FuKxOrGrqUk1S7wB" style="z-index:4;">
-                        <div id="Mrl4fB9nmltMrGYO" style="box-sizing:border-box;width:100%;height:100%;">
-                            <div class="animation_container" style="width:100%;height:100%;">
-                                <div class="animated"
-                                     style="width:100%;height:100%;animation:breathe-LEFT-b540f91a-db66-4869-a98a-dc6d6c1c3f23 5000ms 100ms both paused;">
-                                    <div id="ubvJZxgMLlGpGnE8"
-                                         style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
-                                        <p id="oJbsNVlqFSd6tIyW"
-                                           style="color:#ffffff;font-family:YAFdJsZqKzQ-0;line-height:0.99999875em;text-transform:uppercase;letter-spacing:0em;">
-                                            <span id="LJumjStoFib0KKYC" style="color:#ffffff;">BANDAED</span><br></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="iPxXDUcScmKs3yRO" style="z-index:3;">
-                        <div id="E2f3YuwevR7b1dRK" style="box-sizing:border-box;width:100%;height:100%;">
-                            <div class="animation_container" style="width:100%;height:100%;">
-                                <div class="animated"
-                                     style="width:100%;height:100%;animation:breathe-LEFT-856eb83d-4a30-41c1-a480-908fec0fcf70 5000ms 100ms both paused;">
-                                    <div id="cMIWIGB6LEUs4bQZ"
-                                         style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
-                                        <p id="bVYPkPF90LqIZrTC"
-                                           style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:0.97778944em;text-transform:none;letter-spacing:0em;">
-                                            <span id="vFoiKjf6I7Wdfhmq" style="color:#ffffff;">Creative Portfolio</span><br>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="dDwhpswVZBnY8mn4" style="z-index:2;">
-                        <div id="Je2neOzJhsbL0Ocg" style="box-sizing:border-box;width:100%;height:100%;">
-                            <div class="animation_container" style="width:100%;height:100%;">
-                                <div class="animated"
-                                     style="width:100%;height:100%;animation:breathe-RIGHT-ecc0c6b9-11eb-4e2f-aa9a-2efe70fd48f0 5000ms 100ms both paused;">
-                                    <div id="qeBjffiUVEaxlK6D"
-                                         style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
-                                        <p id="N3fcsJG6bwEZnpLE"
-                                           style="color:#ffffff;font-family:YAFdJVKCSFM-0;line-height:0.97779138em;text-transform:none;letter-spacing:0em;">
-                                            <span id="uvr1BtTkHee2qaze" style="color:#ffffff;">문승호(팀장), 김별</span><br>
-                                        </p></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <!--============================================== home (main page)============================================-->
+            <th:block th:replace="~{/midea/main}" ></th:block>
 
             <!--=================================================== mindlist ===================================================-->
-
-            <a id="mindlist" aria-hidden="true" style="visibility:hidden;"></a>
-            <section id="z2PmizORQytGD6bn"
-                     style="position:relative;overflow:hidden;display:grid;align-items:center;grid-template-columns:auto 100rem auto;z-index:0;margin-top:-1px;">
-                <div id="KeVvvYAXHkRpvlNm"
-                     style="grid-area:1 / 1 / 2 / 4;display:grid;position:absolute;min-height:100%;min-width:100%;">
-                    <div id="mFfni68ttJu1vQr9" style="z-index:0;">
-                        <div id="zQ6BaNO0YeDi4MwX"
-                             style="box-sizing:border-box;width:100%;height:100%;transform:rotate(0deg);">
-                            <div id="Wa9WRGTW2eM1h4Hk" style="width:100%;height:100%;opacity:1.0;">
-                                <div id="OLOGUxg4PsFdcevC"
-                                     style="background-color:#000000;opacity:1.0;transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="K9I9dVtXfCDT0oWw" style="display:grid;position:relative;grid-area:1 / 2 / 2 / 3;">
-                    <div id="KWB8zpph4IY3HK1W" style="z-index:1;">
-                        <div id="cMwO8nEyS2vsbsLY" style="padding-top:68.66098622%;">
-                            <div id="g6EoI72mpg7cvoCv"
-                                 style="position:absolute;top:0px;left:0px;width:100%;height:100%;">
-                                <div class="animation_container" style="width:100%;height:100%;">
-                                    <div class="animated"
-                                         style="width:100%;height:100%;animation:tectonic-LEFT-1edf979c-f7c8-411e-b146-394f65481e3c 3240ms 100ms both paused, linear_fade 400ms linear both paused;">
-                                        <div id="CYTGbgWP59Qk0Qkb" style="width:100%;height:100%;opacity:1.0;">
-                                            <div id="rzelIg5hPprjpPmm"
-                                                 style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
-                                                <div id="I1oQMlcX2tjU90vK"
-                                                     style="width:calc(100% * max(1, var(&#45;&#45;scale-fill, 1)));height:calc(145.64311628% / min(1, var(&#45;&#45;scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
-                                                    <img th:src="@{assests/images/intro.jpg}" loading="lazy"
-                                                         th:attr="srcset=@{assets/images/64e4995346c631ef810a830c5d5fccaf.jpg} + ' 410w, ' + @{/assets/images/intro.jpg} + ' 820w'"
-                                                         sizes="(max-width: 375px) 44.09152666vw, (min-width: 375.05px) and (max-width: 480px) 44.09152666vw, (min-width: 480.05px) and (max-width: 768px) 44.09152666vw, (min-width: 768.05px) and (max-width: 1024px) 44.09152666vw, (min-width: 1024.05px) 44.09152666vw"
-                                                         style="width:100%;height:100%;display:block;object-fit:cover;object-position:50% 50%;transform:translate(-50%, -50%) rotate(0deg);">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="SbHaOYl8sDCNx8W3" style="z-index:2;">
-                        <div id="eU7u8hr8IqGPISf0" style="box-sizing:border-box;width:100%;height:100%;">
-                            <div class="animation_container" style="width:100%;height:100%;">
-                                <div class="animated"
-                                     style="width:100%;height:100%;animation:tectonic-LEFT-6280a235-050e-430e-8ce6-66a3a2453689 3240ms 100ms both paused, linear_fade 400ms linear both paused;">
-                                    <div id="R55Ph7agsh0G1KLI"
-                                         style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
-                                        <p id="DlKm3gOQ7DHQw6wT"
-                                           style="color:#ffffff;font-family:YAFdJsZqKzQ-0;line-height:0.98529557em;text-transform:uppercase;">
-                                            <span id="Ym8ffyrBhY8dGFCk" style="color:#ffffff;">Get to</span></p>
-                                        <p id="nnQEcuOY9EX6rAQU"
-                                           style="color:#ffffff;font-family:YAFdJsZqKzQ-0;line-height:0.98529557em;text-transform:uppercase;letter-spacing:0em;">
-                                            <span id="ZhwEHHkC8tPCmFCE" style="color:#ffffff;">know ​BANDAED</span><br>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="eqejfOHclVo58s4O" style="z-index:3;">
-                        <div id="Cl2UsW6RiUPiBRFH" style="box-sizing:border-box;width:100%;height:100%;">
-                            <div class="animation_container" style="width:100%;height:100%;">
-                                <div class="animated"
-                                     style="width:100%;height:100%;animation:tectonic-RIGHT-2af90f8d-efc2-4bad-b842-ed9f3a0448ff 3240ms 100ms both paused, linear_fade 400ms linear both paused;">
-                                    <div id="EUM8u5SocW1mWJGl"
-                                         style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
-                                        <p id="vhE8I4ggh8ZrUiTB"
-                                           style="color:#ffffff;font-family:YAFdJVKCSFM-0;line-height:1.16666667em;text-align:justify;">
-                                            <span id="C6sxaexs3U2jc2pA" style="color:#ffffff;">BANDAED </span></p>
-                                        <p id="TrGl8xP99fYuTyqv"
-                                           style="color:#ffffff;font-family:YAFdJVKCSFM-0;line-height:1.16666667em;text-align:justify;">
-                                            <span id="t40rr5IlSnsc2UEs" style="color:#ffffff;">(밴드(BAND)와 </span></p>
-                                        <p id="t8gekQqfbPmXmJWN"
-                                           style="color:#ffffff;font-family:YAFdJVKCSFM-0;line-height:1.16666667em;text-align:justify;">
-                                            <span id="nF8aFIyoPNG9uk7o" style="color:#ffffff;">자동심장충격기(AED) 결합. </span>
-                                        </p>
-                                        <p id="AuU8QdvTopPSRTZV"
-                                           style="color:#ffffff;font-family:YAFdJVKCSFM-0;line-height:1.16666667em;text-align:justify;">
-                                    <span id="bBcGHqFcAQtiauYE"
-                                          style="color:#ffffff;">&#x27;심장을 뛰게하는 밴드음악&#x27; 이라는 뜻.</span></p>
-                                        <p id="vB7sumNe6SdUfZho"
-                                           style="color:#ffffff;font-family:YAFdJVKCSFM-0;line-height:1.16666667em;text-align:justify;white-space:pre;">
-                                            <br></p>
-                                        <p id="E15XTlgWMytki09W"
-                                           style="color:#ffffff;font-family:YAFdJVKCSFM-0;line-height:1.16666667em;text-align:justify;">
-                                            <span id="wjZoHv6xf461k9sf"
-                                                  style="color:#ffffff;">그리고 Ban(금지하다) Dead(죽음); </span>
-                                        </p>
-                                        <p id="GtAY099iXHXT28IY"
-                                           style="color:#ffffff;font-family:YAFdJVKCSFM-0;line-height:1.16666667em;text-align:justify;">
-                                            <span id="N6345aj5KACKKD7i" style="color:#ffffff;">이라는 단어의 결합이기도 하여, </span>
-                                        </p>
-                                        <p id="qkrwivrnj0lks0i0"
-                                           style="color:#ffffff;font-family:YAFdJVKCSFM-0;line-height:1.16666667em;text-align:justify;">
-                                            <span id="d4NsWr919yDLEYfu"
-                                                  style="color:#ffffff;">&#x27;당신의 죽음을 금한다, </span></p>
-                                        <p id="EGrKxB1LscruXwyH"
-                                           style="color:#ffffff;font-family:YAFdJVKCSFM-0;line-height:1.16666667em;text-align:justify;">
-                                            <span id="aU2wW4R5KtEZSCMt" style="color:#ffffff;">당신을 살아있게 한다.&#x27;</span><span
-                                                id="YSfBKi7q4EbKzEcy" style="color:#ffffff;">  </span></p>
-                                        <p id="oPtj00qiwATNMuc7"
-                                           style="color:#ffffff;font-family:YAFdJVKCSFM-0;line-height:1.16666667em;text-align:justify;text-transform:none;letter-spacing:0em;">
-                                            <span id="jmeRaiWqpBDuc9SO" style="color:#ffffff;">이라는 의미로 지었음.</span><br>
-                                        </p></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <th:block th:replace="~{/midea/mindlist}" ></th:block>
 
             <!--=================================================== community ===================================================-->
+            <th:block th:replace="~{/midea/community}" ></th:block>
 
-            <a id="community" aria-hidden="true" style="visibility:hidden;"></a>
-            <section id="sJOGjOVD0d1n5VFC"
-                     style="position:relative;overflow:hidden;display:grid;align-items:center;grid-template-columns:auto 100rem auto;z-index:0;margin-top:-1px;">
-                <div id="ChtWhgmxTdDEUnxV"
-                     style="grid-area:1 / 1 / 2 / 4;display:grid;position:absolute;min-height:100%;min-width:100%;">
-                    <div id="F7fJkCPUpPeLlU5d" style="z-index:0;">
-                        <div id="otycYfvwmZx4oKYv"
-                             style="box-sizing:border-box;width:100%;height:100%;transform:rotate(0deg);">
-                            <div id="f23VuxJprTo4phl5" style="width:100%;height:100%;opacity:1.0;">
-                                <div id="JKZtfWSIufQ2DT6Y"
-                                     style="background-color:#000000;opacity:1.0;transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="lQE3ws9GgYvZV4BO" style="display:grid;position:relative;grid-area:1 / 2 / 2 / 3;">
-                    <div id="JO1nF1WRK4OkxEhS" style="z-index:13;">
-                        <div id="ijDXlShXKGm4xnLn"
-                             style="box-sizing:border-box;width:100%;height:100%;transform:rotate(0deg);">
-                            <div id="t6HBiJXOEliUxzTw"
-                                 style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
-                                <p id="GqWVvHFiViOBgSHE"
-                                   style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:1.19210035em;text-transform:uppercase;letter-spacing:0em;">
-                                    <span id="CdHr6cFIsKOT54tJ" style="color:#ffffff;">my works</span><br></p></div>
-                        </div>
-                    </div>
-                    <div id="DPYC1kTVChX06tne">
-                        <div id="EpZwVXBAY2xlUXvn" style="display:grid;position:relative;grid-area:4 / 3 / 10 / 6;">
-                            <div id="r057MGoyssgnE27D" style="z-index:2;">
-                                <div id="TVkiBplztKC6b2k1" style="padding-top:107.12728295%;">
-                                    <div id="Dc48mJ9oSBKiFPdC"
-                                         style="position:absolute;top:0px;left:0px;width:100%;height:100%;">
-                                        <div class="animation_container" style="width:100%;height:100%;">
-                                            <div class="animated"
-                                                 style="width:100%;height:100%;animation:breathe-LEFT-7ff9bacd-88db-4e62-98d7-bc4f57c9928e 5000ms 100ms both paused;">
-                                                <div id="exOug2b4h3RSnwO8" style="width:100%;height:100%;opacity:1.0;">
-                                                    <div id="n6GQupFKYEirYKBW"
-                                                         style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
-                                                        <div id="PdfYl0xuHx3ZzUFZ"
-                                                             style="width:calc(167.07784408% * max(1, var(--scale-fill, 1)));height:calc(103.97466109% / min(1, var(--scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
-                                                            <img src="images/23c9b89ec564c85b9aff8899babac808.jpg"
-                                                                 alt="Black and White Cow on Green Grass Field Near Green Trees"
-                                                                 loading="lazy"
-                                                                 srcset="images/s.jpg 700w, images/23c9b89ec564c85b9aff8899babac808.jpg 1050w"
-                                                                 sizes="(max-width: 375px) 34.22738534vw, (min-width: 375.05px) and (max-width: 480px) 34.22738534vw, (min-width: 480.05px) and (max-width: 768px) 34.22738534vw, (min-width: 768.05px) and (max-width: 1024px) 34.22738534vw, (min-width: 1024.05px) 34.22738534vw"
-                                                                 style="width:100%;height:100%;display:block;object-fit:cover;object-position:51.91136045% 51.91136045%;transform:translate(-51.91136045%, -51.91136045%) rotate(0deg);">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="x8dNYJn1Wk7HUoGU">
-                        <div id="t2eD87NuOXSIntsR" style="display:grid;position:relative;grid-area:12 / 4 / 17 / 7;">
-                            <div id="a3MZQD7qARzokGzN" style="z-index:10;">
-                                <div id="a5swktNXPQhz5f8V" style="padding-top:86.58098622%;">
-                                    <div id="VT9Fo6THH6PhIBeJ"
-                                         style="position:absolute;top:0px;left:0px;width:100%;height:100%;">
-                                        <div class="animation_container" style="width:100%;height:100%;">
-                                            <div class="animated"
-                                                 style="width:100%;height:100%;animation:breathe-LEFT-67dada5b-a1f0-4c18-bfd0-29eff4d03175 5000ms 100ms both paused;">
-                                                <div id="pJXUmwCoqa37sch0" style="width:100%;height:100%;opacity:1.0;">
-                                                    <div id="cvmLt0OpMyKZUqoT"
-                                                         style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
-                                                        <div id="aBkeqzQ7d3opwKMx"
-                                                             style="width:calc(100% * max(1, var(--scale-fill, 1)));height:calc(173.24819981% / min(1, var(--scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
-                                                            <img src="images/ebb0aa3edd143bcacc4343b41dad76ff.jpg"
-                                                                 alt="Girl in White Dress Running on Green Grass Field"
-                                                                 loading="lazy"
-                                                                 srcset="images/s(3).jpg 467w, images/ebb0aa3edd143bcacc4343b41dad76ff.jpg 700w"
-                                                                 sizes="(max-width: 375px) 20.48589119vw, (min-width: 375.05px) and (max-width: 480px) 20.48589119vw, (min-width: 480.05px) and (max-width: 768px) 20.48589119vw, (min-width: 768.05px) and (max-width: 1024px) 20.48589119vw, (min-width: 1024.05px) 20.48589119vw"
-                                                                 style="width:100%;height:100%;display:block;object-fit:cover;object-position:50% 50%;transform:translate(-50%, -50%) rotate(0deg);">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="aEKBrLainWOIt56c" style="z-index:11;">
-                        <div id="JbSMB0TUPSMOaBzl"
-                             style="box-sizing:border-box;width:100%;height:100%;transform:rotate(0deg);">
-                            <div id="OfqR79V5JRpWY4AQ"
-                                 style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
-                                <p id="gaB15WB66X4fqVOq"
-                                   style="color:#ffffff;font-family:YAFdJsEGkW0-0;line-height:1.1938873em;text-align:justify;text-transform:none;letter-spacing:0em;">
-                                    <span id="xDA4tkXSDxlgAClq" style="color:#ffffff;">Rural scenes like these remind me of how happy and simple life can be.</span><br>
-                                </p></div>
-                        </div>
-                    </div>
-                    <div id="sPixcKY1QzVZDzy5">
-                        <div id="xrP9Y7xwOPikrYzJ" style="display:grid;position:relative;grid-area:8 / 9 / 15 / 11;">
-                            <div id="YRyrOlXWC0KJN4nM" style="z-index:6;">
-                                <div id="R8Tx4D7LJo8yxkNL" style="padding-top:105.64134487%;">
-                                    <div id="iztq2vr7bCI2cXTI"
-                                         style="position:absolute;top:0px;left:0px;width:100%;height:100%;">
-                                        <div class="animation_container" style="width:100%;height:100%;">
-                                            <div class="animated"
-                                                 style="width:100%;height:100%;animation:breathe-LEFT-5468452e-77e4-40e7-ac61-a90cec548d2a 5000ms 100ms both paused;">
-                                                <div id="JMiu9XRVZOZwzvI8" style="width:100%;height:100%;opacity:1.0;">
-                                                    <div id="hsb89b7CYOsfNRNi"
-                                                         style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
-                                                        <div id="kyRqvLDviZjuvvLl"
-                                                             style="width:calc(158.4620173% * max(1, var(--scale-fill, 1)));height:calc(100% / min(1, var(--scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
-                                                            <img src="images/a.jpg"
-                                                                 alt="Black and White Cow on Green Grass Field"
-                                                                 loading="lazy"
-                                                                 srcset="images/a.jpg 700w, images/a.jpg 1050w"
-                                                                 sizes="(max-width: 375px) 32.46235644vw, (min-width: 375.05px) and (max-width: 480px) 32.46235644vw, (min-width: 480.05px) and (max-width: 768px) 32.46235644vw, (min-width: 768.05px) and (max-width: 1024px) 32.46235644vw, (min-width: 1024.05px) 32.46235644vw"
-                                                                 style="width:100%;height:100%;display:block;object-fit:cover;object-position:50% 50%;transform:translate(-50%, -50%) rotate(0deg);">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="fVld4s8rRhZdzN4D">
-                        <div id="MwQFGtCyErlvYqa1" style="display:grid;position:relative;grid-area:9 / 12 / 16 / 13;">
-                            <div id="afV1GdaPkqn2h2EZ" style="z-index:8;">
-                                <div id="FsXz3INxK4lVKDr7" style="padding-top:105.64134487%;">
-                                    <div id="zY0xeGTFAeSeB44s"
-                                         style="position:absolute;top:0px;left:0px;width:100%;height:100%;">
-                                        <div class="animation_container" style="width:100%;height:100%;">
-                                            <div class="animated"
-                                                 style="width:100%;height:100%;animation:breathe-RIGHT-9b137e7c-25ee-46c4-9254-5bb7641e53cc 5000ms 100ms both paused;">
-                                                <div id="MWooivCOGQS0kDIw" style="width:100%;height:100%;opacity:1.0;">
-                                                    <div id="ZIvYk4QWfv8XMquO"
-                                                         style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
-                                                        <div id="kKhjxYRtfnXmOMLg"
-                                                             style="width:calc(158.4620173% * max(1, var(--scale-fill, 1)));height:calc(100% / min(1, var(--scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
-                                                            <img src="images/bd5a28b074a8a950d90d5ca7985b8da3.jpg"
-                                                                 alt="Woman in Blue and White Stripe Shirt Standing Beside White and Black Cow"
-                                                                 loading="lazy"
-                                                                 srcset="images/a47776256b2047e8b6c4edeaaa2728a8.jpg 700w, images/bd5a28b074a8a950d90d5ca7985b8da3.jpg 1050w"
-                                                                 sizes="(max-width: 375px) 32.46235644vw, (min-width: 375.05px) and (max-width: 480px) 32.46235644vw, (min-width: 480.05px) and (max-width: 768px) 32.46235644vw, (min-width: 768.05px) and (max-width: 1024px) 32.46235644vw, (min-width: 1024.05px) 32.46235644vw"
-                                                                 style="width:100%;height:100%;display:block;object-fit:cover;object-position:50% 50%;transform:translate(-50%, -50%) rotate(0deg);">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="i82yPAMmgZwBeoxd">
-                        <div id="w5nF1rpLQ7WafizO" style="display:grid;position:relative;grid-area:5 / 14 / 11 / 17;">
-                            <div id="R7RaZ6iBwV6sdYwA" style="z-index:4;">
-                                <div id="lgyfjFCQnbzusO3q" style="padding-top:107.12728295%;">
-                                    <div id="ijYUZiJaeuBevaWq"
-                                         style="position:absolute;top:0px;left:0px;width:100%;height:100%;">
-                                        <div class="animation_container" style="width:100%;height:100%;">
-                                            <div class="animated"
-                                                 style="width:100%;height:100%;animation:breathe-RIGHT-302ddc90-2d04-47f5-9eff-d273caa91459 5000ms 100ms both paused;">
-                                                <div id="cgF2gy9AJGqH6eb5" style="width:100%;height:100%;opacity:1.0;">
-                                                    <div id="jW1HDPkPME8NuXSE"
-                                                         style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
-                                                        <div id="CfOtfW8dXetA84uH"
-                                                             style="width:calc(100% * max(1, var(--scale-fill, 1)));height:calc(140.02035324% / min(1, var(--scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
-                                                            <img src="images/51947384704ce317f9c720f7b9d4a89b.jpg"
-                                                                 alt="Girl in Blue Dress Standing Beside Cow on Green Grass Field"
-                                                                 loading="lazy"
-                                                                 srcset="images/ed2274517e79be7e286c5948b420552c.jpg 467w, images/51947384704ce317f9c720f7b9d4a89b.jpg 700w"
-                                                                 sizes="(max-width: 375px) 20.48589119vw, (min-width: 375.05px) and (max-width: 480px) 20.48589119vw, (min-width: 480.05px) and (max-width: 768px) 20.48589119vw, (min-width: 768.05px) and (max-width: 1024px) 20.48589119vw, (min-width: 1024.05px) 20.48589119vw"
-                                                                 style="width:100%;height:100%;display:block;object-fit:cover;object-position:50% 50%;transform:translate(-50%, -50%) rotate(0deg);">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="J1DiT4Lq3RqnsF0q" style="z-index:12;">
-                        <div id="JpgVR91l10bZq85w"
-                             style="box-sizing:border-box;width:100%;height:100%;transform:rotate(0deg);">
-                            <div id="UCok44ummx7A9RCC"
-                                 style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
-                                <p id="yUxs72TbXa8eKaW2"
-                                   style="color:#ffffff;direction:ltr;font-family:YAFdJsEGkW0-0;margin-left:0em;line-height:1.19388878em;text-align:justify;text-transform:none;letter-spacing:0em;">
-                                    <span id="BrzsgNfCpWFj5PE8" style="text-decoration-line:none;color:#ffffff;">Farm life is full of contrasting colors and movement.</span>
-                                </p></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!--=================================================== page-4 ===================================================-->
-
-            <a id="page-4" aria-hidden="true" style="visibility:hidden;"></a>
-            <section id="DCOHAYmfrO7ai1hy"
-                     style="position:relative;overflow:hidden;display:grid;align-items:center;grid-template-columns:auto 100rem auto;z-index:0;margin-top:-1px;">
-                <div id="L4LIg1g6MHPpeuol"
-                     style="grid-area:1 / 1 / 2 / 4;display:grid;position:absolute;min-height:100%;min-width:100%;">
-                    <div id="b9qtkt7i3K2GYFGW" style="z-index:0;">
-                        <div id="kKnCo2JzL818bpC3"
-                             style="box-sizing:border-box;width:100%;height:100%;transform:rotate(0deg);">
-                            <div id="rifCu23RWn0QMFs5" style="width:100%;height:100%;opacity:1.0;">
-                                <div id="eh8sljFyDtp3AewK"
-                                     style="background-color:#000000;opacity:1.0;transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="HtwRNOSODIf5YIgh" style="display:grid;position:relative;grid-area:1 / 2 / 2 / 3;">
-                    <div id="kqou89d8zmhtR69L">
-                        <div id="iLCMTYhGxot0j7ne" style="display:grid;position:relative;grid-area:3 / 2 / 4 / 3;">
-                            <div id="hOJDt1nXlRVrB228" style="z-index:3;">
-                                <div id="GLr04g5Hd47fv8s0" style="padding-top:171.11945731%;transform:rotate(0deg);">
-                                    <div id="jVrX8bhOKi1pffOw"
-                                         style="position:absolute;top:0px;left:0px;width:100%;height:100%;">
-                                        <div id="IfYNh1lVBujjcLIa" style="width:100%;height:100%;opacity:1.0;">
-                                            <div id="pq1i3pvsmnLUUUCB"
-                                                 style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
-                                                <div id="bTx7244hrTbLYMlI"
-                                                     style="width:calc(114.07963821% * max(1, var(--scale-fill, 1)));height:calc(100% / min(1, var(--scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
-                                                    <img th:src="@{/assets/images/ebb0aa3edd143bcacc4343b41dad76ff.jpg}"
-                                                         alt="Girl in White Dress Running on Green Grass Field"
-                                                         loading="lazy"
-                                                         srcset="images/s(3).jpg 467w, images/ebb0aa3edd143bcacc4343b41dad76ff.jpg 700w"
-                                                         sizes="(max-width: 375px) 18.59980987vw, (min-width: 375.05px) and (max-width: 480px) 18.59980987vw, (min-width: 480.05px) and (max-width: 768px) 18.59980987vw, (min-width: 768.05px) and (max-width: 1024px) 18.59980987vw, (min-width: 1024.05px) 18.59980987vw"
-                                                         th:style="@{width:100%;height:100%;display:block;object-fit:cover;object-position:50% 50%;transform:translate(-50%, -50%) rotate(0deg);}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="IX8R28g8DGzgxyFn" style="z-index:1;">
-                        <div id="h97OpAMVJFJPcw17" style="box-sizing:border-box;width:100%;height:100%;">
-                            <div class="animation_container" style="width:100%;height:100%;">
-                                <div class="animated"
-                                     style="width:100%;height:100%;animation:tectonic-RIGHT-22c0becd-1785-45a3-8c86-3bceb881216f 3120ms 100ms both paused, linear_fade 400ms linear both paused;">
-                                    <div id="yqJz7WIqLeZQoVFv"
-                                         style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
-                                        <p id="cG9QOLpE2KfUwiV6"
-                                           style="color:#ffffff;font-family:YAFdJsZqKzQ-0;line-height:1.39951024em;text-transform:uppercase;">
-                                            <span id="XiazWGKmPYr9zWLg" style="color:#ffffff;">Photography trains the eye to see beauty in the mundane, </span>
-                                        </p>
-                                        <p id="dPKRohvbtn3m8YYO"
-                                           style="color:#ffffff;font-family:YAFdJsZqKzQ-0;line-height:1.39951024em;text-transform:uppercase;letter-spacing:0em;">
-                                    <span id="c2O7IrImqae2GdBR"
-                                          style="color:#ffffff;">and profoundess in the ordinary.</span><br></p></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <!--=================================================== contact ===================================================-->
+            <th:block th:replace="~{/midea/contact}" ></th:block>
 
             <!--=================================================== page-5 ===================================================-->
 
@@ -556,7 +79,7 @@
                                                          style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
                                                         <div id="fnPRUgR0H6R0NdBv"
                                                              style="width:calc(100% * max(1, var(--scale-fill, 1)));height:calc(114.88521052% / min(1, var(--scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
-                                                            <img src="images/16cce9c22e4e76380e9013cfacfe6be3.jpg"
+                                                            <img th:src="@{/assets/images/a.jpg}"
                                                                  alt="Black and White Cow in Cage" loading="lazy"
                                                                  style="width:100%;height:100%;display:block;object-fit:cover;object-position:50% 50%;transform:translate(-50%, -50%) rotate(0deg);">
                                                         </div>
@@ -599,10 +122,10 @@
                                                          style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
                                                         <div id="tKBixsb5R4EFpGSH"
                                                              style="width:calc(100% * max(1, var(--scale-fill, 1)));height:calc(258.49172367% / min(1, var(--scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
-                                                            <img src="images/ec164233f18dd615d3aa97a8b8484630.jpg"
+                                                            <img th:src="@{/assets/images/b.jpg}"
                                                                  alt="Person Holding White and Brown Horse"
                                                                  loading="lazy"
-                                                                 srcset="images/464d65552bf14b6116a628ba05882a14.jpg 467w, images/ec164233f18dd615d3aa97a8b8484630.jpg 700w"
+                                                                 th:attr="srcset=@{/assets/images/464d65552bf14b6116a628ba05882a14.jpg} + ' 467w, ' + @{/assets/images/b.jpg} + ' 700w'"
                                                                  sizes="(max-width: 375px) 24.92826644vw, (min-width: 375.05px) and (max-width: 480px) 24.92826644vw, (min-width: 480.05px) and (max-width: 768px) 24.92826644vw, (min-width: 768.05px) and (max-width: 1024px) 24.92826644vw, (min-width: 1024.05px) 24.92826644vw"
                                                                  style="width:100%;height:100%;display:block;object-fit:cover;object-position:50% 37.84479158%;transform:translate(-50%, -37.84479158%) rotate(0deg);">
                                                         </div>
@@ -646,10 +169,10 @@
                                                          style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
                                                         <div id="b13FVy5QseqdfJUM"
                                                              style="width:calc(103.98484292% * max(1, var(--scale-fill, 1)));height:calc(119.46320569% / min(1, var(--scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
-                                                            <img src="images/c6a4fde836d2d13c11bdda82fa5b6cbf.jpg"
+                                                            <img th:src="@{/assets/images/c.jpg}"
                                                                  alt="Boy in Blue Jacket Sitting Beside White Cow"
                                                                  loading="lazy"
-                                                                 srcset="images/43c2941a410a4a4d126cd138e114d9fc.jpg 700w, images/c6a4fde836d2d13c11bdda82fa5b6cbf.jpg 1050w"
+                                                                 th:attr="srcset=@{/assets/images/j.jpg} + ' 700w, ' + @{/assets/images/c.jpg} + ' 1050w'"
                                                                  sizes="(max-width: 375px) 25.9216187vw, (min-width: 375.05px) and (max-width: 480px) 25.9216187vw, (min-width: 480.05px) and (max-width: 768px) 25.9216187vw, (min-width: 768.05px) and (max-width: 1024px) 25.9216187vw, (min-width: 1024.05px) 25.9216187vw"
                                                                  style="width:100%;height:100%;display:block;object-fit:cover;object-position:51.91606911% 50%;transform:translate(-51.91606911%, -50%) rotate(0deg);">
                                                         </div>
@@ -777,9 +300,9 @@
                                                  style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
                                                 <div id="e2Rc6imD8511Qa2H"
                                                      style="width:calc(100% * max(1, var(--scale-fill, 1)));height:calc(100% / min(1, var(--scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
-                                                    <img src="images/e8ac3d4b3d4a9e1d6f80a288e17dcb86.png"
+                                                    <img th:src="@{assets/images/e.png}"
                                                          alt="Photo Of Grass During Daytime" loading="lazy"
-                                                         srcset="images/fc77b3c23846b2bd97dbd1d03b3418a9.png 503w, images/e8ac3d4b3d4a9e1d6f80a288e17dcb86.png 755w"
+                                                         th:attr="srcset=@{/assets/images/e.png} + ' 503w, ' + @{/assets/images/e.png} + ' 755w'"
                                                          sizes="(max-width: 375px) 23.09234455vw, (min-width: 375.05px) and (max-width: 480px) 23.09234455vw, (min-width: 480.05px) and (max-width: 768px) 23.09234455vw, (min-width: 768.05px) and (max-width: 1024px) 23.09234455vw, (min-width: 1024.05px) 23.09234455vw"
                                                          style="width:100%;height:100%;display:block;object-fit:cover;object-position:50% 50%;transform:translate(-50%, -50%) rotate(0deg);">
                                                 </div>
@@ -802,9 +325,9 @@
                                                  style="transform:scale(1, 1);width:100%;height:100%;overflow:hidden;position:relative;">
                                                 <div id="YPrpPA6Fi5ZJbuKW"
                                                      style="width:calc(100% * max(1, var(--scale-fill, 1)));height:calc(100% / min(1, var(--scale-fill, 1)));position:absolute;top:50%;left:50%;opacity:1.0;animation:pulse 1.5s ease-in-out infinite;">
-                                                    <img src="images/a0ca6c83532a7529502fc44e585eb0fa.png"
+                                                    <img th:src="@{/assets/images/h.png}"
                                                          alt="Photo Of Clouds During Daytime" loading="lazy"
-                                                         srcset="images/2857b6c536453b8dd99890350a235a26.png 503w, images/a0ca6c83532a7529502fc44e585eb0fa.png 755w"
+                                                         th:attr="srcset=@{/assets/images/h.png} + ' 503w, ' + @{/assets/images/h.png} + ' 755w'"
                                                          sizes="(max-width: 375px) 23.09234455vw, (min-width: 375.05px) and (max-width: 480px) 23.09234455vw, (min-width: 480.05px) and (max-width: 768px) 23.09234455vw, (min-width: 768.05px) and (max-width: 1024px) 23.09234455vw, (min-width: 1024.05px) 23.09234455vw"
                                                          style="width:100%;height:100%;display:block;object-fit:cover;object-position:50% 50%;transform:translate(-50%, -50%) rotate(0deg);">
                                                 </div>
@@ -818,9 +341,9 @@
                 </div>
             </section>
 
-            <!--=================================================== contact ===================================================-->
+            <!--=================================================== about ===================================================-->
 
-            <a id="contact" aria-hidden="true" style="visibility:hidden;"></a>
+            <a id="about" aria-hidden="true" style="visibility:hidden;"></a>
             <section id="sJ2wpZQDVlOaYtp1"
                      style="position:relative;overflow:hidden;display:grid;align-items:center;grid-template-columns:auto 100rem auto;z-index:0;margin-top:-1px;">
                 <div id="cnodzTdIk8BpdyYE"
@@ -894,8 +417,8 @@
                             </div>
                             <div id="y8GNwDE2NO77NBX5" style="z-index:5;">
                                 <div id="NNGrWfgKrHQKf5I8" style="box-sizing:border-box;width:100%;height:100%;">
-                                    <div th:class="@{animation_container}" style="width:100%;height:100%;">
-                                        <div th:class="@{animated}"
+                                    <div class="@{animation_container}" style="width:100%;height:100%;">
+                                        <div class="@{animated}"
                                              style="width:100%;height:100%;animation:tectonic-RIGHT-35e01fcb-dd63-4cc4-ad70-538a72379ddd 5000ms 100ms both paused, linear_fade 400ms linear both paused;">
                                             <div id="WmMo20ULae3T9ywa"
                                                  style="opacity:1.0;display:flex;box-sizing:border-box;flex-direction:column;justify-content:flex-start;width:100%;height:100%;">
@@ -934,27 +457,24 @@
                 </div>
             </section>
 
-            <!--=================================================== contact ===================================================-->
-
-            <script th:inline="javascript"
-                    type="text/javascript"
+            <script
                     th:src="@{/js/939898b427480d700449229ff00dbb8a6f9f77442b532f697866e6914ab8843a.js}" async=""
                     nonce="4cf8b093-48d3-44c5-81e7-bacf1258fe90">
             </script>
 
-            <script th:inline="javascript"
-                    type="text/javascript"
-                    th:src="@{/js/388fb330498371d4935abbff11d34d4c30842ca3c4a128cdd290d29db98acb41.js}" async=""
+            <script th:src="@{/js/388fb330498371d4935abbff11d34d4c30842ca3c4a128cdd290d29db98acb41.js}" async=""
                     nonce="4cf8b093-48d3-44c5-81e7-bacf1258fe90">
             </script>
 
-            <script th:inline="javascript"
-                    type="text/javascript"
-                    th:src="@{/js/781b7c2778641097cc201ef02652a4376abe12baf4b506965843770004e198e1.js}" async=""
+            <script th:src="@{/js/781b7c2778641097cc201ef02652a4376abe12baf4b506965843770004e198e1.js}" async=""
                     nonce="4cf8b093-48d3-44c5-81e7-bacf1258fe90">
             </script>
         </div>
-        </body>
+
+        <th:block th:replace="~{/default/fragments/footer}" ></th:block>
+
+
     </th:block>
 </th:block>
+</body>
 </html>
