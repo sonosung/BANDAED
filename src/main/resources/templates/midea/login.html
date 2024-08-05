@@ -1,70 +1,95 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link th:href="@{/css/login.css}" rel="stylesheet">
+</head>
 
 <!--=================================================== 헤더 ===================================================-->
-<th:block th:replace="~{/default/fragments/header}" ></th:block>
+<th:block th:replace="~{/default/fragments/header}"></th:block>
 
-<th:block th:replace="~{/midea/login :: setContent(~{this::content} )}">
-
-    <th:block th:fragment="setContent(content)">
-
-
-
-        <link th:href="@{/css/login.css}" rel="stylesheet">
-
-        <div class="container right-panel-active" >
-            <!-- Sign Up -->
-            <div class="container__form container--signup">
-                <form action="#" class="form" id="form1">
-                    <h2 class="form__title">Sign Up</h2>
-                    <input type="text" placeholder="User" class="input"/>
-                    <input type="email" placeholder="Email" class="input"/>
-                    <input type="password" placeholder="Password" class="input"/>
-                    <button class="btn">Sign Up</button>
-                </form>
-            </div>
-
-            <!-- Sign In -->
-            <div class="container__form container--signin">
-                <form action="#" class="form" id="form2">
-                    <h2 class="form__title">Sign In</h2>
-                    <input type="email" placeholder="Email" class="input"/>
-                    <input type="password" placeholder="Password" class="input"/>
-                    <a href="#" class="link">Forgot your password?</a>
-                    <button class="btn">Sign In</button>
-                </form>
-            </div>
-
-            <!-- Overlay -->
-            <div class="container__overlay">
-                <div class="overlay">
-                    <div class="overlay__panel overlay--left">
-                        <button class="btn" id="signIn">Sign In</button>
-                    </div>
-                    <div class="overlay__panel overlay--right">
-                        <button class="btn" id="signUp">Sign Up</button>
-                    </div>
+<body>
+<div class="container">
+    <!-- Sign Up -->
+    <div class="container__form container--signup">
+        <form th:action="@{/signup}" th:object="${user}" method="post" class="form" id="form1">
+            <h2 class="form__title">Sign Up</h2>
+            <div th:if="${error}" class="error-message" th:text="${error}"></div>
+            <input type="text" th:field="*{nickname}" placeholder="Nickname" class="input"/>
+            <input type="email" th:field="*{email}" placeholder="Email" class="input"/>
+            <input type="password" th:field="*{password}" placeholder="Password" class="input"/>
+            <h3>How Do You Feel Today?</h3>
+            <div class="checkbox-grid">
+                <div>
+                    <input type="checkbox" th:field="*{happy}" id="Happy"/>
+                    <label for="Happy">Happy</label>
+                </div>
+                <div>
+                    <input type="checkbox" th:field="*{sad}" id="Sad"/>
+                    <label for="Sad">Sad</label>
+                </div>
+                <div>
+                    <input type="checkbox" th:field="*{calm}" id="Calm"/>
+                    <label for="Calm">Calm</label>
+                </div>
+                <div>
+                    <input type="checkbox" th:field="*{stressed}" id="Stressed"/>
+                    <label for="Stressed">Stressed</label>
+                </div>
+                <div>
+                    <input type="checkbox" th:field="*{joyful}" id="Joyful"/>
+                    <label for="Joyful">Joyful</label>
+                </div>
+                <div>
+                    <input type="checkbox" th:field="*{energetic}" id="Energetic"/>
+                    <label for="Energetic">Energetic</label>
                 </div>
             </div>
+            <button class="btn">Sign Up</button>
+        </form>
+    </div>
+
+    <!-- Sign In -->
+    <div class="container__form container--signin">
+        <form th:action="@{/signin}" method="post" class="form" id="form2">
+            <h2 class="form__title">Sign In</h2>
+            <div th:if="${error}" class="error-message" th:text="${error}"></div>
+            <input type="email" name="email" placeholder="Email" class="input"/>
+            <input type="password" name="password" placeholder="Password" class="input"/>
+            <a href="#" class="link">Forgot your password?</a>
+            <button class="btn">Sign In</button>
+        </form>
+    </div>
+
+    <!-- Overlay -->
+    <div class="container__overlay">
+        <div class="overlay">
+            <div class="overlay__panel overlay--left">
+                <button class="btn" id="signIn">Sign In</button>
+            </div>
+            <div class="overlay__panel overlay--right">
+                <button class="btn" id="signUp">Sign Up</button>
+            </div>
         </div>
+    </div>
+</div>
 
-        <script th:inline="javascript">
-            const signInBtn = document.getElementById("signIn");
-            const signUpBtn = document.getElementById("signUp");
-            const fistForm = document.getElementById("form1");
-            const secondForm = document.getElementById("form2");
-            const container = document.querySelector(".container");
+<script th:inline="javascript">
+    const signInBtn = document.getElementById("signIn");
+    const signUpBtn = document.getElementById("signUp");
+    const container = document.querySelector(".container");
 
-            signInBtn.addEventListener("click", () => {
-              container.classList.remove("right-panel-active");
-            });
+    signInBtn.addEventListener("click", () => {
+      container.classList.remove("right-panel-active");
+    });
 
-            signUpBtn.addEventListener("click", () => {
-            container.classList.add("right-panel-active");
-            });
+    signUpBtn.addEventListener("click", () => {
+      container.classList.add("right-panel-active");
+    });
 
-            fistForm.addEventListener("submit", (e) => e.preventDefault());
-            secondForm.addEventListener("submit", (e) => e.preventDefault());
-        </script>
-    </th:block>
-</th:block>
+    // 페이지가 로드될 때 로그인 폼이 먼저 보이도록 설정
+    document.addEventListener("DOMContentLoaded", () => {
+      container.classList.remove("right-panel-active");
+    });
+</script>
+</body>
+</html>
