@@ -218,6 +218,7 @@ body {
   white-space: nowrap;
 }
 
+/* 회원가입 폼 애니메이션 수정 */
 @keyframes show {
   0%,
   49.99% {

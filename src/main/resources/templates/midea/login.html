@@ -12,14 +12,14 @@
 <div class="container" th:classappend="${formType} == 'signup' ? ' right-panel-active' : ''">
     <!-- Sign Up 폼 -->
     <div class="container__form container--signup">
-        <form th:action="@{/midea/signup}" th:object="${user}" method="post" class="form" id="form1">
+        <form th:action="@{/midea/signup}" th:object="${user}" method="post" class="form" id="form1" onsubmit="return validateForm()">
             <h2 class="form__title">Sign Up</h2>
             <input type="text" th:field="*{nickname}" placeholder="Nickname" class="input" oninput="validateNickname(this)"/>
-            <div th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" id="nicknameError" class="error-message"></div>
+            <div id="nicknameError" class="error-message"></div>
             <input type="email" th:field="*{email}" placeholder="Email" class="input" oninput="validateEmail(this)"/>
-            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" id="emailError" class="error-message"></div>
+            <div id="emailError" class="error-message"></div>
             <input type="password" th:field="*{password}" placeholder="Password" class="input" oninput="validatePassword(this)"/>
-            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" id="passwordError" class="error-message"></div>
+            <div id="passwordError" class="error-message"></div>
             <h3>How Do You Feel Today?</h3>
             <div class="checkbox-grid">
                 <div>
@@ -86,54 +86,108 @@
     const container = document.querySelector(".container");
 
     signInBtn.addEventListener("click", () => {
-      container.classList.remove("right-panel-active");
+        container.classList.remove("right-panel-active");
     });
 
     signUpBtn.addEventListener("click", () => {
-      container.classList.add("right-panel-active");
+        container.classList.add("right-panel-active");
+
+        // Sign Up 버튼 클릭 시 실시간 검증 함수 추가
+        document.querySelector("input[th\\:field='*{nickname}']").addEventListener("input", function() {
+            validateNickname(this);
+        });
+        document.querySelector("input[th\\:field='*{email}']").addEventListener("input", function() {
+            validateEmail(this);
+        });
+        document.querySelector("input[th\\:field='*{password}']").addEventListener("input", function() {
+            validatePassword(this);
+        });
     });
 
-    // 페이지 로드 시 초기화
-    document.addEventListener("DOMContentLoaded", () => {
-        // formType 값에 따라 올바른 패널 활성화
-        if ([[${formType == 'signup'}]]) {
-            container.classList.add("right-panel-active");
-        } else {
-            container.classList.remove("right-panel-active");
-        }
-    });
+    // AJAX 요청을 사용하여 닉네임 중복 확인
+    function checkNicknameAvailability(nickname, callback) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", `/midea/check-nickname?nickname=${encodeURIComponent(nickname)}`, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                callback(xhr.responseText === 'true');
+            }
+        };
+        xhr.send();
+    }
+
+    // AJAX 요청을 사용하여 이메일 중복 확인
+    function checkEmailAvailability(email, callback) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", `/midea/check-email?email=${encodeURIComponent(email)}`, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                callback(xhr.responseText === 'true');
+            }
+        };
+        xhr.send();
+    }
 
     // 실시간 검증 함수 - 닉네임
     function validateNickname(input) {
-      const nicknameError = document.getElementById("nicknameError");
-      if (input.value.trim() === "") {
-        nicknameError.textContent = "Nickname is mandatory";
-      } else {
-        nicknameError.textContent = "";
-      }
+        const nicknameError = document.getElementById("nicknameError");
+        if (input.value.trim() === "") {
+            nicknameError.textContent = "Nickname is mandatory";
+            return false;
+        } else {
+            checkNicknameAvailability(input.value.trim(), function(isDuplicate) {
+                if (isDuplicate) {
+                    nicknameError.textContent = "Nickname already exists";
+                } else {
+                    nicknameError.textContent = "";
+                }
+            });
+            return true;
+        }
     }
 
     // 실시간 검증 함수 - 이메일
     function validateEmail(input) {
-      const emailError = document.getElementById("emailError");
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (input.value.trim() === "") {
-        emailError.textContent = "Email is mandatory";
-      } else if (!emailPattern.test(input.value.trim())) {
-        emailError.textContent = "Email should be valid";
-      } else {
-        emailError.textContent = "";
-      }
+        const emailError = document.getElementById("emailError");
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (input.value.trim() === "") {
+            emailError.textContent = "Email is mandatory";
+            return false;
+        } else if (!emailPattern.test(input.value.trim())) {
+            emailError.textContent = "Email should be valid";
+            return false;
+        } else {
+            checkEmailAvailability(input.value.trim(), function(isDuplicate) {
+                if (isDuplicate) {
+                    emailError.textContent = "Email already exists";
+                } else {
+                    emailError.textContent = "";
+                }
+            });
+            return true;
+        }
     }
 
     // 실시간 검증 함수 - 비밀번호
     function validatePassword(input) {
-      const passwordError = document.getElementById("passwordError");
-      if (input.value.trim().length < 6) {
-        passwordError.textContent = "Password must be at least 6 characters long";
-      } else {
-        passwordError.textContent = "";
-      }
+        const passwordError = document.getElementById("passwordError");
+        if (input.value.trim().length < 6) {
+            passwordError.textContent = "Password must be at least 6 characters long";
+            return false;
+        } else {
+            passwordError.textContent = "";
+            return true;
+        }
+    }
+
+    // 폼 전체 검증 함수
+    function validateForm() {
+        const nicknameValid = validateNickname(document.querySelector("input[th\\:field='*{nickname}']"));
+        const emailValid = validateEmail(document.querySelector("input[th\\:field='*{email}']"));
+        const passwordValid = validatePassword(document.querySelector("input[th\\:field='*{password}']"));
+
+        // 모든 필드가 유효한 경우에만 폼을 제출합니다.
+        return nicknameValid && emailValid && passwordValid;
     }
 </script>
 </body>
