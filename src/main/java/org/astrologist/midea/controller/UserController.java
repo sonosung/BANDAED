@@ -33,11 +33,11 @@ public class UserController {
         }
         try {
             if (userService.isEmailExist(userDTO.getEmail())) {
-                return handleFormErrors(model, userDTO, "signup", "Email already exists.");
+                return handleFormErrors(model, userDTO, "signup", "이메일이 이미 존재합니다.");
             }
 
             if (userService.isNicknameExist(userDTO.getNickname())) {
-                return handleFormErrors(model, userDTO, "signup", "Nickname already exists.");
+                return handleFormErrors(model, userDTO, "signup", "닉네임이 이미 존재합니다.");
             }
 
             // UserDTO를 User 엔티티로 변환하여 저장
