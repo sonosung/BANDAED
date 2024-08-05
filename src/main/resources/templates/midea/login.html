@@ -58,7 +58,7 @@
             <h2 class="form__title">Sign In</h2>
             <input type="email" name="email" placeholder="Email" class="input"/>
             <input type="password" name="password" placeholder="Password" class="input"/>
-            <a href="#" class="link">Forgot your password?</a>
+            <a href="#" class="link" id="forgotPasswordLink">Forgot your password?</a>
             <div th:if="${signinError}" class="error-message" th:text="${signinError}"></div>
             <button class="btn" type="submit">Sign In</button>
         </form>
@@ -189,6 +189,12 @@
         // 모든 필드가 유효한 경우에만 폼을 제출합니다.
         return nicknameValid && emailValid && passwordValid;
     }
+
+    // 비밀번호 찾기 팝업을 열기 위한 스크립트
+    document.getElementById('forgotPasswordLink').addEventListener('click', function(event) {
+        event.preventDefault();
+        window.open('/midea/forgot-password-popup', 'Find Password', 'width=400,height=400');
+    });
 </script>
 </body>
 </html>

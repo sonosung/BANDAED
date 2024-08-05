@@ -5,12 +5,15 @@ import org.astrologist.midea.entity.User;
 import org.astrologist.midea.service.UserService;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/midea")
@@ -74,6 +77,28 @@ public class UserController {
     @ResponseBody
     public boolean checkEmail(@RequestParam String email) {
         return userService.isEmailExist(email);
+    }
+
+    // 비밀번호 찾기 팝업을 위한 엔드포인트
+    @GetMapping("/forgot-password-popup")
+    public String showForgotPasswordPopup() {
+        return "midea/forgot-password-popup"; // forgot-password-popup 뷰 반환
+    }
+
+    // 이메일과 닉네임으로 비밀번호를 재설정하는 엔드포인트
+    @PostMapping("/forgot-password")
+    @ResponseBody
+    public ResponseEntity<String> forgotPassword(@RequestBody Map<String, String> payload) {
+        String email = payload.get("email");
+        String nickname = payload.get("nickname");
+
+        String newPassword = userService.resetPassword(email, nickname);
+        if (newPassword != null) {
+            // 새로운 비밀번호를 사용자가 확인할 수 있도록 반환 (실제 서비스에서는 이메일로 전송)
+            return ResponseEntity.ok(newPassword);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No matching user found.");
+        }
     }
 
     private String handleFormErrors(Model model, UserDTO userDTO, String formType, String errorMessage) {
