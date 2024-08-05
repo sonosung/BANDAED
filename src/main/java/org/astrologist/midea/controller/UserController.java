@@ -3,6 +3,7 @@ package org.astrologist.midea.controller;
 import org.astrologist.midea.dto.UserDTO;
 import org.astrologist.midea.entity.User;
 import org.astrologist.midea.service.UserService;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,7 +54,7 @@ public class UserController {
         try {
             User user = userService.findByEmail(email);
 
-            if (user == null || !user.getPassword().equals(password)) {
+            if (user == null || !BCrypt.checkpw(password, user.getPassword())) {
                 return handleFormErrors(model, new UserDTO(), "signin", "이메일 혹은 패스워드가 일치하지 않습니다.");
             }
 
