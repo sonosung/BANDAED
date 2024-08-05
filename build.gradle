@@ -47,7 +47,8 @@ dependencies {
 	implementation group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '3.3.0'
 
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
-
+// Validation Starter 추가
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	annotationProcessor(
 
 			"jakarta.persistence:jakarta.persistence-api",

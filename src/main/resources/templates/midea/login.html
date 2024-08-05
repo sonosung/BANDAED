@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <title>Login</title>
     <link th:href="@{/css/login.css}" rel="stylesheet">
 </head>
 
@@ -8,15 +9,17 @@
 <th:block th:replace="~{/default/fragments/header}"></th:block>
 
 <body>
-<div class="container">
-    <!-- Sign Up -->
+<div class="container" th:classappend="${formType} == 'signup' ? ' right-panel-active' : ''">
+    <!-- Sign Up 폼 -->
     <div class="container__form container--signup">
-        <form th:action="@{/signup}" th:object="${user}" method="post" class="form" id="form1">
+        <form th:action="@{/midea/signup}" th:object="${user}" method="post" class="form" id="form1">
             <h2 class="form__title">Sign Up</h2>
-            <div th:if="${error}" class="error-message" th:text="${error}"></div>
-            <input type="text" th:field="*{nickname}" placeholder="Nickname" class="input"/>
-            <input type="email" th:field="*{email}" placeholder="Email" class="input"/>
-            <input type="password" th:field="*{password}" placeholder="Password" class="input"/>
+            <input type="text" th:field="*{nickname}" placeholder="Nickname" class="input" oninput="validateNickname(this)"/>
+            <div th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" id="nicknameError" class="error-message"></div>
+            <input type="email" th:field="*{email}" placeholder="Email" class="input" oninput="validateEmail(this)"/>
+            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" id="emailError" class="error-message"></div>
+            <input type="password" th:field="*{password}" placeholder="Password" class="input" oninput="validatePassword(this)"/>
+            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" id="passwordError" class="error-message"></div>
             <h3>How Do You Feel Today?</h3>
             <div class="checkbox-grid">
                 <div>
@@ -44,19 +47,20 @@
                     <label for="Energetic">Energetic</label>
                 </div>
             </div>
-            <button class="btn">Sign Up</button>
+            <div th:if="${signupError}" class="error-message" th:text="${signupError}"></div>
+            <button class="btn" type="submit">Sign Up</button>
         </form>
     </div>
 
-    <!-- Sign In -->
+    <!-- Sign In 폼 -->
     <div class="container__form container--signin">
-        <form th:action="@{/signin}" method="post" class="form" id="form2">
+        <form th:action="@{/midea/signin}" method="post" class="form" id="form2">
             <h2 class="form__title">Sign In</h2>
-            <div th:if="${error}" class="error-message" th:text="${error}"></div>
             <input type="email" name="email" placeholder="Email" class="input"/>
             <input type="password" name="password" placeholder="Password" class="input"/>
             <a href="#" class="link">Forgot your password?</a>
-            <button class="btn">Sign In</button>
+            <div th:if="${signinError}" class="error-message" th:text="${signinError}"></div>
+            <button class="btn" type="submit">Sign In</button>
         </form>
     </div>
 
@@ -74,8 +78,11 @@
 </div>
 
 <script th:inline="javascript">
+    // Sign In 버튼 클릭 시 동작
     const signInBtn = document.getElementById("signIn");
+    // Sign Up 버튼 클릭 시 동작
     const signUpBtn = document.getElementById("signUp");
+    // 컨테이너 요소 가져오기
     const container = document.querySelector(".container");
 
     signInBtn.addEventListener("click", () => {
@@ -86,10 +93,48 @@
       container.classList.add("right-panel-active");
     });
 
-    // 페이지가 로드될 때 로그인 폼이 먼저 보이도록 설정
+    // 페이지 로드 시 초기화
     document.addEventListener("DOMContentLoaded", () => {
-      container.classList.remove("right-panel-active");
+        // formType 값에 따라 올바른 패널 활성화
+        if ([[${formType == 'signup'}]]) {
+            container.classList.add("right-panel-active");
+        } else {
+            container.classList.remove("right-panel-active");
+        }
     });
+
+    // 실시간 검증 함수 - 닉네임
+    function validateNickname(input) {
+      const nicknameError = document.getElementById("nicknameError");
+      if (input.value.trim() === "") {
+        nicknameError.textContent = "Nickname is mandatory";
+      } else {
+        nicknameError.textContent = "";
+      }
+    }
+
+    // 실시간 검증 함수 - 이메일
+    function validateEmail(input) {
+      const emailError = document.getElementById("emailError");
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (input.value.trim() === "") {
+        emailError.textContent = "Email is mandatory";
+      } else if (!emailPattern.test(input.value.trim())) {
+        emailError.textContent = "Email should be valid";
+      } else {
+        emailError.textContent = "";
+      }
+    }
+
+    // 실시간 검증 함수 - 비밀번호
+    function validatePassword(input) {
+      const passwordError = document.getElementById("passwordError");
+      if (input.value.trim().length < 6) {
+        passwordError.textContent = "Password must be at least 6 characters long";
+      } else {
+        passwordError.textContent = "";
+      }
+    }
 </script>
 </body>
 </html>
