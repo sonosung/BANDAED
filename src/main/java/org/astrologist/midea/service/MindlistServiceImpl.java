@@ -76,6 +76,7 @@ public class MindlistServiceImpl implements MindlistService {
             Mindlist entity = result.get();
 
             entity.changeComposer(dto.getComposer());
+            entity.changeTitle(dto.getTitle());
             entity.changeUrl(dto.getUrl());
 
             repository.save(entity);
@@ -108,8 +109,8 @@ public class MindlistServiceImpl implements MindlistService {
         if(type.contains("c")){
             conditionBuilder.or(qMindlist.composer.contains(keyword));
         }
-        if(type.contains("u")){
-            conditionBuilder.or(qMindlist.url.contains(keyword));
+        if(type.contains("t")){
+            conditionBuilder.or(qMindlist.title.contains(keyword));
         }
         if(type.contains("w")){
             conditionBuilder.or(qMindlist.writer.contains(keyword));

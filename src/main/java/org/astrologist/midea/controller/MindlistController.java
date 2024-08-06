@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
-@RequestMapping("/wooxtravel")
+@RequestMapping("/midea")
 @Log4j2
 @RequiredArgsConstructor //자동 주입을 위한 Annotation
 public class MindlistController {
@@ -26,11 +26,11 @@ public class MindlistController {
         log.info("mindlist......................");
     }
 
-    private final MindlistService service; //MindlistService 인터페이스를 final로 구현.
+    private final MindlistService mindlistService; //MindlistService 인터페이스를 final로 구현.
 
     @GetMapping("/")
     public String index() {
-        return "redirect:/wooxtravel/index";
+        return "redirect:/midea/index";
 
     }
 
@@ -39,63 +39,62 @@ public class MindlistController {
 
         log.info("list......................" + pageRequestDTO);
 
-        model.addAttribute("result", service.getList(pageRequestDTO));
+        model.addAttribute("result", mindlistService.getList(pageRequestDTO));
 
     }
 
-    @GetMapping("/register")
+    @GetMapping("/mlRegister")
     public void register(){
-        log.info("register get...");
+        log.info("mlRegister get...");
     }
 
-    @PostMapping("/register")
-    public String registerPost(MindlistDTO dto, RedirectAttributes redirectAttributes){
+    @PostMapping("/mlRegister")
+    public String register(MindlistDTO dto, RedirectAttributes redirectAttributes){
         log.info("dto....." + dto);
 
         //새로 추가된 엔티티의 번호
-        Long mno = service.register(dto);
+        Long mno = mindlistService.register(dto);
 
         redirectAttributes.addFlashAttribute("msg", mno);
 
-        return "redirect:/wooxtravel/mindlist";
+        return "redirect:/midea/mindlist";
     }
 
-    //    @GetMapping("/read")
-    @GetMapping({"/read", "/modify"}) //수정과 삭제 모두 read()가 필요하므로, 한번에 맵핑ㄹ
+    @GetMapping({"/mlread", "/mlmodify"}) //수정과 삭제 모두 read()가 필요하므로, 한번에 맵핑
     public void read(long mno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
         log.info("mno: " + mno);
 
-        MindlistDTO dto = service.read(mno);
+        MindlistDTO dto = mindlistService.read(mno);
 
         model.addAttribute("dto", dto);
     }
 
-    @PostMapping("/remove")
+    @PostMapping("/mlremove")
     public String remove(long mno, RedirectAttributes redirectAttributes){
 
         log.info("mno: " + mno);
 
-        service.remove(mno);
+        mindlistService.remove(mno);
 
         redirectAttributes.addFlashAttribute("msg", mno);
 
-        return "redirect:/wooxtravel/mindlist";
+        return "redirect:/midea/mindlist";
     }
 
-    @PostMapping("/modify")
+    @PostMapping("/mlmodify")
     public String modify(MindlistDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes) {
 
         log.info("post modify................................................");
         log.info("dto: " + dto);
 
-        service.modify(dto);
+        mindlistService.modify(dto);
 
         redirectAttributes.addAttribute("page", requestDTO.getPage());
         redirectAttributes.addAttribute("type", requestDTO.getType());
         redirectAttributes.addAttribute("keyword", requestDTO.getKeyword());
         redirectAttributes.addAttribute("mno", dto.getMno());
 
-        return "redirect:/wooxtravel/read";
+        return "redirect:/midea/mlread";
     }
 
 }

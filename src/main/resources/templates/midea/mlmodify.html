@@ -1,19 +1,40 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<th:block th:replace="~{/layout/basic :: setContent(~{this::content} )}">
+<th:block th:replace="~{/layout/wooxtravel :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
-        <h1 class="mt-4">midea Modify Page</h1>
 
-        <form action="/midea/modify" method="post">
+        <div class="page-heading">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4>Discover Our Weekly Offers</h4>
+                        <h2>Amazing Prices &amp; More</h2>
+                        <div class="border-button"><a href="about.html">Discover More</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 offset-lg-3">
+
+        <h1 class="mt-4">Mindlist Modify Page</h1>
+
+        <form action="/midea/mlmodify" method="post">
             <!-- 페이지 번호 -->
             <input type="hidden" name="page" th:value="${requestDTO.page}">
             <input type="hidden" name="type" th:value="${requestDTO.type}">
             <input type="hidden" name="keyword" th:value="${requestDTO.keyword}">
 
             <div class="form-group">
-                <label>Gno</label>
-                <input type="text" class="form-control" name="gno" th:value="${dto.gno}" readonly>
+                <label>Mno</label>
+                <input type="text" class="form-control" name="mno" th:value="${dto.mno}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Composer</label>
+                <input type="text" class="form-control" name="composer" th:value="${dto.composer}" >
             </div>
 
             <div class="form-group">
@@ -23,7 +44,7 @@
 
             <div class="form-group">
                 <label>Content</label>
-                <textarea class="form-control" rows="5" name="content" >[[${dto.content}]]</textarea>
+                <textarea class="form-control" rows="5" name="url" >[[${dto.url}]]</textarea>
             </div>
 
             <div class="form-group">
@@ -44,10 +65,9 @@
         </form>
 
         <button type="button" class="btn btn-primary modifyBtn">Modify</button>
-
         <button type="button" class="btn btn-info listBtn">List</button>
-
         <button type="button" class="btn btn-danger removeBtn">Remove</button>
+        </div>
 
         <script th:inline="javascript">
 
@@ -56,7 +76,7 @@
             $(".removeBtn").click(function(){
 
                 actionForm
-                .attr("action", "/midea/remove")
+                .attr("action", "/midea/mlremove")
                 .attr("method", "post");
 
                 actionForm.submit();
@@ -70,7 +90,7 @@
             }
 
             actionForm
-                .attr("action", "/midea/modify")
+                .attr("action", "/midea/mlmodify")
                 .attr("method", "post")
                 .submit();
             });
@@ -90,13 +110,14 @@
             actionForm.append(keyword);
 
             actionForm
-                .attr("action", "/midea/list")
+                .attr("action", "/midea/mindlist")
                 .attr("method", "get");
             console.log(actionForm.html()); // 먼저 확인후에 주석 처리
             actionForm.submit();
 
             });
         </script>
+
     </th:block>
 
 </th:block>

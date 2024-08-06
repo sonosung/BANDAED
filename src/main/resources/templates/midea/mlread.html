@@ -1,12 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<<th:block th:replace="~{/layout/basic :: setContent(~{this::content} )}">
+<<th:block th:replace="~{/layout/wooxtravel :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
-        <h1 class="mt-4">midea Read Page</h1>
+
+        <div class="page-heading">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4>Discover Our Weekly Offers</h4>
+                        <h2>Amazing Prices &amp; More</h2>
+                        <div class="border-button"><a href="about.html">Discover More</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 offset-lg-3">
+        <h1 class="mt-4">Mindlist Read Page</h1>
 
         <div class="form-group">
-            <label>Gno</label>
-            <input type="text" class="form-control" name="gno" th:value="${dto.gno}" readonly>
+            <label>Mno</label>
+            <input type="text" class="form-control" name="mno" th:value="${dto.mno}" readonly>
+        </div>
+
+        <div class="form-group">
+            <label>Composer</label>
+            <input type="text" class="form-control" name="composer" th:value="${dto.composer}" readonly>
         </div>
 
         <div class="form-group">
@@ -16,7 +35,7 @@
 
         <div class="form-group">
             <label>Content</label>
-            <textarea class="form-control" rows="5" name="content" readonly>[[${dto.content}]]</textarea>
+            <textarea class="form-control" rows="5" name="content" readonly>[[${dto.url}]]</textarea>
         </div>
 
         <div class="form-group">
@@ -34,7 +53,7 @@
             <input type="text" class="form-control" name="modDate" th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
         </div>
 
-        <a th:href="@{/midea/modify(gno = ${dto.gno},
+        <a th:href="@{/midea/mlmodify(mno = ${dto.mno},
         page=${requestDTO.page},
         type=${requestDTO.type},
         keyword=${requestDTO.keyword}
@@ -42,13 +61,13 @@
             <button type="button" class="btn btn-primary">Modify</button>
         </a>
 
-        <a th:href="@{/midea/list(
+        <a th:href="@{/midea/mindlist(
         page=${requestDTO.page},
         type=${requestDTO.type},
         keyword=${requestDTO.keyword}
         )}">
             <button type="button" class="btn btn-info">List</button>
         </a>
-
+        </div>
     </th:block>
 </th:block>

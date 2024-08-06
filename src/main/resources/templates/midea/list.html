@@ -75,7 +75,7 @@
             </span>
         </h1>
 
-        <form action="/midea/list" method="get" id="searchForm">
+        <form action="/midea/mindlist" method="get" id="searchForm">
             <div class="input-group">
 
                 <input type="hidden" name="page" value="1">
@@ -103,6 +103,7 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
+                <th scope="col">Composer</th>
                 <th scope="col">Title</th>
                 <th scope="col">Writer</th>
                 <th scope="col">RegDate</th>
@@ -113,14 +114,15 @@
 
         <tr th:each="dto : ${result.dtoList}" >
             <th scope="row">
-                <a th:href="@{/midea/read(gno = ${dto.gno},
+                <a th:href="@{/midea/read(gno = ${dto.mno},
                 page=${result.page},
                 type = ${pageRequestDTO.type},
                 keyword = ${pageRequestDTO.keyword}
                 )}">
-                [[${dto.gno}]]
+                [[${dto.mno}]]
                 </a>
             </th>
+            <td>[[${dto.composer}]]</td>
             <td>[[${dto.title}]]</td>
             <td>[[${dto.writer}]]</td>
             <td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>

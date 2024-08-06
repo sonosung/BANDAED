@@ -18,6 +18,9 @@ public class Mindlist extends BaseEntity {
     @Column(length = 100, nullable = false)
     private String composer;
 
+    @Column(length = 100, nullable = false)
+    private String title;
+
     @Column(length = 1500, nullable = false)
     private String url;
 
@@ -28,7 +31,12 @@ public class Mindlist extends BaseEntity {
         this.composer = composer;
     }
 
+    public void changeTitle(String title){
+        this.title = title;
+    }
+
     public void changeUrl(String url){
         this.url = url;
     }
+
 }

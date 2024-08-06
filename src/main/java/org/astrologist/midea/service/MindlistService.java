@@ -20,6 +20,7 @@ public interface MindlistService {
         Mindlist entity = Mindlist.builder()
                 .mno(dto.getMno())
                 .composer(dto.getComposer())
+                .title(dto.getTitle())
                 .url(dto.getUrl())
                 .writer(dto.getWriter())
                 .build();
@@ -31,6 +32,7 @@ public interface MindlistService {
         MindlistDTO dto = MindlistDTO.builder()
                 .mno(entity.getMno())
                 .composer(entity.getComposer())
+                .title(entity.getTitle())
                 .url(entity.getUrl())
                 .writer(entity.getWriter())
                 .regDate(entity.getRegDate())
