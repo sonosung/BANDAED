@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor //자동 주입을 위한 Annotation
 public class MindlistController {
 
-    @GetMapping({"/home", "/mindlist", "/community", "/contact", "/about", /*"/login",*/ "/index"})
+    @GetMapping({"/home", "/mindlist", "/community", "/contact", "/about", "/login", "/index"})
     public void mindlist(){
 
         log.info("midea......................");
