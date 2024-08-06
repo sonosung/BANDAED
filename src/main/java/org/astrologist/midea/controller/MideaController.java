@@ -2,11 +2,9 @@ package org.astrologist.midea.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.astrologist.midea.dto.MindlistDTO;
 import org.astrologist.midea.dto.PageRequestDTO;
 import org.astrologist.midea.dto.GuestbookDTO;
 import org.astrologist.midea.service.GuestbookService;
-import org.astrologist.midea.service.MindlistService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,11 +23,10 @@ public class MideaController {
     @GetMapping({"/home"})
     public void midea(){
 
-        log.info("midea......................");
+        log.info("home......................");
     }
 
     private final GuestbookService service; //GuestBookService 인터페이스를 final로 구현.
-    private final MindlistService mindlistService;
 
     @GetMapping("/list")
     public void list(PageRequestDTO pageRequestDTO, Model model){
