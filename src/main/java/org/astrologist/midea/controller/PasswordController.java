@@ -20,7 +20,7 @@ public class PasswordController {
     // 비밀번호 찾기 팝업을 위한 엔드포인트
     @GetMapping("/forgot-password-popup")
     public String showForgotPasswordPopup() {
-        return "midea/forgot-password-popup"; // forgot-password-popup 뷰 반환
+        return "userauth/forgot-password-popup"; // forgot-password-popup 뷰 반환
     }
 
     // 이메일과 닉네임으로 비밀번호를 재설정하는 엔드포인트

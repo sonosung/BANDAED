@@ -3,8 +3,8 @@ package org.astrologist.midea.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.astrologist.midea.dto.PageRequestDTO;
-import org.astrologist.midea.dto.GuestbookDTO;
-import org.astrologist.midea.service.GuestbookService;
+import org.astrologist.midea.dto.MindlistDTO;
+import org.astrologist.midea.service.MindlistService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,26 +15,26 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
-@RequestMapping("/mindlist")
+@RequestMapping("/wooxtravel")
 @Log4j2
 @RequiredArgsConstructor //자동 주입을 위한 Annotation
 public class MindlistController {
 
-    @GetMapping({"/home", "/mindlist", "/community", "/contact", "/about"/*,"/login"*/, "/index"})
+    @GetMapping({"/index", "/community", "/contact", "/about"})
     public void mindlist(){
 
-        log.info("midea......................");
+        log.info("mindlist......................");
     }
 
-    private final GuestbookService service; //GuestBookService 인터페이스를 final로 구현.
+    private final MindlistService service; //MindlistService 인터페이스를 final로 구현.
 
     @GetMapping("/")
     public String index() {
-        return "redirect:/midea/home";
+        return "redirect:/wooxtravel/index";
 
     }
 
-    @GetMapping("/list")
+    @GetMapping("/mindlist")
     public void list(PageRequestDTO pageRequestDTO, Model model){
 
         log.info("list......................" + pageRequestDTO);
@@ -49,41 +49,41 @@ public class MindlistController {
     }
 
     @PostMapping("/register")
-    public String registerPost(GuestbookDTO dto, RedirectAttributes redirectAttributes){
+    public String registerPost(MindlistDTO dto, RedirectAttributes redirectAttributes){
         log.info("dto....." + dto);
 
         //새로 추가된 엔티티의 번호
-        Long gno = service.register(dto);
+        Long mno = service.register(dto);
 
-        redirectAttributes.addFlashAttribute("msg", gno);
+        redirectAttributes.addFlashAttribute("msg", mno);
 
-        return "redirect:/midea/list";
+        return "redirect:/wooxtravel/mindlist";
     }
 
     //    @GetMapping("/read")
     @GetMapping({"/read", "/modify"}) //수정과 삭제 모두 read()가 필요하므로, 한번에 맵핑ㄹ
-    public void read(long gno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
-        log.info("gno: " + gno);
+    public void read(long mno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
+        log.info("mno: " + mno);
 
-        GuestbookDTO dto = service.read(gno);
+        MindlistDTO dto = service.read(mno);
 
         model.addAttribute("dto", dto);
     }
 
     @PostMapping("/remove")
-    public String remove(long gno, RedirectAttributes redirectAttributes){
+    public String remove(long mno, RedirectAttributes redirectAttributes){
 
-        log.info("gno: " + gno);
+        log.info("mno: " + mno);
 
-        service.remove(gno);
+        service.remove(mno);
 
-        redirectAttributes.addFlashAttribute("msg", gno);
+        redirectAttributes.addFlashAttribute("msg", mno);
 
-        return "redirect:/midea/list";
+        return "redirect:/wooxtravel/mindlist";
     }
 
     @PostMapping("/modify")
-    public String modify(GuestbookDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes) {
+    public String modify(MindlistDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes) {
 
         log.info("post modify................................................");
         log.info("dto: " + dto);
@@ -93,9 +93,9 @@ public class MindlistController {
         redirectAttributes.addAttribute("page", requestDTO.getPage());
         redirectAttributes.addAttribute("type", requestDTO.getType());
         redirectAttributes.addAttribute("keyword", requestDTO.getKeyword());
-        redirectAttributes.addAttribute("gno", dto.getGno());
+        redirectAttributes.addAttribute("mno", dto.getMno());
 
-        return "redirect:/midea/read";
+        return "redirect:/wooxtravel/read";
     }
 
 }

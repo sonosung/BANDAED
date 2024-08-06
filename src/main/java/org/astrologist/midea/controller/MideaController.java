@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor //자동 주입을 위한 Annotation
 public class MideaController {
 
-    @GetMapping({"/home", "/mindlist", "/community", "/contact", "/about"/*,"/login"*/, "/index"})
+    @GetMapping({"/home", "/mindlist", "/community", "/contact", "/about", "/index"})
     public void midea(){
 
         log.info("midea......................");
@@ -30,7 +30,7 @@ public class MideaController {
 
     @GetMapping("/")
     public String index() {
-        return "redirect:/midea/home";
+        return "redirect:/midea/index";
 
     }
 

@@ -24,7 +24,7 @@ public class UserController {
     public String showLoginForm(Model model) {
         model.addAttribute("user", new UserDTO()); // 새로운 사용자 DTO 객체를 모델에 추가
         model.addAttribute("formType", "signin"); // 기본 폼 유형을 로그인 폼으로 설정
-        return "midea/login"; // login 뷰 반환
+        return "userauth/login"; // login 뷰 반환
     }
 
     // 회원가입 폼 제출을 처리하는 엔드포인트
@@ -96,6 +96,6 @@ public class UserController {
         } else if ("signin".equals(formType) && errorMessage != null) {
             model.addAttribute("signinError", errorMessage); // 로그인 에러 메시지 설정
         }
-        return "midea/login"; // 로그인 뷰 반환
+        return "userauth/login"; // 로그인 뷰 반환
     }
 }
