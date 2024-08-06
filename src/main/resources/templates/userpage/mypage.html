@@ -14,6 +14,7 @@
             --gray: #333333;
             --blue: #0367a6;
             --lightblue: #008997;
+            --mint: #36f5e2; /* 민트색 추가 */
             --button-radius: 0.7rem;
             font-size: 16px;
             font-family: 'Roboto', sans-serif;
@@ -52,6 +53,26 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
+        }
+
+       .logo {
+    position: absolute;
+    top: 20px; /* 살짝 아래로 이동 */
+    left: 20px; /* 살짝 오른쪽으로 이동 */
+}
+
+        .logo img {
+            width: 100px; /* 원하는 크기로 설정 */
+            height: auto;
+        }
+
+        .logo img:hover {
+            filter: brightness(0.8); /* hover 효과 */
+        }
+
+        .logo a {
+            color: var(--mint); /* 민트색 적용 */
         }
 
         .content-mypage-text {
@@ -213,12 +234,11 @@
 </head>
 
 <body>
-
+<a th:href="@{/midea/index}" class="logo">
+    <img th:src="@{/wooxtravel/assets/images/MIDEA.png}" alt="">
+</a>
 <div class="container">
     <div class="content-main">
-        <a th:href="@{/midea/index}" class="logo">
-            <img th:src="@{/wooxtravel/assets/images/MIDEA.png}" alt="">
-        </a>
         <div class="content-mypage-text">
             My Page
         </div>
