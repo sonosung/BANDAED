@@ -9,8 +9,8 @@
   --button-radius: 0.7rem;
 
   /* SIZES */
-  --max-width: 758px;
-  --max-height: 420px;
+  --max-width: 800px;
+  --max-height: 600px;
 
   font-size: 16px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -196,6 +196,27 @@ body {
   margin: 0.5rem 0;
   width: 100%;
 }
+/*회원가입 체크박스*/
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  align-items: center;
+  justify-items: start;
+}
+
+.checkbox-grid div {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-grid input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.checkbox-grid label {
+  white-space: nowrap;
+}
 
 @keyframes show {
   0%,
@@ -209,4 +230,10 @@ body {
     opacity: 1;
     z-index: 5;
   }
+}
+/* 경고 메시지 스타일 */
+.error-message {
+  color: red; /* 글씨 색상을 빨강으로 변경 */
+  font-size: 0.8rem; /* 글씨 크기를 조금 더 작게 설정 */
+  margin-top: 0.25rem; /* 위쪽 마진을 약간 추가 */
 }

@@ -1,70 +1,200 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <link th:href="@{/css/login.css}" rel="stylesheet">
+</head>
 
 <!--=================================================== 헤더 ===================================================-->
-<th:block th:replace="~{/default/fragments/header}" ></th:block>
+<th:block th:replace="~{/default/fragments/header}"></th:block>
 
-<th:block th:replace="~{/midea/login :: setContent(~{this::content} )}">
-
-    <th:block th:fragment="setContent(content)">
-
-
-
-        <link th:href="@{/css/login.css}" rel="stylesheet">
-
-        <div class="container right-panel-active" >
-            <!-- Sign Up -->
-            <div class="container__form container--signup">
-                <form action="#" class="form" id="form1">
-                    <h2 class="form__title">Sign Up</h2>
-                    <input type="text" placeholder="User" class="input"/>
-                    <input type="email" placeholder="Email" class="input"/>
-                    <input type="password" placeholder="Password" class="input"/>
-                    <button class="btn">Sign Up</button>
-                </form>
-            </div>
-
-            <!-- Sign In -->
-            <div class="container__form container--signin">
-                <form action="#" class="form" id="form2">
-                    <h2 class="form__title">Sign In</h2>
-                    <input type="email" placeholder="Email" class="input"/>
-                    <input type="password" placeholder="Password" class="input"/>
-                    <a href="#" class="link">Forgot your password?</a>
-                    <button class="btn">Sign In</button>
-                </form>
-            </div>
-
-            <!-- Overlay -->
-            <div class="container__overlay">
-                <div class="overlay">
-                    <div class="overlay__panel overlay--left">
-                        <button class="btn" id="signIn">Sign In</button>
-                    </div>
-                    <div class="overlay__panel overlay--right">
-                        <button class="btn" id="signUp">Sign Up</button>
-                    </div>
+<body>
+<div class="container" th:classappend="${formType} == 'signup' ? ' right-panel-active' : ''">
+    <!-- Sign Up 폼 -->
+    <div class="container__form container--signup">
+        <form th:action="@{/midea/signup}" th:object="${user}" method="post" class="form" id="form1" onsubmit="return validateForm()">
+            <h2 class="form__title">Sign Up</h2>
+            <input type="text" th:field="*{nickname}" placeholder="Nickname" class="input" oninput="validateNickname(this)"/>
+            <div id="nicknameError" class="error-message"></div>
+            <input type="email" th:field="*{email}" placeholder="Email" class="input" oninput="validateEmail(this)"/>
+            <div id="emailError" class="error-message"></div>
+            <input type="password" th:field="*{password}" placeholder="Password" class="input" oninput="validatePassword(this)"/>
+            <div id="passwordError" class="error-message"></div>
+            <h3>How Do You Feel Today?</h3>
+            <div class="checkbox-grid">
+                <div>
+                    <input type="checkbox" th:field="*{happy}" id="Happy"/>
+                    <label for="Happy">Happy</label>
+                </div>
+                <div>
+                    <input type="checkbox" th:field="*{sad}" id="Sad"/>
+                    <label for="Sad">Sad</label>
+                </div>
+                <div>
+                    <input type="checkbox" th:field="*{calm}" id="Calm"/>
+                    <label for="Calm">Calm</label>
+                </div>
+                <div>
+                    <input type="checkbox" th:field="*{stressed}" id="Stressed"/>
+                    <label for="Stressed">Stressed</label>
+                </div>
+                <div>
+                    <input type="checkbox" th:field="*{joyful}" id="Joyful"/>
+                    <label for="Joyful">Joyful</label>
+                </div>
+                <div>
+                    <input type="checkbox" th:field="*{energetic}" id="Energetic"/>
+                    <label for="Energetic">Energetic</label>
                 </div>
             </div>
+            <div th:if="${signupError}" class="error-message" th:text="${signupError}"></div>
+            <button class="btn" type="submit">Sign Up</button>
+        </form>
+    </div>
+
+    <!-- Sign In 폼 -->
+    <div class="container__form container--signin">
+        <form th:action="@{/midea/signin}" method="post" class="form" id="form2">
+            <h2 class="form__title">Sign In</h2>
+            <input type="email" name="email" placeholder="Email" class="input"/>
+            <input type="password" name="password" placeholder="Password" class="input"/>
+            <a href="#" class="link" id="forgotPasswordLink">Forgot your password?</a>
+            <div th:if="${signinError}" class="error-message" th:text="${signinError}"></div>
+            <button class="btn" type="submit">Sign In</button>
+        </form>
+    </div>
+
+    <!-- Overlay -->
+    <div class="container__overlay">
+        <div class="overlay">
+            <div class="overlay__panel overlay--left">
+                <button class="btn" id="signIn">Sign In</button>
+            </div>
+            <div class="overlay__panel overlay--right">
+                <button class="btn" id="signUp">Sign Up</button>
+            </div>
         </div>
+    </div>
+</div>
 
-        <script th:inline="javascript">
-            const signInBtn = document.getElementById("signIn");
-            const signUpBtn = document.getElementById("signUp");
-            const fistForm = document.getElementById("form1");
-            const secondForm = document.getElementById("form2");
-            const container = document.querySelector(".container");
+<script th:inline="javascript">
+    // Sign In 버튼 클릭 시 동작
+    const signInBtn = document.getElementById("signIn");
+    // Sign Up 버튼 클릭 시 동작
+    const signUpBtn = document.getElementById("signUp");
+    // 컨테이너 요소 가져오기
+    const container = document.querySelector(".container");
 
-            signInBtn.addEventListener("click", () => {
-              container.classList.remove("right-panel-active");
+    signInBtn.addEventListener("click", () => {
+        container.classList.remove("right-panel-active");
+    });
+
+    signUpBtn.addEventListener("click", () => {
+        container.classList.add("right-panel-active");
+
+        // Sign Up 버튼 클릭 시 실시간 검증 함수 추가
+        document.querySelector("input[th\\:field='*{nickname}']").addEventListener("input", function() {
+            validateNickname(this);
+        });
+        document.querySelector("input[th\\:field='*{email}']").addEventListener("input", function() {
+            validateEmail(this);
+        });
+        document.querySelector("input[th\\:field='*{password}']").addEventListener("input", function() {
+            validatePassword(this);
+        });
+    });
+
+    // AJAX 요청을 사용하여 닉네임 중복 확인
+    function checkNicknameAvailability(nickname, callback) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", `/midea/check-nickname?nickname=${encodeURIComponent(nickname)}`, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                callback(xhr.responseText === 'true');
+            }
+        };
+        xhr.send();
+    }
+
+    // AJAX 요청을 사용하여 이메일 중복 확인
+    function checkEmailAvailability(email, callback) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", `/midea/check-email?email=${encodeURIComponent(email)}`, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                callback(xhr.responseText === 'true');
+            }
+        };
+        xhr.send();
+    }
+
+    // 실시간 검증 함수 - 닉네임
+    function validateNickname(input) {
+        const nicknameError = document.getElementById("nicknameError");
+        if (input.value.trim() === "") {
+            nicknameError.textContent = "닉네임을 적어주세요.";
+            return false;
+        } else {
+            checkNicknameAvailability(input.value.trim(), function(isDuplicate) {
+                if (isDuplicate) {
+                    nicknameError.textContent = "닉네임이 이미 존재합니다.";
+                } else {
+                    nicknameError.textContent = "";
+                }
             });
+            return true;
+        }
+    }
 
-            signUpBtn.addEventListener("click", () => {
-            container.classList.add("right-panel-active");
+    // 실시간 검증 함수 - 이메일
+    function validateEmail(input) {
+        const emailError = document.getElementById("emailError");
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (input.value.trim() === "") {
+            emailError.textContent = "이메일을 적어주세요.";
+            return false;
+        } else if (!emailPattern.test(input.value.trim())) {
+            emailError.textContent = "이메일 형식에 맞지 않습니다.";
+            return false;
+        } else {
+            checkEmailAvailability(input.value.trim(), function(isDuplicate) {
+                if (isDuplicate) {
+                    emailError.textContent = "이메일이 이미 존재합니다.";
+                } else {
+                    emailError.textContent = "";
+                }
             });
+            return true;
+        }
+    }
 
-            fistForm.addEventListener("submit", (e) => e.preventDefault());
-            secondForm.addEventListener("submit", (e) => e.preventDefault());
-        </script>
-    </th:block>
-</th:block>
+    // 실시간 검증 함수 - 비밀번호
+    function validatePassword(input) {
+        const passwordError = document.getElementById("passwordError");
+        if (input.value.trim().length < 6) {
+            passwordError.textContent = "패스워드를 6자 이상 입력해주세요.";
+            return false;
+        } else {
+            passwordError.textContent = "";
+            return true;
+        }
+    }
+
+    // 폼 전체 검증 함수
+    function validateForm() {
+        const nicknameValid = validateNickname(document.querySelector("input[th\\:field='*{nickname}']"));
+        const emailValid = validateEmail(document.querySelector("input[th\\:field='*{email}']"));
+        const passwordValid = validatePassword(document.querySelector("input[th\\:field='*{password}']"));
+
+        // 모든 필드가 유효한 경우에만 폼을 제출합니다.
+        return nicknameValid && emailValid && passwordValid;
+    }
+
+    // 비밀번호 찾기 팝업을 열기 위한 스크립트
+    document.getElementById('forgotPasswordLink').addEventListener('click', function(event) {
+        event.preventDefault();
+        window.open('/midea/forgot-password-popup', 'Find Password', 'width=400,height=400');
+    });
+</script>
+</body>
+</html>
