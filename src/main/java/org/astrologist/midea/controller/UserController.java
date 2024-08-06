@@ -66,7 +66,7 @@ public class UserController {
                 return handleFormErrors(model, new UserDTO(), "signin", "이메일 혹은 패스워드가 일치하지 않습니다.");
             }
 
-            return "redirect:/midea/home"; // 홈 페이지로 리다이렉트
+            return "redirect:/midea/index"; // 홈 페이지로 리다이렉트
         } catch (Exception e) {
             // 기타 예외 처리
             return handleFormErrors(model, new UserDTO(), "signin", "An error occurred: " + e.getMessage());
