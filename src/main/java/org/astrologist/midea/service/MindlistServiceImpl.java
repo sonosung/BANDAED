@@ -76,6 +76,7 @@ public class MindlistServiceImpl implements MindlistService {
             Mindlist entity = result.get();
 
             entity.changeComposer(dto.getComposer());
+            entity.changeContent(dto.getContent());
             entity.changeTitle(dto.getTitle());
             entity.changeUrl(dto.getUrl());
 

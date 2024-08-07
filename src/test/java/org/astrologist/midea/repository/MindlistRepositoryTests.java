@@ -24,12 +24,13 @@ public class MindlistRepositoryTests {
 
     @Test
     public void insertDummies() {
-        IntStream.rangeClosed(1,10).forEach(i-> {
+        IntStream.rangeClosed(1,5).forEach(i-> {
 
             Mindlist mindlist = Mindlist.builder()
                     .composer("composer"+i)
                     .title("Title...." + i)
                     .url("usl..." +i)
+                    .content("content.."+i)
                     .writer("user" + (i % 10))
                     .build();
             System.out.println(mindlistRepository.save(mindlist));
@@ -46,8 +47,9 @@ public class MindlistRepositoryTests {
             Mindlist mindlist = result.get();
 
             mindlist.changeComposer("Composer has changed..");
-            mindlist.changeUrl("Content has changed..");
+            mindlist.changeUrl("URL has changed..");
             mindlist.changeTitle("Title has changed..");
+            mindlist.changeContent(("content has changed.."));
 
             mindlistRepository.save(mindlist);
 

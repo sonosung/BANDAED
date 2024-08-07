@@ -17,6 +17,7 @@ public class MindlistDTO {
     private Long mno;
     private String composer;
     private String title;
+    private String content;
     private String url;
     private String writer;
     private LocalDateTime regDate, modDate;

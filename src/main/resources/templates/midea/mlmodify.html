@@ -43,8 +43,13 @@
             </div>
 
             <div class="form-group">
+                <label>URL</label>
+                <input type="text" class="form-control" name="url" th:value="${dto.url}" >
+            </div>
+
+            <div class="form-group">
                 <label>Content</label>
-                <textarea class="form-control" rows="5" name="url" >[[${dto.url}]]</textarea>
+                <textarea class="form-control" rows="5" name="content" >[[${dto.content}]]</textarea>
             </div>
 
             <div class="form-group">
