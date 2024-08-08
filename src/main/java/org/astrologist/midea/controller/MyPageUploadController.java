@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/midea")
@@ -39,7 +40,7 @@ public class MyPageUploadController {
     }
 
     @PostMapping("/mypage-upload")
-    public String updateMypage(MyPageUploadDTO myPageUploadDTO, MultipartFile profileImage) {
+    public String updateMypage(MyPageUploadDTO myPageUploadDTO, MultipartFile profileImage, RedirectAttributes redirectAttributes) {
         User loggedInUser = (User) session.getAttribute("user");
         if (loggedInUser == null) {
             return "redirect:/midea/login";
@@ -48,6 +49,7 @@ public class MyPageUploadController {
         try {
             myPageUploadService.updateUser(myPageUploadDTO, profileImage, loggedInUser.getId());
             session.setAttribute("user", myPageUploadService.findById(loggedInUser.getId()));
+            redirectAttributes.addFlashAttribute("successMessage", "회원정보 수정 완료했습니다!");
             return "redirect:/midea/mypage";
         } catch (Exception e) {
             e.printStackTrace();

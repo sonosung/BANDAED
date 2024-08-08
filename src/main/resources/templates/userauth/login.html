@@ -199,6 +199,12 @@
         event.preventDefault();
         window.open('/midea/forgot-password-popup', 'Find Password', 'width=400,height=400');
     });
+
+        /* 회원가입 성공 시 메시지 표시 */
+    if (/*[[${signupSuccess}]]*/) {
+        alert('회원가입에 성공했습니다!');
+    }
+
 </script>
 </body>
 </html>

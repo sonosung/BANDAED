@@ -16,6 +16,9 @@ public class MyPageUploadService {
     @Autowired
     private MyPageUploadRepository myPageUploadRepository;
 
+    // 파일 업로드 경로를 설정합니다. 여기서는 프로젝트의 루트 디렉토리에 저장합니다.
+    private static final String UPLOAD_DIR = System.getProperty("user.dir") + "/src/main/resources/static/uploaded/images/";
+
     public void updateUser(MyPageUploadDTO myPageUploadDTO, MultipartFile profileImage, Long userId) throws IOException {
         User user = myPageUploadRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
 
@@ -29,18 +32,15 @@ public class MyPageUploadService {
         user.setEnergetic(myPageUploadDTO.isEnergetic());
 
         if (profileImage != null && !profileImage.isEmpty()) {
-            String uploadDir = "C:/upload/profileImages"; // 절대 경로로 설정
-            File uploadDirectory = new File(uploadDir);
-            if (!uploadDirectory.exists()) {
-                boolean isCreated = uploadDirectory.mkdirs();
-                if (!isCreated) {
-                    throw new IOException("Failed to create directory: " + uploadDir);
+            File uploadDir = new File(UPLOAD_DIR);
+            if (!uploadDir.exists()) {
+                if (!uploadDir.mkdirs()) {
+                    throw new IOException("Failed to create directory: " + UPLOAD_DIR);
                 }
             }
-
             String originalFilename = profileImage.getOriginalFilename();
             String newFilename = System.currentTimeMillis() + "_" + originalFilename;
-            File destinationFile = new File(uploadDir, newFilename);
+            File destinationFile = new File(UPLOAD_DIR, newFilename);
             profileImage.transferTo(destinationFile);
 
             user.setProfileImagePath("/uploaded/images/" + newFilename);

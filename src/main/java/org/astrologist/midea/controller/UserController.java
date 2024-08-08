@@ -47,7 +47,8 @@ public class UserController {
 
             User user = userDTO.toEntity();
             userService.saveUser(user);
-            return "redirect:/midea/login";
+            model.addAttribute("signupSuccess", true);
+            return "userauth/login";
         } catch (Exception e) {
             return handleFormErrors(model, userDTO, "signup", "An error occurred: " + e.getMessage());
         }
