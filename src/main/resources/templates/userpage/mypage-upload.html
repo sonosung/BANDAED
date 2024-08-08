@@ -247,9 +247,9 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <img th:src="@{${user.profileImagePath}}" class="rounded-circle" width="150" height="150" alt="Profile Picture">
+                            <img src="../resources/assets/img/blankProfile.png" class="rounded-circle" width="150" height="150" alt="Profile Picture">
                             <div class="mt-3">
-                                <h4 th:text="${user.nickname}">Username</h4>
+                                <h4>Username</h4>
                                 <p class="text-muted font-size-sm">Welcome message</p>
                             </div>
                         </div>
@@ -265,7 +265,7 @@
                                 <h6 class="mb-0 large-text">Nickname</h6>
                             </div>
                             <div class="col-sm-9 text-secondary large-text">
-                                <span th:text="${user.nickname}">Nickname2</span>
+                                Nickname2
                             </div>
                         </div>
                         <hr>
@@ -274,7 +274,7 @@
                                 <h6 class="mb-0 large-text">Email</h6>
                             </div>
                             <div class="col-sm-9 text-secondary large-text">
-                                <span th:text="${user.email}">Email2</span>
+                                Email2
                             </div>
                         </div>
                         <hr>
@@ -286,30 +286,28 @@
                         <div class="content-row">
                             <div class="checkbox-grid col-sm-12">
                                 <label>
-                                    <input type='checkbox' id='Happy' th:checked="${user.happy}" disabled>Happy
+                                    <input type='checkbox' id='Happy'>Happy
                                 </label>
                                 <label>
-                                    <input type='checkbox' id='Sad' th:checked="${user.sad}" disabled>Sad
+                                    <input type='checkbox' id='Sad'>Sad
                                 </label>
                                 <label>
-                                    <input type='checkbox' id='Calm' th:checked="${user.calm}" disabled>Calm
+                                    <input type='checkbox' id='Calm'>Calm
                                 </label>
                                 <label>
-                                    <input type='checkbox' id='Stressed' th:checked="${user.stressed}" disabled>Stressed
+                                    <input type='checkbox' id='Stressed'>Stressed
                                 </label>
                                 <label>
-                                    <input type='checkbox' id='Joyful' th:checked="${user.joyful}" disabled>Joyful
+                                    <input type='checkbox' id='Joyful'>Joyful
                                 </label>
                                 <label>
-                                    <input type='checkbox' id='Energetic' th:checked="${user.energetic}" disabled>Energetic
+                                    <input type='checkbox' id='Energetic'>Energetic
                                 </label>
                             </div>
                         </div>
                         <hr>
                         <div class="centered-buttons">
-                            <a class="btn" href="profileEdit.jsp">회원정보수정</a>
-                            <a class="btn" href="/midea/contact">문의하기</a>
-                            <a class="btn" href="../admin/Cancel.jsp">회원탈퇴</a>
+                            <a class="btn" href="/midea/mypage">회원정보수정</a>
                         </div>
                     </div>
                 </div>

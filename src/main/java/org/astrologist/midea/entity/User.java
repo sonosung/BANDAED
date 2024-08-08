@@ -72,6 +72,9 @@ public class User {
     @Column(nullable = false)
     private boolean energetic = false;
 
+    @Column
+    private String profileImagePath;
+
     public enum UserRole {
         GUEST, MEMBER, ADMIN
     }

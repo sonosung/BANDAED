@@ -12,14 +12,10 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private PasswordService passwordService;
-
     public void saveUser(User user) {
         // 비밀번호를 해시로 암호화
         String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
         user.setPassword(hashedPassword);
-
         userRepository.save(user);
     }
 
@@ -33,5 +29,13 @@ public class UserService {
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null); // Optional 처리
+    }
+
+    public void deactivateUser(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            user.setUserRole(User.UserRole.GUEST);
+            userRepository.save(user);
+        }
     }
 }

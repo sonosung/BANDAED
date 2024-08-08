@@ -5,8 +5,6 @@
     <link th:href="@{/css/login.css}" rel="stylesheet">
 </head>
 
-<!--=================================================== 헤더 ===================================================-->
-
 <body>
 
 <div class="container" th:classappend="${formType} == 'signup' ? ' right-panel-active' : ''">
@@ -58,6 +56,7 @@
             <h2 class="form__title">Sign In</h2>
             <input type="email" name="email" placeholder="Email" class="input"/>
             <input type="password" name="password" placeholder="Password" class="input"/>
+            <input type="hidden" name="redirectUrl" th:value="${redirectUrl}"/>
             <a href="#" class="link" id="forgotPasswordLink">Forgot your password?</a>
             <div th:if="${signinError}" class="error-message" th:text="${signinError}"></div>
             <button class="btn" type="submit">Sign In</button>
@@ -78,11 +77,8 @@
 </div>
 
 <script th:inline="javascript">
-    // Sign In 버튼 클릭 시 동작
     const signInBtn = document.getElementById("signIn");
-    // Sign Up 버튼 클릭 시 동작
     const signUpBtn = document.getElementById("signUp");
-    // 컨테이너 요소 가져오기
     const container = document.querySelector(".container");
 
     signInBtn.addEventListener("click", () => {
@@ -91,8 +87,6 @@
 
     signUpBtn.addEventListener("click", () => {
         container.classList.add("right-panel-active");
-
-        // Sign Up 버튼 클릭 시 실시간 검증 함수 추가
         document.querySelector("input[th\\:field='*{nickname}']").addEventListener("input", function() {
             validateNickname(this);
         });
@@ -104,7 +98,6 @@
         });
     });
 
-    // AJAX 요청을 사용하여 닉네임 중복 확인
     function checkNicknameAvailability(nickname, callback) {
         const xhr = new XMLHttpRequest();
         xhr.open("GET", `/midea/check-nickname?nickname=${encodeURIComponent(nickname)}`, true);
@@ -116,7 +109,6 @@
         xhr.send();
     }
 
-    // AJAX 요청을 사용하여 이메일 중복 확인
     function checkEmailAvailability(email, callback) {
         const xhr = new XMLHttpRequest();
         xhr.open("GET", `/midea/check-email?email=${encodeURIComponent(email)}`, true);
@@ -128,7 +120,6 @@
         xhr.send();
     }
 
-    // 실시간 검증 함수 - 닉네임
     function validateNickname(input) {
         const nicknameError = document.getElementById("nicknameError");
         if (input.value.trim() === "") {
@@ -146,7 +137,6 @@
         }
     }
 
-    // 실시간 검증 함수 - 이메일
     function validateEmail(input) {
         const emailError = document.getElementById("emailError");
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -168,7 +158,6 @@
         }
     }
 
-    // 실시간 검증 함수 - 비밀번호
     function validatePassword(input) {
         const passwordError = document.getElementById("passwordError");
         if (input.value.trim().length < 6) {
@@ -180,17 +169,13 @@
         }
     }
 
-    // 폼 전체 검증 함수
     function validateForm() {
         const nicknameValid = validateNickname(document.querySelector("input[th\\:field='*{nickname}']"));
         const emailValid = validateEmail(document.querySelector("input[th\\:field='*{email}']"));
         const passwordValid = validatePassword(document.querySelector("input[th\\:field='*{password}']"));
-
-        // 모든 필드가 유효한 경우에만 폼을 제출합니다.
         return nicknameValid && emailValid && passwordValid;
     }
 
-    // 비밀번호 찾기 팝업을 열기 위한 스크립트
     document.getElementById('forgotPasswordLink').addEventListener('click', function(event) {
         event.preventDefault();
         window.open('/midea/forgot-password-popup', 'Find Password', 'width=400,height=400');

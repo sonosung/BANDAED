@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -19,83 +20,84 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // 로그인 폼을 보여주는 엔드포인트
+    @Autowired
+    private HttpSession session;
+
     @GetMapping("/login")
-    public String showLoginForm(Model model) {
-        model.addAttribute("user", new UserDTO()); // 새로운 사용자 DTO 객체를 모델에 추가
-        model.addAttribute("formType", "signin"); // 기본 폼 유형을 로그인 폼으로 설정
-        return "userauth/login"; // login 뷰 반환
+    public String showLoginForm(Model model, @RequestParam(value = "redirectUrl", required = false) String redirectUrl) {
+        model.addAttribute("user", new UserDTO());
+        model.addAttribute("formType", "signin");
+        model.addAttribute("redirectUrl", redirectUrl);
+        return "userauth/login";
     }
 
-    // 회원가입 폼 제출을 처리하는 엔드포인트
     @PostMapping("/signup")
     public String signUpUser(@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            // 폼 검증 에러가 있는 경우 처리
             return handleFormErrors(model, userDTO, "signup", null);
         }
         try {
             if (userService.isEmailExist(userDTO.getEmail())) {
-                // 이메일이 이미 존재하는 경우 처리
                 return handleFormErrors(model, userDTO, "signup", "이메일이 이미 존재합니다.");
             }
 
             if (userService.isNicknameExist(userDTO.getNickname())) {
-                // 닉네임이 이미 존재하는 경우 처리
                 return handleFormErrors(model, userDTO, "signup", "닉네임이 이미 존재합니다.");
             }
 
-            // UserDTO를 User 엔티티로 변환하여 저장
-            User user = userDTO.toEntity(); // toEntity 메서드를 사용하여 DTO를 엔티티로 변환
-            userService.saveUser(user); // 사용자 정보 저장
-            return "redirect:/midea/login"; // 로그인 페이지로 리다이렉트
+            User user = userDTO.toEntity();
+            userService.saveUser(user);
+            return "redirect:/midea/login";
         } catch (Exception e) {
-            // 기타 예외 처리
             return handleFormErrors(model, userDTO, "signup", "An error occurred: " + e.getMessage());
         }
     }
 
-    // 로그인 폼 제출을 처리하는 엔드포인트
     @PostMapping("/signin")
-    public String signInUser(@RequestParam String email, @RequestParam String password, Model model) {
+    public String signInUser(@RequestParam String email, @RequestParam String password, @RequestParam(required = false) String redirectUrl, Model model) {
         try {
-            User user = userService.findByEmail(email); // 이메일로 사용자 찾기
-
+            User user = userService.findByEmail(email);
             if (user == null || !BCrypt.checkpw(password, user.getPassword())) {
-                // 사용자 정보가 일치하지 않는 경우 처리
                 return handleFormErrors(model, new UserDTO(), "signin", "이메일 혹은 패스워드가 일치하지 않습니다.");
             }
 
-            return "redirect:/midea/index"; // 홈 페이지로 리다이렉트
+            session.setAttribute("user", user);
+            if (redirectUrl != null && !redirectUrl.isEmpty()) {
+                return "redirect:" + redirectUrl;
+            }
+            return "redirect:/midea/index";
         } catch (Exception e) {
-            // 기타 예외 처리
             return handleFormErrors(model, new UserDTO(), "signin", "An error occurred: " + e.getMessage());
         }
     }
 
-    // 닉네임 중복 체크 엔드포인트
+    @PostMapping("/cancel")
+    public String cancelMembership(@RequestParam Long userId) {
+        userService.deactivateUser(userId);
+        session.invalidate();
+        return "redirect:/midea/login";
+    }
+
     @GetMapping("/check-nickname")
     @ResponseBody
     public boolean checkNickname(@RequestParam String nickname) {
-        return userService.isNicknameExist(nickname); // 닉네임 존재 여부 반환
+        return userService.isNicknameExist(nickname);
     }
 
-    // 이메일 중복 체크 엔드포인트
     @GetMapping("/check-email")
     @ResponseBody
     public boolean checkEmail(@RequestParam String email) {
-        return userService.isEmailExist(email); // 이메일 존재 여부 반환
+        return userService.isEmailExist(email);
     }
 
-    // 폼 검증 에러를 처리하는 메서드
     private String handleFormErrors(Model model, UserDTO userDTO, String formType, String errorMessage) {
-        model.addAttribute("user", userDTO); // 모델에 사용자 DTO 추가
-        model.addAttribute("formType", formType); // 폼 유형 설정
+        model.addAttribute("user", userDTO);
+        model.addAttribute("formType", formType);
         if ("signup".equals(formType) && errorMessage != null) {
-            model.addAttribute("signupError", errorMessage); // 회원가입 에러 메시지 설정
+            model.addAttribute("signupError", errorMessage);
         } else if ("signin".equals(formType) && errorMessage != null) {
-            model.addAttribute("signinError", errorMessage); // 로그인 에러 메시지 설정
+            model.addAttribute("signinError", errorMessage);
         }
-        return "userauth/login"; // 로그인 뷰 반환
+        return "userauth/login";
     }
 }
