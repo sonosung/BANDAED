@@ -2,12 +2,21 @@ package org.astrologist.midea.repository;
 
 import org.astrologist.midea.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.NonNull;
+
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByEmail(String email);
-    Optional<User> findByNickname(String nickname);
 
-    // 이메일과 닉네임으로 사용자를 찾는 메서드 추가
-    User findByEmailAndNickname(String email, String nickname);
+    @NonNull
+    Optional<User> findByEmail(@NonNull String email);
+
+    @NonNull
+    Optional<User> findByNickname(@NonNull String nickname);
+
+    @NonNull
+    Optional<User> findById(@NonNull Long id);
+
+    @NonNull
+    User findByEmailAndNickname(@NonNull String email, @NonNull String nickname);
 }

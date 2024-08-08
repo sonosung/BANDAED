@@ -100,4 +100,14 @@ public class UserController {
         }
         return "userauth/login";
     }
+
+    @PostMapping("/deactivate")
+    public String deactivateUser() {
+        User loggedInUser = (User) session.getAttribute("user");
+        if (loggedInUser != null) {
+            userService.deactivateUser(loggedInUser.getId());
+            session.invalidate();
+        }
+        return "redirect:/midea/login";
+    }
 }

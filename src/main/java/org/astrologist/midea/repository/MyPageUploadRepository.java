@@ -6,7 +6,7 @@ import org.springframework.lang.NonNull;
 
 import java.util.Optional;
 
-public interface UserPageRepository extends JpaRepository<User, Long> {
+public interface MyPageUploadRepository extends JpaRepository<User, Long> {
 
     @NonNull
     Optional<User> findByEmail(@NonNull String email);

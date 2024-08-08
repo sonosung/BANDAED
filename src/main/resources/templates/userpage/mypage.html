@@ -1,25 +1,21 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="utf-8">
     <title>마이페이지</title>
     <link th:href="@{/css/login.css}" rel="stylesheet">
-    <!-- Google 폰트 로드 -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" type="text/css" />
-
     <style>
         :root {
             --white: #ffffff;
             --gray: #333333;
             --blue: #0367a6;
             --lightblue: #008997;
-            --mint: #36f5e2; /* 민트색 추가 */
+            --mint: #36f5e2;
             --button-radius: 0.7rem;
             font-size: 16px;
             font-family: 'Roboto', sans-serif;
         }
-
         body {
             background-color: var(--white);
             background: url("https://res.cloudinary.com/dci1eujqw/image/upload/v1616769558/Codepen/waldemar-brandt-aThdSdgx0YM-unsplash_cnq4sb.jpg");
@@ -34,7 +30,6 @@
             height: 100vh;
             padding-top: 100px;
         }
-
         .container {
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: var(--button-radius);
@@ -48,49 +43,40 @@
             margin-top: 50px;
             margin-left: 0cm;
         }
-
         .content-main {
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
         }
-
-       .logo {
-    position: absolute;
-    top: 20px; /* 살짝 아래로 이동 */
-    left: 20px; /* 살짝 오른쪽으로 이동 */
-}
-
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
         .logo img {
-            width: 100px; /* 원하는 크기로 설정 */
+            width: 100px;
             height: auto;
         }
-
         .logo img:hover {
-            filter: brightness(0.8); /* hover 효과 */
+            filter: brightness(0.8);
         }
-
         .logo a {
-            color: var(--mint); /* 민트색 적용 */
+            color: var(--mint);
         }
-
         .content-mypage-text {
             margin-bottom: 20px;
             font-size: 1.5rem;
             text-align: center;
             width: 100%;
         }
-
         .row {
             display: flex;
             width: 100%;
         }
-
         .col-md-4 {
             height: auto;
         }
-
         .col-md-8 {
             flex: 0 0 65%;
             max-width: 100%;
@@ -98,7 +84,6 @@
             min-height: 500px;
             height: auto;
         }
-
         .card {
             background-color: var(--white);
             border: none;
@@ -109,34 +94,27 @@
             width: 100%;
             height: 60%;
         }
-
         .card-additional {
             margin-top: 30px;
             margin-left: -260px;
             width: 140%;
             height: 40%;
         }
-
         .d-flex {
             display: flex;
         }
-
         .flex-column {
             flex-direction: column;
         }
-
         .align-items-center {
             align-items: center;
         }
-
         .text-center {
             text-align: center;
         }
-
         .text-muted {
             color: #6c757d !important;
         }
-
         .btn {
             background-color: var(--blue);
             background-image: linear-gradient(90deg, var(--blue) 0%, var(--lightblue) 74%);
@@ -153,53 +131,42 @@
             margin: 5px;
             max-width: 100px;
             text-align: center;
-            text-decoration: none; /* 밑줄 제거 */
+            text-decoration: none;
         }
-
         .btn:hover {
             background-color: var(--lightblue);
         }
-
         .btn:active {
             transform: scale(0.95);
         }
-
         .btn:focus {
             outline: none;
         }
-
         .mb-0 {
             margin-bottom: 1rem !important;
             margin-top: 1rem !important;
             margin-right: 1rem !important;
         }
-
         .mt-3 {
             margin-top: 0rem !important;
         }
-
         .text-secondary {
             color: #6c757d !important;
         }
-
         .row > .col-sm-3 {
             text-align: right;
             padding-right: 10px;
         }
-
         .row > .col-sm-9 {
             text-align: left;
             padding-left: 10px;
         }
-
         .col-sm-9 {
             font-size: 0.7rem;
         }
-
         hr {
             border-top: 1px solid #e9ecef;
         }
-
         .checkbox-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -207,32 +174,26 @@
             align-items: center;
             justify-items: start;
         }
-
         .checkbox-grid label {
             display: flex;
             align-items: center;
         }
-
         .checkbox-grid input[type="checkbox"] {
             margin-right: 5px;
         }
-
         .large-text {
             font-size: 1.0rem;
         }
-
         .centered-buttons {
             display: flex;
             justify-content: center;
         }
-
         .content-row {
             display: flex;
             align-items: center;
         }
     </style>
 </head>
-
 <body>
 <a th:href="@{/midea/index}" class="logo">
     <img th:src="@{/wooxtravel/assets/images/MIDEA.png}" alt="">
@@ -256,7 +217,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-md-8">
                 <div class="card card mb-3">
                     <div class="card-body">
@@ -286,48 +246,51 @@
                         <div class="content-row">
                             <div class="checkbox-grid col-sm-12">
                                 <label>
-                                    <input type='checkbox' id='Happy' th:checked="${user.happy}" disabled>Happy
+                                    <input type="checkbox" th:checked="${user.happy}" disabled>Happy
                                 </label>
                                 <label>
-                                    <input type='checkbox' id='Sad' th:checked="${user.sad}" disabled>Sad
+                                    <input type="checkbox" th:checked="${user.sad}" disabled>Sad
                                 </label>
                                 <label>
-                                    <input type='checkbox' id='Calm' th:checked="${user.calm}" disabled>Calm
+                                    <input type="checkbox" th:checked="${user.calm}" disabled>Calm
                                 </label>
                                 <label>
-                                    <input type='checkbox' id='Stressed' th:checked="${user.stressed}" disabled>Stressed
+                                    <input type="checkbox" th:checked="${user.stressed}" disabled>Stressed
                                 </label>
                                 <label>
-                                    <input type='checkbox' id='Joyful' th:checked="${user.joyful}" disabled>Joyful
+                                    <input type="checkbox" th:checked="${user.joyful}" disabled>Joyful
                                 </label>
                                 <label>
-                                    <input type='checkbox' id='Energetic' th:checked="${user.energetic}" disabled>Energetic
+                                    <input type="checkbox" th:checked="${user.energetic}" disabled>Energetic
                                 </label>
                             </div>
                         </div>
                         <hr>
                         <div class="centered-buttons">
-                            <a class="btn" href="profileEdit.jsp">회원정보수정</a>
-                            <a class="btn" href="/midea/contact">문의하기</a>
-                            <a class="btn" href="../admin/Cancel.jsp">회원탈퇴</a>
+                            <a class="btn" th:href="@{/midea/mypage-upload}">회원정보수정</a>
+                            <a class="btn" th:href="@{/midea/contact}">문의하기</a>
+                            <button class="btn" onclick="confirmDeactivation()">회원탈퇴</button>
                         </div>
                     </div>
                 </div>
-
-                <!-- 추가된 카드 리스트 -->
                 <div class="card card-additional">
                     <div class="card-body">
                         <h5 class="card-title">Additional Information</h5>
                         <p class="card-text">This is an additional card with more information.</p>
                     </div>
                 </div>
-                <!-- 추가된 카드 리스트 끝 -->
             </div>
         </div>
     </div>
 </div>
-
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function confirmDeactivation() {
+        if (confirm("정말 탈퇴하시겠습니까?")) {
+            window.location.href = "/midea/deactivate";
+        }
+    }
+</script>
 </body>
 </html>
