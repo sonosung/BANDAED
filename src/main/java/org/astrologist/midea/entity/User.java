@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// User 엔티티는 데이터베이스 테이블 users와 매핑됩니다.
 @Entity
 @Data
 @Builder
@@ -80,4 +79,7 @@ public class User {
     public enum UserRole {
         GUEST, MEMBER, ADMIN
     }
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private SpotifyUser spotifyUser;  // Spotify 사용자 정보와 연관
 }

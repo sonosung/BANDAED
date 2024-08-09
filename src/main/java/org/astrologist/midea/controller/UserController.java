@@ -1,8 +1,10 @@
 package org.astrologist.midea.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.astrologist.midea.dto.UserDTO;
 import org.astrologist.midea.entity.User;
 import org.astrologist.midea.service.UserService;
+import org.astrologist.midea.service.SpotifyUserService;  // SpotifyUserService 임포트 추가
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,24 +15,47 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
+import java.io.IOException;
+
 @Controller
 @RequestMapping("/midea")  // 이 컨트롤러의 기본 경로는 "/midea"
 public class UserController {
 
     @Autowired
-    private UserService userService;  // UserService를 통해 사용자 관련 비즈니스 로직을 처리
+    private UserService userService;
 
     @Autowired
-    private HttpSession session;  // 세션을 통해 사용자 세션 관리
+    private SpotifyUserService spotifyService;  // SpotifyUserService 주입
+
+    @Autowired
+    private HttpSession session;
 
     @GetMapping("/login")
     public String showLoginForm(Model model, @RequestParam(value = "redirectUrl", required = false) String redirectUrl) {
-        model.addAttribute("user", new UserDTO());  // 로그인 폼에 사용할 빈 UserDTO 객체 추가
-        model.addAttribute("formType", "signin");  // 폼 타입을 "signin"으로 설정
-        model.addAttribute("redirectUrl", redirectUrl);  // 리디렉션할 URL이 있는 경우 모델에 추가
-        return "userauth/login";  // 로그인 폼 뷰로 이동
+        model.addAttribute("user", new UserDTO());
+        model.addAttribute("formType", "signin");
+        model.addAttribute("redirectUrl", redirectUrl);
+        return "userauth/login";
     }
 
+    @GetMapping("/spotify/login")
+    public void redirectToSpotifyLogin(HttpServletResponse response) throws IOException {
+        String spotifyLoginUrl = spotifyService.getSpotifyLoginUrl();
+        response.sendRedirect(spotifyLoginUrl);
+    }
+
+    @GetMapping("/spotify/callback")
+    public String handleSpotifyCallback(@RequestParam("code") String code, Model model) {
+        try {
+            User user = spotifyService.handleSpotifyCallback(code);  // SpotifyUserService 사용
+            session.setAttribute("user", user);
+            return "redirect:/midea/index";
+        } catch (Exception e) {
+            return handleFormErrors(model, "signin", "Spotify 로그인 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+
+    // 기존 회원가입 메서드
     @PostMapping("/signup")
     public String signUpUser(@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult, Model model) {
         // 입력 값 검증 중 오류가 발생한 경우
@@ -104,6 +129,14 @@ public class UserController {
         return userService.isEmailExist(email);
     }
 
+    // formType과 errorMessage만 사용하는 handleFormErrors 메서드 추가
+    private String handleFormErrors(Model model, String formType, String errorMessage) {
+        model.addAttribute("formType", formType);
+        model.addAttribute("errorMessage", errorMessage);
+        return "userauth/login";  // 로그인 폼 뷰로 이동
+    }
+
+    // 기존 handleFormErrors 메서드와 중복 사용 가능
     private String handleFormErrors(Model model, UserDTO userDTO, String formType, String errorMessage) {
         model.addAttribute("user", userDTO);  // 모델에 UserDTO 객체 추가
         model.addAttribute("formType", formType);  // 폼 타입을 설정 (로그인 또는 회원가입)

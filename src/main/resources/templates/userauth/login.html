@@ -78,7 +78,11 @@
             <input type="hidden" name="redirectUrl" th:value="${redirectUrl}"/>
             <a href="#" class="link" id="forgotPasswordLink">Forgot your password?</a>
             <div th:if="${signinError}" class="error-message" th:text="${signinError}"></div>
-            <button class="btn" type="submit">Sign In</button>
+            <button class="btn" type="submit">Midea Sign In</button>
+            <a href="/midea/spotify/login">
+                <br>
+                <button class="btn" type="button">Spotify Sign In</button>
+            </a>
         </form>
     </div>
 
