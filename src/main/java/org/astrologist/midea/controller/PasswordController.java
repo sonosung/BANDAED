@@ -8,31 +8,36 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @Controller
-@RequestMapping("/midea")
+@RequestMapping("/midea")  // 이 컨트롤러의 기본 경로는 "/midea"
 public class PasswordController {
 
     @Autowired
-    private PasswordService passwordService;
+    private PasswordService passwordService;  // PasswordService를 통해 비밀번호 재설정 로직 처리
 
     // 비밀번호 찾기 팝업을 위한 엔드포인트
     @GetMapping("/forgot-password-popup")
     public String showForgotPasswordPopup() {
-        return "userauth/forgot-password-popup"; // forgot-password-popup 뷰 반환
+        return "userauth/forgot-password-popup";  // 비밀번호 찾기 팝업 화면 반환
     }
 
     // 이메일과 닉네임으로 비밀번호를 재설정하는 엔드포인트
     @PostMapping("/forgot-password")
     @ResponseBody
     public ResponseEntity<String> forgotPassword(@RequestBody PasswordDTO passwordDTO) {
-        String newPassword = passwordService.resetPassword(passwordDTO.getEmail(), passwordDTO.getNickname());
-        if (newPassword != null) {
-            // 새로운 비밀번호를 사용자가 확인할 수 있도록 반환 (실제 서비스에서는 이메일로 전송)
-            return ResponseEntity.ok(newPassword);
-        } else {
+        // PasswordService를 통해 비밀번호 재설정 시도
+        String result = passwordService.resetPassword(passwordDTO.getEmail(), passwordDTO.getNickname());
+
+        // 서비스에서 반환된 결과에 따라 응답 처리
+        if (result == null) {
+            // 해당 이메일과 닉네임을 가진 사용자가 없는 경우
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No matching user found.");
+        } else if ("탈퇴한 회원입니다".equals(result)) {
+            // 사용자가 GUEST인 경우
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(result);
+        } else {
+            // 비밀번호 재설정이 성공적으로 이루어진 경우
+            return ResponseEntity.ok(result);
         }
     }
 }
