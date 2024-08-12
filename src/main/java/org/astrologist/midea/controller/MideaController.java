@@ -37,24 +37,6 @@ public class MideaController {
 
     }
 
-//    @GetMapping("/mlRegister")
-//    public void register(){
-//        log.info("mlRegister get...");
-//    }
-//
-//    @PostMapping("/mlRegister")
-//    public String register(MindlistDTO dto, RedirectAttributes redirectAttributes){
-//        log.info("dto....." + dto);
-//
-//        //새로 추가된 엔티티의 번호
-//        Long mno = mindlistService.register(dto);
-//
-//        redirectAttributes.addFlashAttribute("msg", mno);
-//
-//        return "redirect:/midea/mindlist";
-//    }
-
-    //    @GetMapping("/read")
     @GetMapping({"/read", "/modify"}) //수정과 삭제 모두 read()가 필요하므로, 한번에 맵핑ㄹ
     public void read(long gno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
         log.info("gno: " + gno);

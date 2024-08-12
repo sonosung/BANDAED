@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 
 @SpringBootTest
-public class MindlistRepositoryTests {
+public class MindlistAdminRepositoryTests {
 
     @Autowired
     private MindlistAdminRepository mindlistAdminRepository;
@@ -25,14 +25,14 @@ public class MindlistRepositoryTests {
     public void insertDummies() {
         IntStream.rangeClosed(1,5).forEach(i-> {
 
-            MindlistAdmin mindlistAdmin = MindlistAdmin.builder()
+            MindlistAdmin mindlistAdminAdmin = MindlistAdmin.builder()
                     .composer("composer"+i)
                     .title("Title...." + i)
                     .url("usl..." +i)
                     .content("content.."+i)
                     .writer("user" + (i % 10))
                     .build();
-            System.out.println(mindlistAdminRepository.save(mindlistAdmin));
+            System.out.println(mindlistAdminRepository.save(mindlistAdminAdmin));
         });
     }
 
@@ -43,14 +43,14 @@ public class MindlistRepositoryTests {
 
         if(result.isPresent()){
 
-            MindlistAdmin mindlist = result.get();
+            MindlistAdmin mindlistAdmin = result.get();
 
-            mindlist.changeComposer("Composer has changed..");
-            mindlist.changeUrl("URL has changed..");
-            mindlist.changeTitle("Title has changed..");
-            mindlist.changeContent(("content has changed.."));
+            mindlistAdmin.changeComposer("Composer has changed..");
+            mindlistAdmin.changeUrl("URL has changed..");
+            mindlistAdmin.changeTitle("Title has changed..");
+            mindlistAdmin.changeContent(("content has changed.."));
 
-            mindlistAdminRepository.save(mindlist);
+            mindlistAdminRepository.save(mindlistAdmin);
 
         }
     }
