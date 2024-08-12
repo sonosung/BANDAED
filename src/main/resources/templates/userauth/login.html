@@ -71,10 +71,10 @@
 
     <!-- Sign In 폼 -->
     <div class="container__form container--signin">
-        <form th:action="@{/midea/signin}" method="post" class="form" id="form2">
+        <form th:action="@{/midea/signin}" th:object="${user}" method="post" class="form" id="form2">
             <h2 class="form__title">Sign In</h2>
-            <input type="email" name="email" placeholder="Email" class="input"/>
-            <input type="password" name="password" placeholder="Password" class="input"/>
+            <input type="email" th:field="*{email}" placeholder="Email" class="input"/>
+            <input type="password" th:field="*{password}" placeholder="Password" class="input"/>
             <input type="hidden" name="redirectUrl" th:value="${redirectUrl}"/>
             <a href="#" class="link" id="forgotPasswordLink">Forgot your password?</a>
             <div th:if="${signinError}" class="error-message" th:text="${signinError}"></div>

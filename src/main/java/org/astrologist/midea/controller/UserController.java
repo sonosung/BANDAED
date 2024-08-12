@@ -85,6 +85,14 @@ public class UserController {
 
     @PostMapping("/signin")
     public String signInUser(@RequestParam String email, @RequestParam String password, @RequestParam(required = false) String redirectUrl, Model model) {
+        // 이메일과 패스워드 유효성 검사
+        if (email == null || email.trim().isEmpty()) {
+            return handleFormErrors(model, new UserDTO(), "signin", "이메일을 입력해주세요.");
+        }
+        if (password == null || password.trim().isEmpty()) {
+            return handleFormErrors(model, new UserDTO(), "signin", "패스워드를 입력해주세요.");
+        }
+
         try {
             User user = userService.findByEmail(email);
             if (user == null || !BCrypt.checkpw(password, user.getPassword())) {
@@ -103,7 +111,7 @@ public class UserController {
             }
             return "redirect:/midea/index";  // 기본 페이지로 리디렉션
         } catch (Exception e) {
-            return handleFormErrors(model, new UserDTO(), "signin", "An error occurred: " + e.getMessage());
+            return handleFormErrors(model, new UserDTO(), "signin", "오류가 발생했습니다: " + e.getMessage());
         }
     }
 
