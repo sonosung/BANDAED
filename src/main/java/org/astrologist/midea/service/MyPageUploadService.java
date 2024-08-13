@@ -20,7 +20,7 @@ public class MyPageUploadService {
     @Value("${org.zerock.upload.path}")
     private String uploadDir;
 
-    // 사용자의 정보와 프로필 이미지를 업데이트하는 메서드입니다.
+    // 사용자의 정보와 프로필 이미지를 업데이트하는 메서드입니다..
     public void updateUser(MyPageUploadDTO myPageUploadDTO, MultipartFile profileImage, Long userId) throws IOException {
         // 중복 닉네임 확인
         if (isNicknameInUse(myPageUploadDTO.getNickname(), userId)) {

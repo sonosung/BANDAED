@@ -77,7 +77,7 @@ public class MyPageUploadController {
      * 사용자가 적절한 권한을 가지고 있는지 확인하는 메서드입니다.
      *
      * @param user 검사할 사용자 객체
-     * @return 사용자가 MEMBER 또는 ADMIN 권한을 가지고 있으면 true, 그렇지 않으면 false
+     * @return 사용자가 MEMBER 또는 ADMIN 권한을 가지고 있으면 true, 그렇지 않으면 false 입니다
      */
     private boolean isAuthorizedUser(User user) {
         return user.getUserRole() == User.UserRole.MEMBER || user.getUserRole() == User.UserRole.ADMIN;
