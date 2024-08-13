@@ -158,74 +158,49 @@
               </div>
             </div>-->
 
-          <table class="table table-striped">
-            <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Composer</th>
-              <th scope="col">Title</th>
-              <th scope="col">Writer</th>
-              <th scope="col">RegDate</th>
-            </tr>
-            </thead>
-
-            <tbody>
-
-            <tr th:each="dto : ${result.dtoList}" >
-              <th scope="row">
-                <a th:href="@{/midea/mlread(mno = ${dto.mno},
+          <tr th:each="dto : ${result.dtoList}" >
+            <th scope="row">
+              <a th:href="@{/midea/mlread(mno = ${dto.mno},
                 page=${result.page},
                 type = ${pageRequestDTO.type},
                 keyword = ${pageRequestDTO.keyword}
                 )}">
-                  [[${dto.mno}]]
-
-
-              <td>[[${dto.composer}]]</td>
-              <td>[[${dto.title}]]</td>
-              <td>[[${dto.writer}]]</td>
-              <td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
+                [[${dto.mno}]]
               </a>
-              </th>
-            </tr>
-
-            </tbody>
-          </table>
-
+            </th>
         <!--========================================== ↓ 폼1 ===============================================-->
-        <div class="col-lg-6 col-sm-6">
+        <div class="col-lg-6 col-xxl-12 col-sm-7">
           <div class="item">
             <div class="row">
               <div class="col-lg-6">
-                <div class="image">
-                  <img th:src="@{/wooxtravel/assets/images/deals-01.jpg}" alt="">
-                </div>
+                  [[${dto.url}]]
               </div>
               <div class="col-lg-6 align-self-center">
                 <div class="content">
-                  <span class="info">*Limited Offer Today</span>
-                  <h4>Glasgow City Lorem</h4>
+                  <span class="info">[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</span>
+                  <h3>[[${dto.composer}]]</h3>
                   <div class="row">
                     <div class="col-6">
-                      <i class="fa fa-clock"></i>
-                      <span class="list">5 Days</span>
+                      <i class="fa-solid fa-music"></i>
+                      <span class="list">[[${dto.title}]]</span>
                     </div>
                     <div class="col-6">
-                      <i class="fa fa-map"></i>
-                      <span class="list">Daily Places</span>
+                      <i class="fa-solid fa-user"></i>
+                      <span class="list">[[${dto.writer}]]</span>
                     </div>
                   </div>
-                  <p>Lorem ipsum dolor sit amet dire consectetur adipiscing elit.</p>
+                  <p>[[${dto.content}]]</p>
                   <div class="main-button">
-                    <a href="contact.html">Make a Reservation</a>
+                    <a href="https://www.youtube.com/watch?v=NXD-WJYtkyc&t=3149s">음악 들으러 가기</a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+          </tr>
 
-        <!--========================================== ↓ 폼2 ===============================================-->
+       <!-- &lt;!&ndash;========================================== ↓ 폼2 ===============================================&ndash;&gt;
         <div class="col-lg-6 col-sm-6">
           <div class="item">
             <div class="row">
@@ -258,7 +233,7 @@
           </div>
         </div>
 
-        <!--========================================== ↓ 폼3 ===============================================-->
+        &lt;!&ndash;========================================== ↓ 폼3 ===============================================&ndash;&gt;
         <div class="col-lg-6 col-sm-6">
           <div class="item">
             <div class="row">
@@ -291,7 +266,7 @@
           </div>
         </div>
 
-        <!--========================================== ↓ 폼4 ===============================================-->
+        &lt;!&ndash;========================================== ↓ 폼4 ===============================================&ndash;&gt;
         <div class="col-lg-6 col-sm-6">
           <div class="item">
             <div class="row">
@@ -322,65 +297,8 @@
               </div>
             </div>
           </div>
-        </div>
+        </div>-->
 
-          <!--========================================== ↓ 페이지 표시 ===============================================-->
-
-          <div class="col-lg-12">
-            <ul class="page-numbers">
-              <ul class="pagination h-100 justify-content-center align-items-center">
-                <li class="page-item " th:if="${result.prev}">
-                  <a class="page-link" th:href="@{/midea/mindlist(
-                page = ${result.start -1},
-                type = ${pageRequestDTO.type},
-                keyword = ${pageRequestDTO.keyword}
-                )}" tabindex="-1">Previous</a>
-                </li>
-
-                <li th:class=" 'page-item ' + ${result.page == page?'active': ''} "
-                    th:each="page: ${result.pageList}">
-                  <a class="page-link" th:href="@{/midea/mindlist(
-                page = ${page},
-                type = ${pageRequestDTO.type},
-                keyword = ${pageRequestDTO.keyword}
-                )}">
-                    [[${page}]]
-                  </a>
-                </li>
-
-                <li class="page-item" th:if="${result.next}">
-                  <a class="page-link" th:href="@{/midea/mindlist(page= ${result.end +1},
-                type=${pageRequestDTO.type},
-                keyword=${pageRequestDTO.keyword}
-                )}">Next</a>
-                </li>
-              </ul>
-            </ul>
-          </div>
-
-          <!-- 모달 창 등록 -->
-          <div class="modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal=header">
-                  <h5 class="modal-title">Modal title</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-
-                <div class="modal-body">
-                  <p>Modal body text goes here.</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--========================================== ↑ 게시판 ===============================================-->
 
  <!--       <div class="col-lg-12">
           <ul class="page-numbers">
@@ -391,6 +309,65 @@
             <li><a href="#"><i class="fa fa-arrow-right"></i></a></li>
           </ul>
         </div>-->
+        </div>
+
+        <!--========================================== ↓ 페이지 표시 ===============================================-->
+
+        <div class="col-lg-12">
+          <ul class="page-numbers">
+            <ul class="pagination h-100 justify-content-center align-items-center">
+              <li class="page-item " th:if="${result.prev}">
+                <a class="page-link" th:href="@{/midea/mindlist(
+                page = ${result.start -1},
+                type = ${pageRequestDTO.type},
+                keyword = ${pageRequestDTO.keyword}
+                )}" tabindex="-1">Previous</a>
+              </li>
+
+              <li th:class=" 'page-item ' + ${result.page == page?'active': ''} "
+                  th:each="page: ${result.pageList}">
+                <a class="page-link" th:href="@{/midea/mindlist(
+                page = ${page},
+                type = ${pageRequestDTO.type},
+                keyword = ${pageRequestDTO.keyword}
+                )}">
+                  [[${page}]]
+                </a>
+              </li>
+
+              <li class="page-item" th:if="${result.next}">
+                <a class="page-link" th:href="@{/midea/mindlist(page= ${result.end +1},
+                type=${pageRequestDTO.type},
+                keyword=${pageRequestDTO.keyword}
+                )}">Next</a>
+              </li>
+            </ul>
+          </ul>
+        </div>
+
+        <!-- 모달 창 등록 -->
+        <div class="modal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal=header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+              <div class="modal-body">
+                <p>Modal body text goes here.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--========================================== ↑ 게시판 ===============================================-->
 
       </div>
     </div>

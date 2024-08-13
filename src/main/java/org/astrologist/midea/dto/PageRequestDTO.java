@@ -22,7 +22,7 @@ public class PageRequestDTO {
     public PageRequestDTO(){
         //한 페이지에 출력되는 레코드 사이즈를 지정.
         this.page = 1;
-        this.size = 10;
+        this.size = 5;
     }
 
     public Pageable getPageable(Sort sort){
