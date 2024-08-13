@@ -11,105 +11,152 @@
         <div class="col-lg-12">
           <h4>Discover New Music Everyday</h4>
           <h2>Share Your Music &amp; More</h2>
-          <div class="border-button"><a href="about.html">Discover More</a></div>
+          <div class="border-button"><a th:href="@{/midea/mindlistAdmin}">관리자 게시판으로 이동</a></div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="search-form">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <form id="search-form" name="gs" method="submit" role="search" action="#">
-            <div class="row">
-              <div class="col-lg-2">
-                <h4>Sort Music By:</h4>
-              </div>
-              <div class="col-lg-4">
+    <div class="search-form">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <form id="search-form" name="gs" method="submit" role="search" action="#">
+              <div class="row">
+                <div class="col-lg-2">
+                  <h4>Sort Music By:</h4>
+                </div>
+                <div class="col-lg-2">
                   <fieldset>
-                      <select name="Location" class="form-select" aria-label="Default select example" id="chooseLocation" onChange="this.form.click()">
-                          <option selected>Destinations</option>
-                          <option type="checkbox" name="option1" value="Italy">Italy</option>
-                          <option value="France">France</option>
-                          <option value="Switzerland">Switzerland</option>
-                          <option value="Thailand">Thailand</option>
-                          <option value="Australia">Australia</option>
-                          <option value="India">India</option>
-                          <option value="Indonesia">Indonesia</option>
-                          <option value="Malaysia">Malaysia</option>
-                          <option value="Singapore">Singapore</option>
+                    <input type="hidden" name="page" value="1">
+                    <div class="input-group-prepend">
+                      <select class="custom-select" name="type">
+                        <option aria-label="Default select example" th:selected="${pageRequestDTO.type == null}">검색 조건</option>
+                        <option value="c" th:selected="${pageRequestDTO.type == 'c'}">아티스트</option>
+                        <option value="t" th:selected="${pageRequestDTO.type == 't'}">곡명</option>
+                        <option value="w" th:selected="${pageRequestDTO.type == 'w'}">작성자</option>
+                        <option value="tc" th:selected="${pageRequestDTO.type == 'tc'}">곡명 + 아티스트</option>
+                        <option value="tcw" th:selected="${pageRequestDTO.type == 'tcw'}">곡명 + 아티스트 + 작성자</option>
                       </select>
+                    </div>
                   </fieldset>
-              </div>
-              <div class="col-lg-4">
+                </div>
+                <div class="col-lg-4">
                   <fieldset>
-                      <select name="Price" class="form-select" aria-label="Default select example" id="choosePrice" onChange="this.form.click()">
-                          <option selected>Price Range</option>
-                          <option value="100">$100 - $250</option>
-                          <option value="250">$250 - $500</option>
-                          <option value="500">$500 - $1,000</option>
-                          <option value="1000">$1,000 - $2,500</option>
-                          <option value="2500+">$2,500+</option>
-                      </select>
+                    <input class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}" aria-label="Default select example">
                   </fieldset>
-              </div>
-              <div class="col-lg-2">                        
+                </div>
+                <div class="col-lg-2">
                   <fieldset>
-                      <button class="border-button">Search Results</button>
+                    <button type="button" class="border-button btn-search">Search Results</button>
                   </fieldset>
+                </div>
+                <div class="col-lg-2">
+              <span>
+                <a th:href="@{/midea/mlRegister}">
+                    <button type="button" class="border-button">Register</button>
+                </a>
+            </span>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
   <div class="amazing-deals">
     <div class="container">
       <div class="row">
-        <div class="col-lg-6 offset-lg-3">
+
+        <!--=========================================== css 창 정사각형 ===============================================-->
+
+        <div class="cities-town">
+          <div class="container">
+            <div class="row">
+              <div class="slider-content">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <h2>Caribbean’s <em>Cities &amp; Towns</em></h2>
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="owl-cites-town owl-carousel">
+                      <div class="item">
+                        <div class="thumb">
+                          <img th:src="@{/wooxtravel/assets/images/cities-01.jpg}" alt="">
+                          <h4>Havana</h4>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="thumb">
+                          <img th:src="@{/wooxtravel/assets/images/cities-02.jpg}" alt="">
+                          <h4>Kingston</h4>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="thumb">
+                          <img th:src="@{/wooxtravel/assets/images/cities-03.jpg}" alt="">
+                          <h4>George Town</h4>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="thumb">
+                          <img th:src="@{/wooxtravel/assets/images/cities-04.jpg}" alt="">
+                          <h4>Santo Domingo</h4>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="thumb">
+                          <img th:src="@{/wooxtravel/assets/images/cities-01.jpg}" alt="">
+                          <h4>Havana</h4>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="thumb">
+                          <img th:src="@{/wooxtravel/assets/images/cities-02.jpg}" alt="">
+                          <h4>Kingston</h4>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="thumb">
+                          <img th:src="@{/wooxtravel/assets/images/cities-03.jpg}" alt="">
+                          <h4>George Town</h4>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="thumb">
+                          <img th:src="@{/wooxtravel/assets/images/cities-04.jpg}" alt="">
+                          <h4>Santo Domingo</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+<!--        <div class="col-lg-6 offset-lg-3">
           <div class="section-heading text-center">
             <h2>Best Weekly Music We Recommend you</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
           </div>
-        </div>
+        </div>-->
 
         <!--========================================== ↓ 게시판 ===============================================-->
 
         <div>
-          <h1 class="mt-4">Mindlist Page
-            <span>
-                <a th:href="@{/midea/mlRegister}">
-                    <button type="button" class="btn btn-outline-primary">REGISTER</button>
-                </a>
-            </span>
-          </h1>
 
-          <form action="/midea/mindlist" method="get" id="searchForm">
-            <div class="input-group">
 
-              <input type="hidden" name="page" value="1">
-              <div class="input-group-prepend">
-                <select class="custom-select" name="type">
-                  <option th:selected="${pageRequestDTO.type == null}">----------</option>
-                  <option value="c" th:selected="${pageRequestDTO.type == 'c'}">아티스트</option>
-                  <option value="t" th:selected="${pageRequestDTO.type == 't'}">곡명</option>
-                  <option value="w" th:selected="${pageRequestDTO.type == 'w'}">작성자</option>
-                  <option value="tc" th:selected="${pageRequestDTO.type == 'tc'}">곡명 + 아티스트</option>
-                  <option value="tcw" th:selected="${pageRequestDTO.type == 'tcw'}">곡명 + 아티스트 + 작성자</option>
-                </select>
-              </div>
 
+<!--            <div class="input-group">
               <input class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
               <div class="input-group-append" id="button-addon4">
                 <button class="btn btn-outline-secondary btn-search" type="button">Search</button>
                 <button class="btn btn-outline-secondary btn-clear" type="button">Clear</button>
               </div>
-
-            </div>
-          </form>
+            </div>-->
 
           <table class="table table-striped">
             <thead>
@@ -132,89 +179,20 @@
                 keyword = ${pageRequestDTO.keyword}
                 )}">
                   [[${dto.mno}]]
-                </a>
-              </th>
+
+
               <td>[[${dto.composer}]]</td>
               <td>[[${dto.title}]]</td>
               <td>[[${dto.writer}]]</td>
               <td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
+              </a>
+              </th>
             </tr>
 
             </tbody>
           </table>
 
-
-          <div class="col-lg-12">
-            <ul class="page-numbers">
-              <ul class="pagination h-100 justify-content-center align-items-center">
-              <li class="page-item " th:if="${result.prev}">
-                <a class="page-link" th:href="@{/midea/mindlist(
-                page = ${result.start -1},
-                type = ${pageRequestDTO.type},
-                keyword = ${pageRequestDTO.keyword}
-                )}" tabindex="-1">Previous</a>
-              </li>
-
-              <li th:class=" 'page-item ' + ${result.page == page?'active': ''} "
-                  th:each="page: ${result.pageList}">
-                <a class="page-link" th:href="@{/midea/mindlist(
-                page = ${page},
-                type = ${pageRequestDTO.type},
-                keyword = ${pageRequestDTO.keyword}
-                )}">
-                  [[${page}]]
-                </a>
-              </li>
-
-              <li class="page-item" th:if="${result.next}">
-                <a class="page-link" th:href="@{/midea/mindlist(page= ${result.end +1},
-                type=${pageRequestDTO.type},
-                keyword=${pageRequestDTO.keyword}
-                )}">Next</a>
-              </li>
-            </ul>
-            </ul>
-        </div>
-
-          <!-- 모달 창 등록 -->
-          <div class="modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal=header">
-                  <h5 class="modal-title">Modal title</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-
-                <div class="modal-body">
-                  <p>Modal body text goes here.</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <script th:inline="javascript">
-            var msg = [[${msg}]];
-            console.log(msg);
-
-            if(msg){
-                $(".modal").modal();
-            }
-
-            var searchForm = $("#searchForm");
-
-            $('.btn-search').click(function(e){
-                searchForm.submit();
-            });
-          </script>
-        </div>
-        <!--========================================== ↑ 게시판 ===============================================-->
-
+        <!--========================================== ↓ 폼1 ===============================================-->
         <div class="col-lg-6 col-sm-6">
           <div class="item">
             <div class="row">
@@ -246,6 +224,8 @@
             </div>
           </div>
         </div>
+
+        <!--========================================== ↓ 폼2 ===============================================-->
         <div class="col-lg-6 col-sm-6">
           <div class="item">
             <div class="row">
@@ -277,6 +257,8 @@
             </div>
           </div>
         </div>
+
+        <!--========================================== ↓ 폼3 ===============================================-->
         <div class="col-lg-6 col-sm-6">
           <div class="item">
             <div class="row">
@@ -308,6 +290,8 @@
             </div>
           </div>
         </div>
+
+        <!--========================================== ↓ 폼4 ===============================================-->
         <div class="col-lg-6 col-sm-6">
           <div class="item">
             <div class="row">
@@ -340,6 +324,64 @@
           </div>
         </div>
 
+          <!--========================================== ↓ 페이지 표시 ===============================================-->
+
+          <div class="col-lg-12">
+            <ul class="page-numbers">
+              <ul class="pagination h-100 justify-content-center align-items-center">
+                <li class="page-item " th:if="${result.prev}">
+                  <a class="page-link" th:href="@{/midea/mindlist(
+                page = ${result.start -1},
+                type = ${pageRequestDTO.type},
+                keyword = ${pageRequestDTO.keyword}
+                )}" tabindex="-1">Previous</a>
+                </li>
+
+                <li th:class=" 'page-item ' + ${result.page == page?'active': ''} "
+                    th:each="page: ${result.pageList}">
+                  <a class="page-link" th:href="@{/midea/mindlist(
+                page = ${page},
+                type = ${pageRequestDTO.type},
+                keyword = ${pageRequestDTO.keyword}
+                )}">
+                    [[${page}]]
+                  </a>
+                </li>
+
+                <li class="page-item" th:if="${result.next}">
+                  <a class="page-link" th:href="@{/midea/mindlist(page= ${result.end +1},
+                type=${pageRequestDTO.type},
+                keyword=${pageRequestDTO.keyword}
+                )}">Next</a>
+                </li>
+              </ul>
+            </ul>
+          </div>
+
+          <!-- 모달 창 등록 -->
+          <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal=header">
+                  <h5 class="modal-title">Modal title</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <div class="modal-body">
+                  <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--========================================== ↑ 게시판 ===============================================-->
+
  <!--       <div class="col-lg-12">
           <ul class="page-numbers">
             <li><a href="#"><i class="fa fa-arrow-left"></i></a></li>
@@ -353,6 +395,21 @@
       </div>
     </div>
   </div>
+
+    <script th:inline="javascript">
+      var msg = [[${msg}]];
+      console.log(msg);
+
+      if(msg){
+          $(".modal").modal();
+      }
+
+      var searchForm = $("#searchForm");
+
+      $('.btn-search').click(function(e){
+          searchForm.submit();
+      });
+    </script>
 
 </th:block>
 </th:block>

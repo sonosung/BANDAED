@@ -21,7 +21,7 @@
 
         <h1 class="mt-4">Mindlist Modify Page</h1>
 
-        <form action="/midea/mlmodify" method="post">
+        <form action="/midea/mlAdminmodify" method="post">
             <!-- 페이지 번호 -->
             <input type="hidden" name="page" th:value="${requestDTO.page}">
             <input type="hidden" name="type" th:value="${requestDTO.type}">
@@ -81,7 +81,7 @@
             $(".removeBtn").click(function(){
 
                 actionForm
-                .attr("action", "/midea/mlremove")
+                .attr("action", "/midea/mlAdminremove")
                 .attr("method", "post");
 
                 actionForm.submit();
@@ -95,7 +95,7 @@
             }
 
             actionForm
-                .attr("action", "/midea/mlmodify")
+                .attr("action", "/midea/mlAdminmodify")
                 .attr("method", "post")
                 .submit();
             });
@@ -115,7 +115,7 @@
             actionForm.append(keyword);
 
             actionForm
-                .attr("action", "/midea/mindlist")
+                .attr("action", "/midea/mindlistAdmin")
                 .attr("method", "get");
             console.log(actionForm.html()); // 먼저 확인후에 주석 처리
             actionForm.submit();

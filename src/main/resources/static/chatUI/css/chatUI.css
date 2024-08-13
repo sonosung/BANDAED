@@ -1,0 +1,292 @@
+/* Variables */
+/* Mixins */
+/* Elements */
+ html {
+	 box-sizing: border-box;
+}
+ *, *::before, *::after {
+	 box-sizing: inherit;
+}
+ body {
+	 color: #f0f4ff;
+	 font: normal 1.25rem / 125% "acumin-pro", sans-serif;
+	 margin: 0;
+	 text-rendering: optimizeLegibility;
+}
+ input {
+	 background: none;
+	 border: none;
+	 border-radius: 0.25rem;
+	 color: #f0f4ff;
+	 outline: none;
+}
+/* Root grid */
+ .grid {
+	 display: grid;
+	 grid-template-columns: 5rem 20rem 1fr 20rem;
+	 height: 100vh;
+}
+/* Nav */
+ .nav {
+	 background: #202224;
+}
+ .nav__container {
+	 display: flex;
+	 flex-direction: column;
+	 align-items: center;
+	 padding: 1rem 0;
+}
+ .nav__server {
+	 background: #36383e;
+	 border-radius: 50%;
+	 min-height: 3rem;
+	 min-width: 3rem;
+	 display: flex;
+	 align-items: center;
+	 color: #f0f4ff;
+	 position: relative;
+}
+ .nav__server:before, .nav__server:after {
+	 position: absolute;
+	 opacity: 0;
+	 z-index: -1;
+}
+ .nav__server:hover:before, .nav__server:hover:after {
+	 opacity: 1;
+	 z-index: 1;
+}
+ .nav__server:before {
+	 left: calc(100% + 0.25rem);
+	 border-top: 0.25rem solid transparent;
+	 border-bottom: 0.25rem solid transparent;
+	 border-right: 0.25rem solid #7288da;
+	 content: "";
+}
+ .nav__server:after {
+	 left: calc(100% + 0.5rem);
+	 background-color: #7288da;
+	 border-radius: 0.25rem;
+	 content: attr(data-tooltip);
+	 padding: 0.25rem 0.5rem;
+	 white-space: nowrap;
+}
+ .nav__server:hover {
+	 background: #7288da;
+	 border-radius: 33%;
+}
+ .nav__server:not(:last-child) {
+	 margin-bottom: 1rem;
+}
+/* Header */
+ .header {
+	 background: #2e3036;
+}
+ .header__server:hover {
+	 background: #282a2e;
+}
+ .header__channel {
+	 color: rgba(240, 244, 255, 0.5);
+	 padding: 1rem;
+}
+ .header__profile {
+	 display: flex;
+	 align-items: center;
+	 justify-content: space-between;
+	 background: #282a2e;
+	 padding: 0 1rem;
+}
+ .channel__item {
+	 margin-bottom: 2rem;
+}
+ .channel__item > div {
+	 margin-bottom: 1rem;
+}
+ .channel__title {
+	 border-radius: 0.25rem;
+	 min-height: 3rem;
+	 min-width: 3rem;
+	 display: flex;
+	 align-items: center;
+	 padding-left: 1.25rem;
+	 width: 100%;
+}
+ .channel__title:hover {
+	 background: rgba(240, 244, 255, 0.05);
+	 color: #f0f4ff;
+}
+ .profile__badge {
+	 display: flex;
+	 align-items: center;
+}
+ .profile__avatar, .friend__avatar {
+	 background: #36383e;
+	 border-radius: 50%;
+	 min-height: 3rem;
+	 min-width: 3rem;
+	 margin-right: 1rem;
+	 position: relative;
+}
+ .avatar__status {
+	 background: #44b682;
+	 border-radius: 50%;
+	 min-height: 1rem;
+	 min-width: 1rem;
+	 content: "";
+	 position: absolute;
+	 bottom: 0;
+	 right: 0;
+}
+ .user__id {
+	 color: rgba(240, 244, 255, 0.25);
+}
+ .profile__settings {
+	 display: flex;
+	 align-items: center;
+}
+ .profile__setting {
+	 background: #36383e;
+	 border-radius: 50%;
+	 min-height: 1rem;
+	 min-width: 1rem;
+}
+ .profile__setting:not(:last-child) {
+	 margin-right: 1rem;
+}
+/* Main */
+ .main {
+	 background: #36383e;
+}
+ .main__chat {
+	 height: calc(100vh - 10rem);
+	 overflow-y: scroll;
+	 padding: 1rem;
+}
+ .main__post {
+	 display: flex;
+	 align-items: flex-start;
+	 position: relative;
+}
+ .main__post:not(:last-child) {
+	 margin-bottom: 2rem;
+}
+ .main__input {
+	 padding: 1rem;
+}
+ .post__avatar {
+	 background: #7288da;
+	 border-radius: 50%;
+	 min-height: 3rem;
+	 min-width: 3rem;
+	 margin-right: 1rem;
+}
+ .post__name {
+	 display: inline;
+}
+ .post__name:hover {
+	 text-decoration: underline;
+}
+ .post__timestamp {
+	 color: rgba(240, 244, 255, 0.25);
+	 display: inline;
+	 font-size: 0.75rem;
+}
+ .post__message {
+	 color: rgba(240, 244, 255, 0.75);
+	 word-break: break-word;
+}
+ .input__container {
+	 display: flex;
+	 align-items: center;
+	 background: #42444c;
+	 height: 100%;
+	 padding: 0 1rem;
+}
+ .input__message {
+	 font: normal 1.25rem / 100% "acumin-pro", sans-serif;
+	 width: 100%;
+}
+/* Footer */
+ .footer {
+	 background: #2e3036;
+}
+ .footer__container {
+	 display: grid;
+	 grid-template-rows: 5rem 1fr;
+}
+ .footer__settings {
+	 background: #36383e;
+}
+ .footer__friends {
+	 padding: 1rem;
+}
+ .footer .avatar__status {
+	 min-height: 0.75rem;
+	 min-width: 0.75rem;
+}
+ .footer .user__name {
+	 color: rgba(240, 244, 255, 0.75);
+}
+ .footer__settings {
+	 display: flex;
+	 align-items: center;
+	 justify-content: space-between;
+	 padding: 0 1rem;
+}
+ .settings__group {
+	 display: flex;
+	 flex-direction: row;
+}
+ .group__setting {
+	 background: #4e5159;
+	 border-radius: 50%;
+	 min-height: 1rem;
+	 min-width: 1rem;
+}
+ .group__setting:not(:last-child) {
+	 margin-right: 1rem;
+}
+ .settings__search {
+	 position: relative;
+}
+ .search__input {
+	 background: #4e5159;
+	 border-radius: 0.25rem;
+	 font: normal 1rem / 100% "acumin-pro", sans-serif;
+	 height: 2rem;
+	 padding: 0 0.5rem;
+}
+ .friend {
+	 display: flex;
+	 align-items: center;
+}
+ .friend:not(:last-child) {
+	 margin-bottom: 1rem;
+}
+ .friend__category {
+	 color: rgba(240, 244, 255, 0.25);
+	 margin-bottom: 1rem;
+}
+ .friend__avatar {
+	 background: rgba(255, 255, 255, 0.1);
+	 border-radius: 50%;
+	 min-height: 2rem;
+	 min-width: 2rem;
+	 margin-right: 1rem;
+}
+ .footer__friends .user__name:hover {
+	 color: #f0f4ff;
+}
+/* Repeats */
+ .header__container, .main__container {
+	 display: grid;
+	 grid-template-rows: 5rem 1fr 5rem;
+	 height: 100%;
+}
+ .header__server, .main__channel {
+	 padding: 0 1rem;
+}
+ .header__server, .main__channel, .footer__title {
+	 display: flex;
+	 align-items: center;
+	 border-bottom: 0.025rem solid #202224;
+}

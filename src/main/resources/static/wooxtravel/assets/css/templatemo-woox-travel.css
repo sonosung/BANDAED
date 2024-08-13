@@ -1841,11 +1841,11 @@ Deals Page Style
 */
 
 .page-heading {
-  background-image: url(../images/heading-bg.jpg);
+  background-image: url(../images/heading-bg-03.jpg);
   background-position: center center;
-  background-size: cover;
+  background-size: 100% 500px;
   background-repeat: no-repeat;
-  padding: 260px 0px 190px 0px;
+  padding: 260px 0px 50px 0px;
   text-align: center;
 }
 
@@ -1869,6 +1869,38 @@ Deals Page Style
 }
 
 .page-heading .border-button a:hover {
+  border-color: #22b3c1;
+}
+
+.page-heading-admin {
+  background-image: url(../images/heading-bg-04.jpg);
+  background-position: center center;
+  background-size: 100% 500px;
+  background-repeat: no-repeat;
+  padding: 260px 0px 50px 0px;
+  text-align: center;
+}
+
+.page-heading-admin h4 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.page-heading-admin h2 {
+  font-size: 50px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 30px;
+}
+
+.page-heading-admin .border-button a {
+  border-color: #fff;
+  color: #fff;
+}
+
+.page-heading-admin .border-button a:hover {
   border-color: #22b3c1;
 }
 

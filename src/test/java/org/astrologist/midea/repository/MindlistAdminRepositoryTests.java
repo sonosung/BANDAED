@@ -23,7 +23,7 @@ public class MindlistAdminRepositoryTests {
 
     @Test
     public void insertDummies() {
-        IntStream.rangeClosed(1,5).forEach(i-> {
+        IntStream.rangeClosed(1,10).forEach(i-> {
 
             MindlistAdmin mindlistAdminAdmin = MindlistAdmin.builder()
                     .composer("composer"+i)

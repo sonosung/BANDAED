@@ -5,8 +5,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.astrologist.midea.dto.PageRequestDTO;
 import org.astrologist.midea.dto.MindlistDTO;
+import org.astrologist.midea.dto.UserDTO;
 import org.astrologist.midea.entity.User;
 import org.astrologist.midea.service.MindlistService;
+import org.astrologist.midea.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,22 +25,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor //자동 주입을 위한 Annotation
 public class MindlistController {
 
-    private final MindlistService mindlistService; //MindlistService 인터페이스를 final로 구현.
+    @Autowired
+    private HttpSession session;
 
-//    @GetMapping({"/index", "/community", "/contact", "/about"})
-//    public void mindlist(HttpSession session){
-//
-//        // 세션에서 현재 로그인한 사용자 정보를 가져옵니다.
-//        User loggedInUser = (User) session.getAttribute("user");
-//
-//        log.info("mindlist......................");
-//    }
-//
-//    @GetMapping("/")
-//    public String index() {
-//        return "redirect:/midea/index";
-//
-//    }
+    @Autowired
+    private UserService userService;
+
+    private final MindlistService mindlistService; //MindlistService 인터페이스를 final로 구현.
 
     @GetMapping("/mindlist")
     public void list(PageRequestDTO pageRequestDTO, Model model){
@@ -62,11 +56,14 @@ public class MindlistController {
 
         redirectAttributes.addFlashAttribute("msg", mno);
 
+        User loggedInUser = (User) session.getAttribute("user");
+
+
         return "redirect:/midea/mindlist";
     }
 
     @GetMapping({"/mlread", "/mlmodify"}) //수정과 삭제 모두 read()가 필요하므로, 한번에 맵핑
-    public void read(long mno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
+    public void read(long mno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, UserDTO userDTO, Model model) {
         log.info("mno: " + mno);
 
         MindlistDTO dto = mindlistService.read(mno);
@@ -87,7 +84,7 @@ public class MindlistController {
     }
 
     @PostMapping("/mlmodify")
-    public String modify(MindlistDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes) {
+    public String modify(MindlistDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes, UserDTO userDTO) {
 
         log.info("post modify................................................");
         log.info("dto: " + dto);
@@ -98,6 +95,7 @@ public class MindlistController {
         redirectAttributes.addAttribute("type", requestDTO.getType());
         redirectAttributes.addAttribute("keyword", requestDTO.getKeyword());
         redirectAttributes.addAttribute("mno", dto.getMno());
+        redirectAttributes.addAttribute("nickname",userDTO.getNickname());
 
         return "redirect:/midea/mlread";
     }

@@ -1,24 +1,24 @@
 package org.astrologist.midea.service;
 
-import org.astrologist.midea.dto.MindlistDTO;
+import org.astrologist.midea.dto.MindlistAdminDTO;
 import org.astrologist.midea.dto.PageRequestDTO;
 import org.astrologist.midea.dto.PageResultDTO;
-import org.astrologist.midea.entity.Mindlist;
+import org.astrologist.midea.entity.MindlistAdmin;
 
 public interface MindlistAdminService {
 
-    Long register(MindlistDTO dto);
+    Long register(MindlistAdminDTO dto);
 
-    PageResultDTO<MindlistDTO, Mindlist> getList(PageRequestDTO requestDTO);
+    PageResultDTO<MindlistAdminDTO, MindlistAdmin> getList(PageRequestDTO requestDTO);
 
-    MindlistDTO read(Long mno);
+    MindlistAdminDTO read(Long mno);
 
     void remove(Long mno);
 
-    void modify(MindlistDTO dto);
+    void modify(MindlistAdminDTO dto);
 
-    default Mindlist dtoToEntity(MindlistDTO dto) {
-        Mindlist entity = Mindlist.builder()
+    default MindlistAdmin dtoToEntity(MindlistAdminDTO dto) {
+        MindlistAdmin entity = MindlistAdmin.builder()
                 .mno(dto.getMno())
                 .composer(dto.getComposer())
                 .title(dto.getTitle())
@@ -29,9 +29,9 @@ public interface MindlistAdminService {
         return entity;
     }
 
-    default MindlistDTO entityToDto(Mindlist entity) {
+    default MindlistAdminDTO entityToDto(MindlistAdmin entity) {
 
-        MindlistDTO dto = MindlistDTO.builder()
+        MindlistAdminDTO dto = MindlistAdminDTO.builder()
                 .mno(entity.getMno())
                 .composer(entity.getComposer())
                 .title(entity.getTitle())

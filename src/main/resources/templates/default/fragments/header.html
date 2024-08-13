@@ -26,12 +26,13 @@
 
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Mindlist</span>
+                                <span class="mr-2 d-none d-lg-inline">Mindlist</span>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown" style="background-color:#22b3c1">
                                 <a class="dropdown-item" th:href="@{/midea/mindlistAdmin}">
-                                    <i class="fas fa-sm fa-fw mr-2"></i> 관리자게시판</a>
+                                    <i class="fas fa-sm fa-fw mr-2"></i>
+                                    관리자게시판</a>
                                 <a class="dropdown-item" th:href="@{/midea/mindlist}">
                                     <i class="fas fa-sm fa-fw mr-2 text-gray-400"></i>
                                     유저게시판
@@ -39,7 +40,7 @@
                             </div>
                         </li>
 
-                        <li><a th:href="@{/midea/about}">Community</a></li>
+                        <li><a th:href="@{/midea/community}">Community</a></li>
                         <li><a th:href="@{/midea/contact}">Contact</a></li>
                         <li><a th:href="@{/midea/portfolio}">About</a></li>
                         <th:block sec:authorize="isAnonymous()">
@@ -54,7 +55,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                                <span class="mr-2 d-none d-lg-inline"></span>
                                 <img class="img-profile rounded-circle profile" width="32" height="32"
                                      th:src="@{/uploaded/images/1723165877280_olafur.jpg}">
                             </a>

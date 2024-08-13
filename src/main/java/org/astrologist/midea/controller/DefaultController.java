@@ -28,6 +28,8 @@ public class DefaultController {
 
         session.invalidate();
 
+        log.info("Logout......................");
+
         return "redirect:/midea/index";
     }
 
@@ -37,12 +39,12 @@ public class DefaultController {
         log.info("portfolio......................");
     }
 
-    @GetMapping({"/index", "/community", "/contact"})
+    @GetMapping({"/index", "/community", "/contact", "/community"})
     public void mindlist(HttpSession session){
 
         // 세션에서 현재 로그인한 사용자 정보를 가져옵니다.
         User loggedInUser = (User) session.getAttribute("user");
 
-        log.info("mindlist......................");
+        log.info("Welcome to Midea.. " + loggedInUser);
     }
 }

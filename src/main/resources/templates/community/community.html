@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<link rel="stylesheet" th:href="@{/chatUI/js/chatUI.css}">
+<script th:src="@{/chatUI/js/chatUI.js}"></script>
+
+<th:block th:replace="~{/layout/wooxtravel :: setContent(~{this::content} )}">
+
+    <th:block th:fragment="content">
+
+<div class="grid">
+    <div class="nav">
+        <div class="nav__container">
+            <div class="nav__server" data-tooltip="Server"></div>
+            <div class="nav__server" data-tooltip="Server"></div>
+            <div class="nav__server" data-tooltip="Server"></div>
+            <div class="nav__server" data-tooltip="Server"></div>
+            <div class="nav__server" data-tooltip="Server"></div>
+        </div>
+    </div>
+    <div class="header">
+        <div class="header__container">
+            <div class="header__server">
+                <div class="server__title">Server</div>
+            </div>
+            <div class="header__channel">
+                <div class="channel__item">
+                    <div class="channel__group">Text channels</div>
+                    <div class="channel__title">General</div>
+                    <div class="channel__title">Games</div>
+                    <div class="channel__title">Away</div>
+                </div>
+                <div class="channel__item">
+                    <div class="channel__group">Voice channels</div>
+                    <div class="channel__title">General</div>
+                    <div class="channel__title">Games</div>
+                    <div class="channel__title">Away</div>
+                </div>
+            </div>
+            <div class="header__profile">
+                <div class="profile__badge">
+                    <div class="profile__avatar">
+                        <div class="avatar__status"></div>
+                    </div>
+                    <div class="profile__user">
+                        <div class="user__name">Username</div>
+                        <div class="user__id">1234</div>
+                    </div>
+                </div>
+                <div class="profile__settings">
+                    <div class="profile__setting"></div>
+                    <div class="profile__setting"></div>
+                    <div class="profile__setting"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="main__container">
+            <div class="main__channel">
+                <div class="header__title">General</div>
+            </div>
+            <div class="main__chat" ref="chat">
+                <div class="main__post" v-for="post in posts">
+                    <div class="post__avatar"></div>
+                    <div class="post__content">
+                        <div class="post__name">Username</div>
+                        <div class="post__timestamp">Timestamp</div>
+                        <div class="post__message">{{ post }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="main__input">
+                <div class="input__container"><input class="input__message" type="text" placeholder="Enter message" v-model="post" @keyup.enter="createPost" /></div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer__container">
+            <div class="footer__settings">
+                <div class="settings__group">
+                    <div class="group__setting"></div>
+                    <div class="group__setting"></div>
+                    <div class="group__setting"></div>
+                </div><input class="search__input" type="text" /></div>
+            <div class="footer__friends">
+                <div class="friend__category">Online</div>
+                <div class="friend">
+                    <div class="friend__avatar">
+                        <div class="avatar__status"></div>
+                    </div>
+                    <div class="friend__user">
+                        <div class="user__name">Username</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </th:block>
+</th:block>
+</html>

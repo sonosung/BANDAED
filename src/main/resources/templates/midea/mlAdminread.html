@@ -58,7 +58,7 @@
             <input type="text" class="form-control" name="modDate" th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
         </div>
 
-        <a th:href="@{/midea/mlmodify(mno = ${dto.mno},
+        <a th:href="@{/midea/mlAdminmodify(mno = ${dto.mno},
         page=${requestDTO.page},
         type=${requestDTO.type},
         keyword=${requestDTO.keyword}
@@ -66,7 +66,7 @@
             <button type="button" class="btn btn-primary">Modify</button>
         </a>
 
-        <a th:href="@{/midea/mindlist(
+        <a th:href="@{/midea/mindlistAdmin(
         page=${requestDTO.page},
         type=${requestDTO.type},
         keyword=${requestDTO.keyword}
