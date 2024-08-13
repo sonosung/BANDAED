@@ -204,7 +204,7 @@
         <div class="content-mypage-text">
             회원정보 수정
         </div>
-        <form th:action="@{/midea/mypage-upload}" method="post" enctype="multipart/form-data" th:object="${myPageUploadDTO}">
+        <form th:action="@{/midea/mypage-upload}" method="post" enctype="multipart/form-data" th:object="${myPageUploadDTO}" id="updateForm">
             <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
                     <div class="card">
@@ -229,7 +229,8 @@
                                     <h6 class="mb-0 large-text">Nickname</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary large-text">
-                                    <input type="text" th:field="*{nickname}" class="form-control">
+                                    <input type="text" th:field="*{nickname}" class="form-control" oninput="validateNickname(this)">
+                                    <div id="nicknameError" style="color: red;"></div>
                                 </div>
                             </div>
                             <hr>
@@ -238,7 +239,8 @@
                                     <h6 class="mb-0 large-text">Email</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary large-text">
-                                    <input type="email" th:field="*{email}" class="form-control">
+                                    <input type="email" th:field="*{email}" class="form-control" oninput="validateEmail(this)">
+                                    <div id="emailError" style="color: red;"></div>
                                 </div>
                             </div>
                             <hr>
@@ -272,7 +274,7 @@
                             <hr>
                             <div class="centered-buttons">
                                 <button type="submit" class="btn" onclick="showSuccessMessage()">수정완료</button>
-                                <a class="btn" href="/midea/mypage">수정취소</a>
+                                <a class="btn" href="javascript:void(0);" onclick="confirmCancel()">수정취소</a>
                             </div>
                         </div>
                     </div>
@@ -298,8 +300,13 @@
         const xhr = new XMLHttpRequest();
         xhr.open("GET", `/midea/check-nickname?nickname=${encodeURIComponent(nickname)}`, true);
         xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                callback(xhr.responseText === 'true');
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    callback(xhr.responseText === 'true');
+                } else {
+                    console.error("Error checking nickname availability:", xhr.status, xhr.statusText);
+                    callback(false);  // 오류 시에도 중복이 아닌 것으로 처리
+                }
             }
         };
         xhr.send();
@@ -309,8 +316,13 @@
         const xhr = new XMLHttpRequest();
         xhr.open("GET", `/midea/check-email?email=${encodeURIComponent(email)}`, true);
         xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                callback(xhr.responseText === 'true');
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    callback(xhr.responseText === 'true');
+                } else {
+                    console.error("Error checking email availability:", xhr.status, xhr.statusText);
+                    callback(false);  // 오류 시에도 중복이 아닌 것으로 처리
+                }
             }
         };
         xhr.send();
@@ -318,51 +330,50 @@
 
     function validateNickname(input) {
         const nicknameError = document.getElementById("nicknameError");
+        nicknameError.textContent = ""; // 초기화
+
         if (input.value.trim() === "") {
             nicknameError.textContent = "닉네임을 적어주세요.";
-            return false;
         } else {
             checkNicknameAvailability(input.value.trim(), function(isDuplicate) {
                 if (isDuplicate) {
                     nicknameError.textContent = "닉네임이 이미 존재합니다.";
                 } else {
-                    nicknameError.textContent = "";
+                    nicknameError.textContent = ""; // 중복이 없으면 에러 메시지 제거
                 }
             });
-            return true;
         }
     }
 
     function validateEmail(input) {
         const emailError = document.getElementById("emailError");
+        emailError.textContent = ""; // 초기화
+
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (input.value.trim() === "") {
             emailError.textContent = "이메일을 적어주세요.";
-            return false;
         } else if (!emailPattern.test(input.value.trim())) {
             emailError.textContent = "이메일 형식에 맞지 않습니다.";
-            return false;
         } else {
             checkEmailAvailability(input.value.trim(), function(isDuplicate) {
                 if (isDuplicate) {
                     emailError.textContent = "이메일이 이미 존재합니다.";
                 } else {
-                    emailError.textContent = "";
+                    emailError.textContent = ""; // 중복이 없으면 에러 메시지 제거
                 }
             });
-            return true;
         }
     }
 
-    function validateForm() {
-        const nicknameValid = validateNickname(document.querySelector("input[th\\:field='*{nickname}']"));
-        const emailValid = validateEmail(document.querySelector("input[th\\:field='*{email}']"));
-        return nicknameValid && emailValid;
-    }
-
-    function showSuccessMessage() {
+function showSuccessMessage() {
         alert('회원정보 수정 완료했습니다');
         window.location.href = '/midea/mypage';
+    }
+
+    function confirmCancel() {
+        if (confirm("정말로 수정을 취소하시겠습니까?")) {
+            window.location.href = '/midea/mypage';
+        }
     }
 </script>
 </body>

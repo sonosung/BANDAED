@@ -13,4 +13,7 @@ public interface MyPageUploadRepository extends JpaRepository<User, Long> {
 
     @NonNull
     Optional<User> findById(@NonNull Long id);
+
+    @NonNull
+    Optional<User> findByNickname(@NonNull String nickname);
 }
