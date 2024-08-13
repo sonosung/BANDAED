@@ -47,7 +47,7 @@
         .content-main {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: right;
             position: relative;
         }
         .logo {
@@ -80,7 +80,7 @@
         }
         .col-md-8 {
             flex: 0 0 65%;
-            max-width: 100%;
+            max-width: 55%;
             margin-left: 1.5cm;
             min-height: 500px;
             height: auto;
@@ -97,8 +97,8 @@
         }
         .card-additional {
             margin-top: 30px;
-            margin-left: -260px;
-            width: 140%;
+            margin-left: -355px;
+            width: 165%;
             height: 40%;
         }
         .d-flex {
@@ -202,7 +202,7 @@
 <div class="container">
     <div class="content-main">
         <div class="content-mypage-text">
-            회원정보 수정
+            Modify My Page
         </div>
         <form th:action="@{/midea/mypage-upload}" method="post" enctype="multipart/form-data" th:object="${myPageUploadDTO}" id="updateForm">
             <div class="row gutters-sm">
@@ -230,7 +230,7 @@
                                 </div>
                                 <div class="col-sm-9 text-secondary large-text">
                                     <input type="text" th:field="*{nickname}" class="form-control" oninput="validateNickname(this)">
-                                    <div id="nicknameError" style="color: red;"></div>
+                                    <div id="nicknameError" style="color: red; font-size: 12px;"></div>
                                 </div>
                             </div>
                             <hr>
@@ -240,7 +240,7 @@
                                 </div>
                                 <div class="col-sm-9 text-secondary large-text">
                                     <input type="email" th:field="*{email}" class="form-control" oninput="validateEmail(this)">
-                                    <div id="emailError" style="color: red;"></div>
+                                    <div id="emailError" style="color: red; font-size: 12px;"></div>
                                 </div>
                             </div>
                             <hr>
