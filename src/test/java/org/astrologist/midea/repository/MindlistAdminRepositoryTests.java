@@ -30,7 +30,7 @@ public class MindlistAdminRepositoryTests {
                     .title("Title...." + i)
                     .url("usl..." +i)
                     .content("content.."+i)
-                    .writer("user" + (i % 10))
+                    .nickname("nickname" + (i % 10))
                     .build();
             System.out.println(mindlistAdminRepository.save(mindlistAdminAdmin));
         });

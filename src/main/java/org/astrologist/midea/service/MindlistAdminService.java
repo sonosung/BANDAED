@@ -3,11 +3,13 @@ package org.astrologist.midea.service;
 import org.astrologist.midea.dto.MindlistAdminDTO;
 import org.astrologist.midea.dto.PageRequestDTO;
 import org.astrologist.midea.dto.PageResultDTO;
+import org.astrologist.midea.dto.UserPageDTO;
 import org.astrologist.midea.entity.MindlistAdmin;
+import org.astrologist.midea.entity.User;
 
 public interface MindlistAdminService {
 
-    Long register(MindlistAdminDTO dto);
+    Long register(MindlistAdminDTO mindlistAdminDTO);
 
     PageResultDTO<MindlistAdminDTO, MindlistAdmin> getList(PageRequestDTO requestDTO);
 
@@ -24,25 +26,25 @@ public interface MindlistAdminService {
                 .title(dto.getTitle())
                 .url(dto.getUrl())
                 .content(dto.getContent())
-                .writer(dto.getWriter())
+                .nickname(dto.getNickname())
                 .build();
         return entity;
     }
 
     default MindlistAdminDTO entityToDto(MindlistAdmin entity) {
 
-        MindlistAdminDTO dto = MindlistAdminDTO.builder()
+        MindlistAdminDTO mindlistAdminDTO = MindlistAdminDTO.builder()
                 .mno(entity.getMno())
                 .composer(entity.getComposer())
                 .title(entity.getTitle())
                 .url(entity.getUrl())
                 .content(entity.getContent())
-                .writer(entity.getWriter())
+                .nickname(entity.getNickname())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
                 .build();
 
-        return dto;
+        return mindlistAdminDTO;
     }
 
 }

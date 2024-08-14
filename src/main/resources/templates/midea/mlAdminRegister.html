@@ -32,6 +32,16 @@
                 <input class="form-control" name="title" placeholder="Enter title...">
             </div>
 
+            <select class="custom-select" name="type">
+                <option aria-label="Default select example" th:selected="${moodSelectDTO.type == null}">Mood</option>
+                <option value="c" th:selected="${moodSelectDTO.type == 'c'}">Calm</option>
+                <option value="e" th:selected="${moodSelectDTO.type == 'e'}">Energetic</option>
+                <option value="h" th:selected="${moodSelectDTO.type == 'h'}">Happy</option>
+                <option value="j" th:selected="${moodSelectDTO.type == 'j'}">Joyful</option>
+                <option value="s" th:selected="${moodSelectDTO.type == 's'}">Sad</option>
+                <option value="st" th:selected="${moodSelectDTO.type == 'st'}">Stressed</option>
+            </select>
+
             <div class="form-group">
                 <label>URL</label>
                 <input class="form-control" name="url" placeholder="Insert url...">

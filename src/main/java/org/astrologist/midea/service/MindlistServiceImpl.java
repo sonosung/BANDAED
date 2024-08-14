@@ -113,8 +113,8 @@ public class MindlistServiceImpl implements MindlistService {
         if(type.contains("t")){
             conditionBuilder.or(qMindlist.title.contains(keyword));
         }
-        if(type.contains("w")){
-            conditionBuilder.or(qMindlist.writer.contains(keyword));
+        if(type.contains("n")){
+            conditionBuilder.or(qMindlist.nickname.contains(keyword));
         }
 
         //모든 조건 통합

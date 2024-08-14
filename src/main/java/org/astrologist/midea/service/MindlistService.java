@@ -4,7 +4,6 @@ import org.astrologist.midea.dto.MindlistDTO;
 import org.astrologist.midea.dto.PageRequestDTO;
 import org.astrologist.midea.dto.PageResultDTO;
 import org.astrologist.midea.entity.Mindlist;
-import org.astrologist.midea.entity.User;
 
 public interface MindlistService {
     Long register(MindlistDTO dto);
@@ -24,10 +23,12 @@ public interface MindlistService {
                 .title(dto.getTitle())
                 .url(dto.getUrl())
                 .content(dto.getContent())
-                .writer(dto.getWriter())
+                .nickname(dto.getNickname())
                 .build();
         return entity;
     }
+
+
 
     default MindlistDTO entityToDto(Mindlist entity){
 
@@ -37,7 +38,8 @@ public interface MindlistService {
                 .title(entity.getTitle())
                 .url(entity.getUrl())
                 .content(entity.getContent())
-                .writer(entity.getWriter())
+                .nickname(entity.getNickname())
+                .profileImagePath(entity.getProfileImagePath())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
                 .build();

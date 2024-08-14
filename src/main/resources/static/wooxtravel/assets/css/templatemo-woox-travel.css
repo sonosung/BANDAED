@@ -379,6 +379,7 @@ Header Style
 }
 
 .header-area .main-nav .nav {
+  background-color: #22b3c1;
   flex-basis: 70%;
   justify-content: flex-end;
   vertical-align: middle;

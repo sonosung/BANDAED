@@ -28,7 +28,10 @@ public class MindlistAdmin extends BaseEntity {
     private String url;
 
     @Column(length = 50, nullable = false)
-    private String writer;
+    private String nickname;
+
+    @Column(length = 1000, nullable = false)
+    private String profileImagePath;  // 사용자 프로필 이미지 경로
 
     public void changeComposer(String composer) {
         this.composer = composer;

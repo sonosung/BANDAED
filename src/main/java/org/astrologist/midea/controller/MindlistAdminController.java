@@ -56,11 +56,11 @@ public class MindlistAdminController {
     }
 
     @PostMapping("/mlAdminRegister")
-    public String register(MindlistAdminDTO mindlistAdminDTO, RedirectAttributes redirectAttributes, Model model){
-        log.info("dto....." + mindlistAdminDTO);
+    public String register(MindlistAdminDTO dto, RedirectAttributes redirectAttributes, Model model){
+        log.info("dto....." + dto);
 
         //새로 추가된 엔티티의 번호
-        Long mno = mindlistAdminService.register(mindlistAdminDTO);
+        Long mno = mindlistAdminService.register(dto);
 
         redirectAttributes.addFlashAttribute("msg", mno);
 
@@ -82,9 +82,9 @@ public class MindlistAdminController {
     public void read(long mno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
         log.info("mno: " + mno);
 
-        MindlistAdminDTO mindlistAdminDTO = mindlistAdminService.read(mno);
+        MindlistAdminDTO dto = mindlistAdminService.read(mno);
 
-        model.addAttribute("dto", mindlistAdminDTO);
+        model.addAttribute("dto", dto);
     }
 
     @PostMapping("/mlAdminremove")
@@ -100,17 +100,17 @@ public class MindlistAdminController {
     }
 
     @PostMapping("/mlAdminmodify")
-    public String modify(MindlistAdminDTO mindlistAdminDTO, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes) {
+    public String modify(MindlistAdminDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes) {
 
         log.info("post modify................................................");
-        log.info("dto: " + mindlistAdminDTO);
+        log.info("dto: " + dto);
 
-        mindlistAdminService.modify(mindlistAdminDTO);
+        mindlistAdminService.modify(dto);
 
         redirectAttributes.addAttribute("page", requestDTO.getPage());
         redirectAttributes.addAttribute("type", requestDTO.getType());
         redirectAttributes.addAttribute("keyword", requestDTO.getKeyword());
-        redirectAttributes.addAttribute("mno", mindlistAdminDTO.getMno());
+        redirectAttributes.addAttribute("mno", dto.getMno());
 
         return "redirect:/midea/mlAdminread";
     }

@@ -21,7 +21,8 @@ public class MindlistServiceTests {
                 .composer("Sample Composer...")
                 .title("Sample Title...")
                 .url("Sample URL...")
-                .writer("user0")
+                .content("Sample Content..")
+                .nickname("Nickname")
                 .build();
 
         System.out.println(service.register(mindlistDTO));

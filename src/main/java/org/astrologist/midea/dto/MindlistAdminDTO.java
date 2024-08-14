@@ -1,13 +1,12 @@
 package org.astrologist.midea.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.astrologist.midea.entity.User;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,23 +18,16 @@ public class MindlistAdminDTO {
     private String title;
     private String content;
     private String url;
-    private String writer;
+    private String nickname;
+    private String profileImagePath;
     private LocalDateTime regDate, modDate;
 
-    // Entity to DTO conversion
-    public static UserPageDTO fromEntity(User user) {
-        UserPageDTO dto = new UserPageDTO();
-        dto.setNickname(user.getNickname());
-        dto.setEmail(user.getEmail());
-        dto.setHappy(user.isHappy());
-        dto.setSad(user.isSad());
-        dto.setCalm(user.isCalm());
-        dto.setStressed(user.isStressed());
-        dto.setJoyful(user.isJoyful());
-        dto.setEnergetic(user.isEnergetic());
-        dto.setProfileImagePath(user.getProfileImagePath());
-        return dto;
-    }
+    private boolean happy;
+    private boolean sad;
+    private boolean calm;
+    private boolean stressed;
+    private boolean joyful;
+    private boolean energetic;
 
 }
 

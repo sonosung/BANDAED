@@ -29,11 +29,11 @@ public class MindlistAdminServiceImpl implements MindlistAdminService{
     private final MindlistAdminRepository repository; //반드시 final로 선언.
 
     @Override
-    public Long register(MindlistAdminDTO dto) {
+    public Long register(MindlistAdminDTO mindlistAdminDTO) {
         log.info("DTO---------------------");
-        log.info(dto);
+        log.info(mindlistAdminDTO);
 
-        MindlistAdmin entity = dtoToEntity(dto);
+        MindlistAdmin entity = dtoToEntity(mindlistAdminDTO);
 
         log.info(entity);
 
@@ -116,8 +116,8 @@ public class MindlistAdminServiceImpl implements MindlistAdminService{
         if(type.contains("t")){
             conditionBuilder.or(qMindlistAdmin.title.contains(keyword));
         }
-        if(type.contains("w")){
-            conditionBuilder.or(qMindlistAdmin.writer.contains(keyword));
+        if(type.contains("n")){
+            conditionBuilder.or(qMindlistAdmin.nickname.contains(keyword));
         }
 
         //모든 조건 통합

@@ -34,9 +34,9 @@
                         <option aria-label="Default select example" th:selected="${pageRequestDTO.type == null}">검색 조건</option>
                         <option value="c" th:selected="${pageRequestDTO.type == 'c'}">아티스트</option>
                         <option value="t" th:selected="${pageRequestDTO.type == 't'}">곡명</option>
-                        <option value="w" th:selected="${pageRequestDTO.type == 'w'}">작성자</option>
+                        <option value="n" th:selected="${pageRequestDTO.type == 'n'}">작성자</option>
                         <option value="tc" th:selected="${pageRequestDTO.type == 'tc'}">곡명 + 아티스트</option>
-                        <option value="tcw" th:selected="${pageRequestDTO.type == 'tcw'}">곡명 + 아티스트 + 작성자</option>
+                        <option value="tcn" th:selected="${pageRequestDTO.type == 'tcn'}">곡명 + 아티스트 + 작성자</option>
                       </select>
                     </div>
                   </fieldset>
@@ -186,12 +186,12 @@
                     </div>
                     <div class="col-6">
                       <i class="fa-solid fa-user"></i>
-                      <span class="list">[[${dto.writer}]]</span>
+                      <span class="list">[[${dto.nickname}]]</span>
                     </div>
                   </div>
                   <p>[[${dto.content}]]</p>
                   <div class="main-button">
-                    <a href="https://www.youtube.com/watch?v=NXD-WJYtkyc&t=3149s">음악 들으러 가기</a>
+                    <a th:href="@{dto.url}">음악 들으러 가기</a>
                   </div>
                 </div>
               </div>
