@@ -39,7 +39,7 @@ public class DefaultController {
         log.info("portfolio......................");
     }
 
-    @GetMapping({"/index", "/community", "/contact", "/community"})
+    @GetMapping({"/index"/*, "/community"*/, "/contact"})
     public void mindlist(HttpSession session){
 
         // 세션에서 현재 로그인한 사용자 정보를 가져옵니다.
