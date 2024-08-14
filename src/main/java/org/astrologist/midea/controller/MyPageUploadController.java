@@ -37,6 +37,11 @@ public class MyPageUploadController {
             return "redirect:/midea/login";
         }
 
+        // 프로필 이미지가 null일 경우 디폴트 이미지 설정
+        if (loggedInUser.getProfileImagePath() == null || loggedInUser.getProfileImagePath().isEmpty()) {
+            loggedInUser.setProfileImagePath("/default.images/default-profile.jpg");
+        }
+
         MyPageUploadDTO myPageUploadDTO = MyPageUploadDTO.fromEntity(loggedInUser); // 사용자 정보를 DTO로 변환합니다.
         model.addAttribute("user", myPageUploadDTO); // 사용자 정보를 모델에 추가합니다.
         model.addAttribute("myPageUploadDTO", myPageUploadDTO); // 모델에 DTO를 추가합니다.
@@ -51,6 +56,15 @@ public class MyPageUploadController {
         }
 
         try {
+            // 이미지가 업로드되지 않은 경우 기존 이미지를 유지하거나 디폴트 이미지를 설정
+            if (profileImage == null || profileImage.isEmpty()) {
+                if (loggedInUser.getProfileImagePath() == null || loggedInUser.getProfileImagePath().isEmpty()) {
+                    myPageUploadDTO.setProfileImagePath("/default.images/default-profile.jpg");
+                } else {
+                    myPageUploadDTO.setProfileImagePath(loggedInUser.getProfileImagePath());
+                }
+            }
+
             myPageUploadService.updateUser(myPageUploadDTO, profileImage, loggedInUser.getId());  // 사용자 정보를 업데이트합니다.
             session.setAttribute("user", myPageUploadService.findById(loggedInUser.getId()));  // 업데이트된 사용자 정보를 세션에 다시 저장합니다.
             redirectAttributes.addFlashAttribute("successMessage", "회원정보 수정 완료했습니다!");
@@ -73,6 +87,7 @@ public class MyPageUploadController {
     private User getLoggedInUser() {
         return (User) session.getAttribute("user");
     }
+
     /**
      * 사용자가 적절한 권한을 가지고 있는지 확인하는 메서드입니다.
      *
