@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Value;
 
 @Controller
 @RequestMapping("/midea")
@@ -19,6 +20,9 @@ public class UserPageController {
 
     @Autowired
     private HttpSession session;  // 현재 사용자의 세션을 주입받습니다.
+
+    @Value("${org.zerock.default.profile-image}")
+    private String defaultProfileImagePath;  // 디폴트 프로필 이미지 경로를 주입받습니다.
 
     // 마이페이지 폼을 보여주는 GET 요청 처리 메서드입니다.
     @GetMapping("/mypage")
@@ -34,6 +38,10 @@ public class UserPageController {
             return "redirect:/midea/login";
         }
 
+        //프로필 이미지가 없는 경우에만 디폴트 이미지 설정
+        if (loggedInUser.getProfileImagePath() == null || loggedInUser.getProfileImagePath().isEmpty()) {
+            loggedInUser.setProfileImagePath("/default.images/" + defaultProfileImagePath);
+        }
         // 사용자의 정보를 DTO로 변환하여 모델에 추가합니다.
         MyPageUploadDTO userPageDTO = MyPageUploadDTO.fromEntity(loggedInUser);
         model.addAttribute("user", userPageDTO);
@@ -49,6 +57,11 @@ public class UserPageController {
         }
         if (loggedInUser.getUserRole() != User.UserRole.MEMBER && loggedInUser.getUserRole() != User.UserRole.ADMIN) {
             return "redirect:/midea/login";
+        }
+
+        // 프로필 이미지가 없는 경우에만 디폴트 이미지 설정
+        if (loggedInUser.getProfileImagePath() == null || loggedInUser.getProfileImagePath().isEmpty()) {
+            loggedInUser.setProfileImagePath("/default.images/" + defaultProfileImagePath);
         }
 
         MyPageUploadDTO myPageUploadDTO = MyPageUploadDTO.fromEntity(loggedInUser);
