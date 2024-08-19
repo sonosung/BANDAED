@@ -2,6 +2,7 @@ package org.astrologist.midea.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDateTime;
 
 @Entity  // 이 클래스가 JPA 엔티티임을 나타냅니다. 이 클래스는 데이터베이스 테이블과 매핑됩니다.
 @ToString  // Lombok 어노테이션으로, 이 클래스의 toString() 메서드를 자동 생성합니다.
@@ -9,62 +10,54 @@ import lombok.*;
 @Builder  // Lombok 어노테이션으로, 이 클래스의 빌더 패턴을 자동 생성합니다.
 @AllArgsConstructor  // Lombok 어노테이션으로, 모든 필드를 파라미터로 받는 생성자를 자동 생성합니다.
 @NoArgsConstructor  // Lombok 어노테이션으로, 파라미터가 없는 기본 생성자를 자동 생성합니다.
+@Setter
 @Table(name = "community")  // 이 엔티티가 "community"라는 이름의 데이터베이스 테이블과 매핑됨을 나타냅니다.
 public class Community extends BaseEntity {  // Community 클래스는 BaseEntity를 상속받아 생성 및 수정 시간 필드를 상속받습니다.
 
-    @Id  // 이 필드가 엔티티의 기본 키임을 나타냅니다.
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // 기본 키가 데이터베이스에서 자동으로 생성되도록 설정합니다.
-    private Long mno;  // Community 엔티티의 고유 ID, 데이터베이스에서 자동 생성됩니다.
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;  // 이 엔티티의 고유 ID (게시글 또는 채팅 메시지)
 
     @Column(length = 100, nullable = false)
-    private String composer;  // 작성자 이름을 저장하는 필드입니다.
+    private String composer;  // 작성자 이름 또는 닉네임
 
     @Column(length = 1500, nullable = false)
-    private String content;  // 커뮤니티 게시물의 내용을 저장하는 필드입니다.
+    private String content;  // 게시글 내용 또는 채팅 메시지 내용
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;  // 이 커뮤니티 게시물의 작성자(User)를 나타내는 필드입니다.
+    private User user;  // 메시지나 게시글을 작성한 사용자
 
     @Column(nullable = false)
     @Builder.Default
-    private int likeCount = 0;  // 게시물에 대한 좋아요 수를 저장하는 필드입니다. 기본값은 0으로 초기화됩니다.
+    private int likeCount = 0;  // 게시글에 대한 좋아요 수
 
     @Column(nullable = false)
     @Builder.Default
-    private boolean isArchived = false;  // 게시물이 아카이브 상태인지 여부를 나타내는 필드입니다. 기본값은 false로 설정됩니다.
+    private boolean isArchived = false;  // 게시글이 아카이브(보관) 상태인지 여부
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Subcategory subcategory;  // 게시물이 속한 소분류를 저장하는 필드입니다.
+    private Subcategory subcategory;  // 게시글 또는 채팅방의 주제 (카테고리)
 
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean isChatMessage = false;  // 이 엔티티가 채팅 메시지인지 여부
+
+    @Column(nullable = true)
+    private String room;  // 채팅방 식별자 (채팅 메시지에만 사용)
+
+    @Column(nullable = true)
+    private LocalDateTime timestamp;  // 메시지가 전송된 시간 (채팅 메시지에만 사용)
+
+    // Subcategory는 게시글과 채팅방의 주제를 나타냅니다.
     public enum Subcategory {
         MinimalTechno, MinimalHouse, MinimalClassical, SteveReich, PhilipGlass, TerryRiley, Synthesizer, Piano, Percussion
     }
 
-    // 게시물 내용을 변경하는 메서드
+    // 게시글 내용을 변경하는 메서드
     public void changeContent(String content) {
         this.content = content;
-    }
-
-    // User 엔티티의 ID를 반환하는 메서드
-    public Long getUserId() {
-        return user.getId();
-    }
-
-    // User 엔티티의 닉네임을 반환하는 메서드
-    public String getNickname() {
-        return user.getNickname();
-    }
-
-    // User 엔티티의 역할(UserRole)을 반환하는 메서드
-    public User.UserRole getUserRole() {
-        return user.getUserRole();
-    }
-
-    // User 엔티티의 프로필 이미지 경로를 반환하는 메서드
-    public String getProfileImagePath() {
-        return user.getProfileImagePath();
     }
 
     // 좋아요 수를 증가시키는 메서드
@@ -87,5 +80,13 @@ public class Community extends BaseEntity {  // Community 클래스는 BaseEntit
     // 아카이브 해제 상태로 변경하는 메서드
     public void unarchive() {
         this.isArchived = false;
+    }
+    // isChatMessage를 설정하는 메서드
+    public void setIsChatMessage(boolean isChatMessage) {
+        this.isChatMessage = isChatMessage;
+    }
+    // timestamp를 설정하는 메서드
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 }

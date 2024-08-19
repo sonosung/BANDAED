@@ -14,5 +14,5 @@ public class CommunityDTO {
     private Long userId;
     private String composer;
     private String content;
-    private Community.Subcategory subcategory;
+    private Community.Subcategory subcategory;  // Community 엔티티의 Subcategory 열거형을 사용
 }

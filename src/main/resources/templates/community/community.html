@@ -160,10 +160,10 @@
  .main {
 	 background: #36383e;
 }
- .main__chat {
-	 height: calc(100vh - 10rem);
-	 overflow-y: scroll;
-	 padding: 1rem;
+.main__chat {
+    height: calc(100vh - 10rem);
+    overflow-y: scroll;
+    padding: 1rem;
 }
  .main__post {
 	 display: flex;
@@ -749,8 +749,7 @@
                         <div class="channel__item" v-if="activeCategory === 'styles'">
                             <div class="channel__title" @click="selectTitle('#Minimal Techno')">#Minimal Techno</div>
                             <div class="channel__title" @click="selectTitle('#Minimal House')">#Minimal House</div>
-                            <div class="channel__title" @click="selectTitle('#Minimal Classical')">#Minimal Classical
-                            </div>
+                            <div class="channel__title" @click="selectTitle('#Minimal Classical')">#Minimal Classical</div>
                         </div>
                         <div class="channel__item" v-if="activeCategory === 'artists'">
                             <div class="channel__title" @click="selectTitle('#Steve Reich')">#Steve Reich</div>
@@ -766,10 +765,11 @@
                     <div class="header__profile">
                         <div class="profile__badge">
                             <div class="profile__avatar">
+                                <img th:src="${profileImage}" class="profile__avatar rounded-circle" width="1" height="5" alt="Profile Picture">
                                 <div class="avatar__status"></div>
                             </div>
                             <div class="profile__user">
-                                <div class="user__name">Username</div>
+                                <div class="user__name" style="color: white;">[[${username}]]</div>
                                 <div class="user__id">1234</div>
                             </div>
                         </div>
@@ -787,19 +787,26 @@
                         <div class="header__title" style="color: white; font-size: 20px;">Welcome Community</div>
                     </div>
                     <div class="main__chat" ref="chat">
-                        <div class="main__post" v-for="post in posts">
+                        <div class="main__post" v-for="(post, index) in posts">
                             <div class="post__avatar"></div>
                             <div class="post__content">
                                 <div class="post__name">Username</div>
                                 <div class="post__timestamp">Timestamp</div>
                                 <div class="post__message">{{ post }}</div>
+                                <div class="post__actions" style="display: inline-block; min-height: -0.5cm;">
+                                    <button @click="editPost(index)" style="border-radius: 20px; font-size: 10px; background-color: #E5FEFE;">수정</button>
+                                    <button @click="deletePost(index)" style="border-radius: 20px; font-size: 10px; background-color: #00CCCC;">삭제</button>
+                                    <button @click="toggleLike(index)" style="background: none; border: none;">
+                                        <span :style="{color: isLiked[index] ? 'red' : 'white'}">❤</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="main__input">
-                        <div class="input__container"><input class="input__message" type="text"
-                                                             placeholder="Enter message" v-model="post"
-                                                             @keyup.enter="createPost"/></div>
+                        <div class="input__container">
+                            <input class="input__message" type="text" placeholder="Enter message" v-model="post" @keyup.enter="createPost"/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -811,7 +818,8 @@
                             <div class="group__setting"></div>
                             <div class="group__setting"></div>
                         </div>
-                        <input class="search__input" type="text"/></div>
+                        <input class="search__input" type="text"/>
+                    </div>
                     <div class="footer__friends">
                         <div class="friend__category">Online</div>
                         <div class="friend">
@@ -827,7 +835,6 @@
             </div>
         </div>
 
-
         <script>
             new Vue({
                 el: ".grid",
@@ -836,7 +843,8 @@
                         activeCategory: null,  // 현재 선택된 카테고리
                         selectedTitle: null,  // 현재 선택된 타이틀
                         post: "",
-                        posts: ["Write a message below and hit enter"]
+                        posts: ["Write a message below and hit enter"],
+                        isLiked: []
                     };
                 },
                 updated() {
@@ -855,12 +863,28 @@
                             return false;
                         }
                         this.posts.push(post);
+                        this.isLiked.push(false);
                         this.post = "";
+                    },
+                    editPost(index) {
+                        let newPost = prompt("수정할 내용을 입력하세요:", this.posts[index]);
+                        if (newPost !== null) {
+                            this.posts.splice(index, 1, newPost.trim());
+                        }
+                    },
+                    deletePost(index) {
+                        if (confirm("이 게시글을 삭제하시겠습니까?")) {
+                            this.posts.splice(index, 1);
+                            this.isLiked.splice(index, 1);
+                        }
+                    },
+                    toggleLike(index) {
+                        this.$set(this.isLiked, index, !this.isLiked[index]);
                     }
                 }
             });
         </script>
-    </th:block>
+</th:block>
 </th:block>
 </body>
 </html>
