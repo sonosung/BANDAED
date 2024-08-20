@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <style>
         /* Variables */
@@ -726,7 +726,6 @@
             <script th:src="@{/wooxtravel/vendor/jquery/jquery.min.js}"></script>
 
         </th:block>-->
-
     <th:block th:fragment="content">
         <br>
         <br>
@@ -790,9 +789,9 @@
                         <div class="main__post" v-for="(post, index) in posts">
                             <div class="post__avatar"></div>
                             <div class="post__content">
-                                <div class="post__name">Username</div>
-                                <div class="post__timestamp">Timestamp</div>
-                                <div class="post__message">{{ post }}</div>
+                                <div class="post__name" style="color:#33FFFF; font-weight: bold; font-size: 15px">{{ post.username }}</div>
+                                <div class="post__timestamp">{{ post.timestamp }}</div>
+                                <div class="post__message">{{ post.message }}</div>
                                 <div class="post__actions" style="display: inline-block; min-height: -0.5cm;">
                                     <button @click="editPost(index)" style="border-radius: 20px; font-size: 10px; background-color: #E5FEFE;">수정</button>
                                     <button @click="deletePost(index)" style="border-radius: 20px; font-size: 10px; background-color: #00CCCC;">삭제</button>
@@ -834,7 +833,6 @@
                 </div>
             </div>
         </div>
-
         <script>
             new Vue({
                 el: ".grid",
@@ -843,8 +841,11 @@
                         activeCategory: null,  // 현재 선택된 카테고리
                         selectedTitle: null,  // 현재 선택된 타이틀
                         post: "",
-                        posts: ["Write a message below and hit enter"],
-                        isLiked: []
+                        posts: [],
+                        isLiked: [],
+                        userRole: '[[${userRole}]]',  // 서버에서 전달받은 UserRole을 가져옵니다.
+                        username: '[[${username}]]',  // 서버에서 전달받은 닉네임을 가져옵니다.
+                        selectedCategory: null // 선택된 채팅방 카테고리
                     };
                 },
                 updated() {
@@ -856,20 +857,59 @@
                 methods: {
                     selectTitle(title) {
                         this.selectedTitle = title;
+                        this.selectedCategory = title.replace('#', ''); // 카테고리를 선택하면 저장 (ex. '#Minimal Techno' -> 'Minimal Techno')
                     },
                     createPost() {
-                        let post = this.post && this.post.trim();
-                        if (!post) {
+                        // 카테고리가 선택되었는지 확인
+                        if (!this.selectedCategory) {
+                            alert('메시지를 입력하기 전에 카테고리를 선택해주세요.');
+                            return;
+                        }
+
+                        // UserRole 확인
+                        if (this.userRole !== 'MEMBER' && this.userRole !== 'ADMIN') {
+                            alert('MIDEA 회원용 커뮤니티입니다. 로그인 해주세요.');
+                            window.location.href = '/midea/login'; // 로그인 페이지로 리다이렉트
+                            return;
+                        }
+
+                        let messageContent = this.post && this.post.trim();
+                        if (!messageContent) {
                             return false;
                         }
-                        this.posts.push(post);
+
+                        // 현재 시간 가져오기
+                        let timestamp = new Date().toLocaleString();
+
+                        // post 객체 생성
+                        let postObject = {
+                            username: this.username,
+                            timestamp: timestamp,
+                            message: messageContent,
+                            subcategory: this.selectedCategory // 선택된 카테고리를 포함
+                        };
+
+                        // post 객체를 배열에 추가
+                        this.posts.push(postObject);
                         this.isLiked.push(false);
                         this.post = "";
+
+                        // 서버에 메시지 전송 (AJAX 사용 가능)
+                        axios.post('/midea/community', {
+                            userId: userId,  // 세션에서 가져온 사용자 ID를 사용
+                            composer: this.username,
+                            content: messageContent,
+                            subcategory: this.selectedCategory
+                        }).then(response => {
+                            console.log("Message sent to server:", response.data);
+                        }).catch(error => {
+                            console.error("Failed to send message:", error);
+                        });
                     },
                     editPost(index) {
-                        let newPost = prompt("수정할 내용을 입력하세요:", this.posts[index]);
+                        let newPost = prompt("수정할 내용을 입력하세요:", this.posts[index].message);
                         if (newPost !== null) {
-                            this.posts.splice(index, 1, newPost.trim());
+                            this.posts[index].message = newPost.trim();
                         }
                     },
                     deletePost(index) {
@@ -884,7 +924,7 @@
                 }
             });
         </script>
-    </th:block>
+</th:block>
 </th:block>
 </body>
 </html>
