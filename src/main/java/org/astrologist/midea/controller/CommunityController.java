@@ -5,14 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.astrologist.midea.dto.CommunityDTO;
 import org.astrologist.midea.entity.Community;
 import org.astrologist.midea.service.CommunityService;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.astrologist.midea.entity.User;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -26,7 +23,7 @@ public class CommunityController {
      * 커뮤니티 페이지를 표시합니다.
      * 게시글 목록과 새로운 게시글을 작성하기 위한 폼을 모델에 추가합니다.
      *
-     * @param model - 모델 객체
+     * @param model   - 모델 객체
      * @param session - 세션 객체
      * @return community/community 템플릿
      */
@@ -68,55 +65,20 @@ public class CommunityController {
      * 사용자가 작성한 데이터를 받아 게시글을 저장하고 커뮤니티 페이지로 리다이렉트합니다.
      *
      * @param communityDTO - 사용자가 작성한 게시글 데이터
+     * @param session - 세션 객체
      * @return 커뮤니티 페이지로 리다이렉트
      */
     @PostMapping
-    public String createCommunityPost(@ModelAttribute CommunityDTO communityDTO) {
+    public String createCommunityPost(@ModelAttribute CommunityDTO communityDTO, HttpSession session) {
+        // 세션에서 로그인된 사용자 정보를 가져오기
+        User user = (User) session.getAttribute("user");
+
+        // 사용자가 로그인하지 않았거나, UserRole이 MEMBER 또는 ADMIN이 아닌 경우
+        if (user == null || (!"MEMBER".equals(user.getUserRole().name()) && !"ADMIN".equals(user.getUserRole().name()))) {
+            return "redirect:/midea/login";
+        }
+
         communityService.createCommunityPost(communityDTO);
         return "redirect:/midea/community";  // 게시글 생성 후 커뮤니티 페이지로 리다이렉트
-    }
-
-    /**
-     * WebSocket을 통해 수신된 채팅 메시지를 처리합니다.
-     * 채팅 메시지를 저장하고, 해당 주제의 모든 클라이언트에게 메시지를 브로드캐스트합니다.
-     *
-     * @param chatMessage - 채팅 메시지 데이터
-     * @return 저장된 채팅 메시지
-     */
-    @MessageMapping("/chat.sendMessage")
-    @SendTo("/topic/{subcategory}")
-    public Community sendMessage(@RequestBody Community chatMessage) {
-        chatMessage.setIsChatMessage(true);  // 메시지가 채팅 메시지임을 표시
-        chatMessage.setTimestamp(LocalDateTime.now());  // 메시지의 전송 시간 설정
-        communityService.saveChatMessage(chatMessage);  // 메시지 저장
-        return chatMessage;  // 저장된 메시지를 반환하여 클라이언트에 브로드캐스트
-    }
-
-    /**
-     * 새로운 사용자가 채팅에 참여했을 때의 메시지를 처리합니다.
-     *
-     * @param chatMessage - 채팅 참여 메시지 데이터
-     * @return 저장된 참여 메시지
-     */
-    @MessageMapping("/chat.addUser")
-    @SendTo("/topic/{subcategory}")
-    public Community addUser(@RequestBody Community chatMessage) {
-        chatMessage.setIsChatMessage(true);
-        chatMessage.setContent(chatMessage.getUser().getNickname() + " has joined the chat");
-        chatMessage.setTimestamp(LocalDateTime.now());
-        communityService.saveChatMessage(chatMessage);
-        return chatMessage;
-    }
-
-    /**
-     * 특정 주제(Subcategory)에 대한 채팅 기록을 가져옵니다.
-     *
-     * @param subcategory - 조회할 주제
-     * @return 해당 주제의 채팅 메시지 리스트
-     */
-    @GetMapping("/chat/history/{subcategory}")
-    @ResponseBody
-    public List<Community> getChatHistory(@PathVariable Community.Subcategory subcategory) {
-        return communityService.getChatHistory(subcategory);
     }
 }
