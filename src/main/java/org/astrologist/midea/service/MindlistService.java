@@ -3,7 +3,6 @@ package org.astrologist.midea.service;
 import org.astrologist.midea.dto.MindlistDTO;
 import org.astrologist.midea.dto.PageRequestDTO;
 import org.astrologist.midea.dto.PageResultDTO;
-import org.astrologist.midea.entity.Member;
 import org.astrologist.midea.entity.Mindlist;
 import org.astrologist.midea.entity.User;
 
@@ -18,18 +17,23 @@ public interface MindlistService {
 
     void modify(MindlistDTO dto);
 
-    default Mindlist dtoToEntity(MindlistDTO mindlistDTO) {
+    default Mindlist dtoToEntity(MindlistDTO dto) {
 
-        User user = User.builder().email(mindlistDTO.getEmail()).build();
+        User user = User.builder().nickname(dto.getNickname()).build();
 
         Mindlist mindlist = Mindlist.builder()
-                .mno(mindlistDTO.getMno())
-                .composer(mindlistDTO.getComposer())
-                .title(mindlistDTO.getTitle())
-                .url(mindlistDTO.getUrl())
-                .content(mindlistDTO.getContent())
-                .email(user)
-                .nickname(mindlistDTO.getNickname())
+                .mno(dto.getMno())
+                .composer(dto.getComposer())
+                .title(dto.getTitle())
+                .url(dto.getUrl())
+                .content(dto.getContent())
+                .nickname(user)
+                .calm(dto.isCalm())
+                .happy(dto.isHappy())
+                .joyful(dto.isJoyful())
+                .energetic(dto.isEnergetic())
+                .sad(dto.isSad())
+                .stressed(dto.isStressed())
                 .build();
         return mindlist;
     }
@@ -43,8 +47,7 @@ public interface MindlistService {
                 .composer(mindlist.getComposer())
                 .title(mindlist.getTitle())
                 .url(mindlist.getUrl())
-                .email(user.getEmail())
-                .nickname(mindlist.getNickname())
+                .nickname(user.getNickname())
                 .content(mindlist.getContent())
                 .regDate(mindlist.getRegDate())
                 .modDate(mindlist.getModDate())

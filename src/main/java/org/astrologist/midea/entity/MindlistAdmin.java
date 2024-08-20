@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@ToString
+@ToString(exclude = "email")
 @Getter
 @Builder
 @AllArgsConstructor
@@ -14,6 +14,9 @@ public class MindlistAdmin extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mno;
+
+    @ManyToOne (fetch = FetchType.LAZY)
+    private User email;  // 이메일 필드, 고유값이며 필수
 
     @Column(length = 100, nullable = false)
     private String composer;
@@ -26,12 +29,6 @@ public class MindlistAdmin extends BaseEntity {
 
     @Column(length = 1500, nullable = false)
     private String url;
-
-    @Column(length = 50, nullable = false)
-    private String nickname;
-
-    @Column(length = 1000, nullable = false)
-    private String profileImagePath;  // 사용자 프로필 이미지 경로
 
     @Builder.Default
     @Column(nullable = false)

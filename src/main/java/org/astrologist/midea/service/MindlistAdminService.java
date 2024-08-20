@@ -3,30 +3,32 @@ package org.astrologist.midea.service;
 import org.astrologist.midea.dto.MindlistAdminDTO;
 import org.astrologist.midea.dto.PageRequestDTO;
 import org.astrologist.midea.dto.PageResultDTO;
-import org.astrologist.midea.dto.UserPageDTO;
 import org.astrologist.midea.entity.MindlistAdmin;
 import org.astrologist.midea.entity.User;
 
 public interface MindlistAdminService {
 
-    Long register(MindlistAdminDTO mindlistAdminDTO);
+    Long register(MindlistAdminDTO dto);
 
-    PageResultDTO<MindlistAdminDTO, MindlistAdmin> getList(PageRequestDTO requestDTO);
+    PageResultDTO<MindlistAdminDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
 
     MindlistAdminDTO read(Long mno);
 
-    void remove(Long mno);
+    void removeWithComments(Long mno);
 
     void modify(MindlistAdminDTO dto);
 
     default MindlistAdmin dtoToEntity(MindlistAdminDTO dto) {
+
+        User user = User.builder().email(dto.getEmail()).build();
+
         MindlistAdmin entity = MindlistAdmin.builder()
                 .mno(dto.getMno())
                 .composer(dto.getComposer())
                 .title(dto.getTitle())
                 .url(dto.getUrl())
                 .content(dto.getContent())
-                .nickname(dto.getNickname())
+                .email(user)
                 .calm(dto.isCalm())
                 .happy(dto.isHappy())
                 .joyful(dto.isJoyful())
@@ -37,7 +39,7 @@ public interface MindlistAdminService {
         return entity;
     }
 
-    default MindlistAdminDTO entityToDto(MindlistAdmin entity) {
+    default MindlistAdminDTO entityToDTO(MindlistAdmin entity, User user, Long commentCount) {
 
         MindlistAdminDTO mindlistAdminDTO = MindlistAdminDTO.builder()
                 .mno(entity.getMno())
@@ -45,7 +47,7 @@ public interface MindlistAdminService {
                 .title(entity.getTitle())
                 .url(entity.getUrl())
                 .content(entity.getContent())
-                .nickname(entity.getNickname())
+                .email(user.getEmail())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
                 .calm(entity.isCalm())
@@ -54,6 +56,7 @@ public interface MindlistAdminService {
                 .energetic(entity.isEnergetic())
                 .sad(entity.isSad())
                 .stressed(entity.isStressed())
+                .commentCount(commentCount.intValue())
                 .build();
 
         return mindlistAdminDTO;

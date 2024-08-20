@@ -1,26 +1,19 @@
 package org.astrologist.midea.service;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.astrologist.midea.dto.MindlistDTO;
 import org.astrologist.midea.dto.PageRequestDTO;
 import org.astrologist.midea.dto.PageResultDTO;
-import org.astrologist.midea.entity.Member;
 import org.astrologist.midea.entity.Mindlist;
-import org.astrologist.midea.entity.QMindlist;
 import org.astrologist.midea.entity.User;
 import org.astrologist.midea.repository.CommentRepository;
 import org.astrologist.midea.repository.MindlistRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Function;
 
 @Service
@@ -49,7 +42,7 @@ public class MindlistServiceImpl implements MindlistService {
 
         log.info(pageRequestDTO);
 
-        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User) en[1],(Long)en[2]));
+        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2]));
 
 //        Page<Object[]> result = repository.getBoardWithReplyCount(
 //                pageRequestDTO.getPageable(Sort.by("bno").descending())  );
@@ -65,13 +58,11 @@ public class MindlistServiceImpl implements MindlistService {
     @Override
     public MindlistDTO read(Long mno) {
 
-//        Optional<Mindlist> result = repository.findById(mno);
-
         Object result = repository.getMindlistByMno(mno);
 
-        Object[] arr = (Object[]) result;
+        Object[] arr = (Object[])result;
 
-        return entityToDTO((Mindlist)arr[0], (User) arr[1], (Long)arr[2]);
+        return entityToDTO((Mindlist)arr[0], (User)arr[1], (Long)arr[2]);
     }
 
     @Transactional
@@ -97,6 +88,12 @@ public class MindlistServiceImpl implements MindlistService {
             mindlist.changeContent(mindlistDTO.getContent());
             mindlist.changeUrl(mindlistDTO.getUrl());
             mindlist.changeComposer(mindlistDTO.getComposer());
+            mindlist.changeHappy(mindlistDTO.isHappy());
+            mindlist.changeSad(mindlistDTO.isSad());
+            mindlist.changeCalm(mindlistDTO.isCalm());
+            mindlist.changeStressed(mindlistDTO.isStressed());
+            mindlist.changeJoyful(mindlistDTO.isJoyful());
+            mindlist.changeEnergetic(mindlistDTO.isEnergetic());
 
             repository.save(mindlist);
         }

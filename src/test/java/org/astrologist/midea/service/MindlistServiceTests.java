@@ -3,7 +3,6 @@ package org.astrologist.midea.service;
 import org.astrologist.midea.dto.MindlistDTO;
 import org.astrologist.midea.dto.PageRequestDTO;
 import org.astrologist.midea.dto.PageResultDTO;
-import org.astrologist.midea.entity.Mindlist;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +21,7 @@ public class MindlistServiceTests {
                 .title("Sample Title...")
                 .url("Sample URL...")
                 .content("Sample Content..")
-                .email("email")
+                .nickname("nickname")
                 .build();
 
         Long mno = mindlistService.register(mindlistDTO);
@@ -49,6 +48,16 @@ public class MindlistServiceTests {
 
         mindlistService.removeWithComments(mno);
 
+    }
+
+    @Test
+    public void testRead(){
+
+        Long mno = 1L;
+
+        MindlistDTO mindlistDTO = mindlistService.read(mno);
+
+        System.out.println(mindlistDTO);
     }
 
 }

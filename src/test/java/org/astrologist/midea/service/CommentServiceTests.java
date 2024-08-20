@@ -21,4 +21,13 @@ public class CommentServiceTests {
 
         commentDTOList.forEach(commentDTO -> System.out.println(commentDTO));
     }
+
+    @Test
+    public void testGetMaList() {
+        Long mno = 100L;
+
+        List<CommentDTO> commentDTOList = service.getMaList(mno);
+
+        commentDTOList.forEach(commentDTO -> System.out.println(commentDTO));
+    }
 }

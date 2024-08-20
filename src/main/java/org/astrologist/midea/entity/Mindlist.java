@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
-@ToString(exclude = {"email", "nickname"})
+@ToString(exclude = "nickname")
 @Getter
 @Builder
 @AllArgsConstructor
@@ -18,10 +18,7 @@ public class Mindlist extends BaseEntity {
     private Long mno;
 
     @ManyToOne (fetch = FetchType.LAZY)
-    private User email;  // 이메일 필드, 고유값이며 필수
-
-    @Column(length = 100, nullable = false)
-    private String nickname;
+    private User nickname;  // 이메일 필드, 고유값이며 필수
 
     @Column(length = 100, nullable = false)
     private String composer;
@@ -34,6 +31,30 @@ public class Mindlist extends BaseEntity {
 
     @Column(length = 1500, nullable = false)
     private String url;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean happy = false;  // 사용자 감정 필드 (예: 행복), 기본값은 false
+
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean sad = false;  // 사용자 감정 필드 (예: 슬픔), 기본값은 false
+
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean calm = false;  // 사용자 감정 필드 (예: 평온), 기본값은 false
+
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean stressed = false;  // 사용자 감정 필드 (예: 스트레스), 기본값은 false
+
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean joyful = false;  // 사용자 감정 필드 (예: 즐거움), 기본값은 false
+
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean energetic = false;  // 사용자 감정 필드 (예: 활기참), 기본값은 false
 
     public void changeComposer(String composer){
         this.composer = composer;
@@ -48,6 +69,29 @@ public class Mindlist extends BaseEntity {
 
     public void changeUrl(String url){
         this.url = url;
+    }
+    public void changeHappy(boolean happy) {
+        this.happy = happy;
+    }
+
+    public void changeSad(boolean sad) {
+        this.sad = sad;
+    }
+
+    public void changeCalm(boolean calm) {
+        this.calm = calm;
+    }
+
+    public void changeStressed(boolean stressed) {
+        this.stressed = stressed;
+    }
+
+    public void changeJoyful(boolean joyful) {
+        this.joyful = joyful;
+    }
+
+    public void changeEnergetic(boolean energetic) {
+        this.energetic = energetic;
     }
 
 }

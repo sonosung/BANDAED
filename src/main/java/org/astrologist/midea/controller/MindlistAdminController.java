@@ -91,7 +91,7 @@ public class MindlistAdminController {
 
         log.info("mno: " + mno);
 
-        mindlistAdminService.remove(mno);
+        mindlistAdminService.removeWithComments(mno);
 
         redirectAttributes.addFlashAttribute("msg", mno);
 

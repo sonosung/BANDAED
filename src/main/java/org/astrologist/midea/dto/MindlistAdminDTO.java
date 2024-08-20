@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -18,9 +19,9 @@ public class MindlistAdminDTO {
     private String title;
     private String content;
     private String url;
-    private String nickname;
-    private String profileImagePath;
+    private String email;
     private LocalDateTime regDate, modDate;
+    private int commentCount; //해당 게시글의 댓글 수
 
     private boolean happy;
     private boolean sad;

@@ -8,7 +8,6 @@ import org.astrologist.midea.dto.MindlistDTO;
 import org.astrologist.midea.dto.UserDTO;
 import org.astrologist.midea.entity.User;
 import org.astrologist.midea.service.MindlistService;
-import org.astrologist.midea.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,13 +24,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor //자동 주입을 위한 Annotation
 public class MindlistController {
 
-    @Autowired
-    private HttpSession session;
-
-    @Autowired
-    private UserService userService;
-
     private final MindlistService mindlistService; //MindlistService 인터페이스를 final로 구현.
+
+    @Autowired
+    private HttpSession session; // 현재 사용자의 세션을 주입받습니다.
 
     @GetMapping("/mindlist")
     public void list(PageRequestDTO pageRequestDTO, Model model){
@@ -43,36 +39,40 @@ public class MindlistController {
     }
 
     @GetMapping("/mlRegister")
-    public void register(User user){
+    public void register(Model model){
+    // 현재 로그인한 사용자 정보 가져오기
+        User loggedInUser = (User) session.getAttribute("user");
 
-
-        log.info("mlRegister get...");
-
+        if (loggedInUser != null) {
+            String nickname = loggedInUser.getNickname();
+            model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
+            log.info("Logged in user's nickname: " + nickname);
+        }
     }
 
     @PostMapping("/mlRegister")
-    public String register(MindlistDTO dto, RedirectAttributes redirectAttributes, Model model, User user){
+    public String register(MindlistDTO dto, RedirectAttributes redirectAttributes){
+
         log.info("dto....." + dto);
 
         //새로 추가된 엔티티의 번호
         Long mno = mindlistService.register(dto);
-        String writer = (String)session.getAttribute("user");
 
         redirectAttributes.addFlashAttribute("msg", mno);
-
-        model.addAttribute("dto", dto);
-        model.addAttribute("user",writer);
 
         return "redirect:/midea/mindlist";
     }
 
     @GetMapping({"/mlread", "/mlmodify"}) //수정과 삭제 모두 read()가 필요하므로, 한번에 맵핑
-    public void read(long mno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, UserDTO userDTO, Model model) {
+    public void read(@ModelAttribute("requestDTO") PageRequestDTO requestDTO, Long mno, Model model) {
+
         log.info("mno: " + mno);
 
-        MindlistDTO dto = mindlistService.read(mno);
+        MindlistDTO mindlistDTO = mindlistService.read(mno);
 
-        model.addAttribute("dto", dto);
+        log.info(mindlistDTO);
+
+        model.addAttribute("dto", mindlistDTO);
     }
 
     @PostMapping("/mlremove")
@@ -90,7 +90,7 @@ public class MindlistController {
     @PostMapping("/mlmodify")
     public String modify(MindlistDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes, UserDTO userDTO) {
 
-        log.info("post modify................................................");
+        log.info("post modify....");
         log.info("dto: " + dto);
 
         mindlistService.modify(dto);
@@ -98,8 +98,8 @@ public class MindlistController {
         redirectAttributes.addAttribute("page", requestDTO.getPage());
         redirectAttributes.addAttribute("type", requestDTO.getType());
         redirectAttributes.addAttribute("keyword", requestDTO.getKeyword());
+
         redirectAttributes.addAttribute("mno", dto.getMno());
-//        redirectAttributes.addAttribute("nickname",userDTO.getNickname());
 
         return "redirect:/midea/mlread";
     }

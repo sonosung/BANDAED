@@ -11,7 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -25,13 +27,11 @@ public class MindlistAdminRepositoryTests {
     public void insertDummies() {
         IntStream.rangeClosed(1,10).forEach(i-> {
 
-            MindlistAdmin mindlistAdminAdmin = MindlistAdmin.builder()
+            MindlistAdmin mindlistAdmin = MindlistAdmin.builder()
                     .composer("composer"+i)
                     .title("Title...." + i)
                     .url("usl..." +i)
                     .content("content.."+i)
-                    .nickname("nickname" + (i % 10))
-                    .profileImagePath(null)
                     .calm(true)
                     .happy(true)
                     .sad(true)
@@ -39,8 +39,22 @@ public class MindlistAdminRepositoryTests {
                     .energetic(true)
                     .joyful(true)
                     .build();
-            System.out.println(mindlistAdminRepository.save(mindlistAdminAdmin));
+
+            mindlistAdminRepository.save(mindlistAdmin);
         });
+    }
+
+    @Transactional
+    @Test
+    public void testRead1() {
+
+        Optional<MindlistAdmin> result = mindlistAdminRepository.findById(100L); //데이터베이스에 존재하는 번호
+
+        MindlistAdmin mindlistAdmin = result.get();
+
+        System.out.println(mindlistAdmin);
+        System.out.println(mindlistAdmin.getEmail());
+
     }
 
     @Test
@@ -63,53 +77,34 @@ public class MindlistAdminRepositoryTests {
     }
 
     @Test
-    public void testQuery1(){
+    public void testReadWithWriter() {
 
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("mno").descending());
+        Object result = mindlistAdminRepository.getMindlistAdminWithWriter(100L);
 
-        QMindlistAdmin qMindlistAdmin = QMindlistAdmin.mindlistAdmin; //1
+        Object[] arr = (Object[])result;
 
-        String keyword = "1";
+        System.out.println("-------------------------------");
+        System.out.println(Arrays.toString(arr));
 
-        BooleanBuilder builder = new BooleanBuilder(); //2
-
-        BooleanExpression expression = qMindlistAdmin.composer.contains(keyword); //3
-
-        builder.and(expression); //4
-
-        Page<MindlistAdmin> result = mindlistAdminRepository.findAll(builder, pageable); //5
-
-        result.stream().forEach((mindlistAdmin -> {
-            System.out.println(mindlistAdmin);
-        }));
     }
 
     @Test
-    public void testQuery2(){
+    public void testSearch1() {
 
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("mno").descending());
+        mindlistAdminRepository.search1();
 
-        QMindlistAdmin qMindlistAdmin = QMindlistAdmin.mindlistAdmin;
+    }
 
-        String keyword = "1";
+    @Test
+    public void testSearchPage() {
 
-        BooleanBuilder builder = new BooleanBuilder();
+        Pageable pageable =
+                PageRequest.of(0,10,
+                        Sort.by("mno").descending()
+                                .and(Sort.by("title").ascending()));
 
-        BooleanExpression exTitle = qMindlistAdmin.composer.contains(keyword); //제목에 포함된 키워드.
+        Page<Object[]> result = mindlistAdminRepository.searchPage("t", "1", pageable);
 
-        BooleanExpression exContent = qMindlistAdmin.url.contains(keyword); //내용에 포함된 키워드.
-
-        BooleanExpression exAll = exTitle.or(exContent); //타이틀과 내용 둘중에 하나라도 포함되있을 경우.
-
-        builder.and(exAll);
-
-        builder.and(qMindlistAdmin.mno.gt(5L)); // gt 는 greater than 연산자. mno가 250L 큰 숫자의 게시물이 조회됨.
-
-        Page<MindlistAdmin> result = mindlistAdminRepository.findAll(builder, pageable); //5
-
-        result.stream().forEach((mindlistAdmin -> {
-            System.out.println(mindlistAdmin);
-        }));
     }
 
 }

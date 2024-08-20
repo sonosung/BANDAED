@@ -15,28 +15,28 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Log4j2
-public class SearchMindlistRepositoryImpl extends QuerydslRepositorySupport implements SearchMindlistRepository {
+public class SearchMindlistAdminRepositoryImpl extends QuerydslRepositorySupport implements SearchMindlistAdminRepository {
 
-    public SearchMindlistRepositoryImpl(){
-        super(Mindlist.class);
+    public SearchMindlistAdminRepositoryImpl(){
+        super(MindlistAdmin.class);
     }
 
     @Override
-    public Mindlist search1(){
+    public MindlistAdmin search1(){
 
         log.info("Search1....");
 
-        QMindlist mindlist = QMindlist.mindlist;
+        QMindlistAdmin mindlistAdmin = QMindlistAdmin.mindlistAdmin;
         QComment comment = QComment.comment;
         QUser user = QUser.user;
 
 
-        JPQLQuery<Mindlist> jpqlQuery = from(mindlist);
-        jpqlQuery.leftJoin(user).on(mindlist.nickname.eq(user));
-        jpqlQuery.leftJoin(comment).on(comment.mindlist.eq(mindlist));
+        JPQLQuery<MindlistAdmin> jpqlQuery = from(mindlistAdmin);
+        jpqlQuery.leftJoin(user).on(mindlistAdmin.email.eq(user));
+        jpqlQuery.leftJoin(comment).on(comment.mindlistAdmin.eq(mindlistAdmin));
 
-        JPQLQuery<Tuple> tuple = jpqlQuery.select(mindlist, user.nickname, comment.count());
-        tuple.groupBy(mindlist);
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(mindlistAdmin, user.email, comment.count());
+        tuple.groupBy(mindlistAdmin);
 
         log.info("---------------------------");
         log.info(tuple);
@@ -53,18 +53,18 @@ public class SearchMindlistRepositoryImpl extends QuerydslRepositorySupport impl
     public Page<Object[]> searchPage(String type, String keyword, Pageable pageable) {
         log.info("search page.....");
 
-        QMindlist mindlist = QMindlist.mindlist;
+        QMindlistAdmin mindlistAdmin = QMindlistAdmin.mindlistAdmin;
         QComment comment = QComment.comment;
         QUser user = QUser.user;
 
-        JPQLQuery<Mindlist>jpqlQuery = from(mindlist);
-        jpqlQuery.leftJoin(user).on(mindlist.nickname.eq(user));
-        jpqlQuery.leftJoin(comment).on(comment.mindlist.eq(mindlist));
+        JPQLQuery<MindlistAdmin>jpqlQuery = from(mindlistAdmin);
+        jpqlQuery.leftJoin(user).on(mindlistAdmin.email.eq(user));
+        jpqlQuery.leftJoin(comment).on(comment.mindlistAdmin.eq(mindlistAdmin));
 
-        JPQLQuery<Tuple> tuple = jpqlQuery.select(mindlist, user, comment.count());
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(mindlistAdmin, user, comment.count());
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
-        BooleanExpression booleanExpression = mindlist.mno.gt(0L);
+        BooleanExpression booleanExpression = mindlistAdmin.mno.gt(0L);
 
         booleanBuilder.and(booleanExpression);
 
@@ -76,13 +76,13 @@ public class SearchMindlistRepositoryImpl extends QuerydslRepositorySupport impl
             for (String t:typeArr){
                 switch (t){
                     case "c": //작곡가
-                        conditionBuilder.or(mindlist.composer.contains(keyword));
+                        conditionBuilder.or(mindlistAdmin.composer.contains(keyword));
                         break;
                     case "t": //제목
-                        conditionBuilder.or(mindlist.title.contains(keyword));
+                        conditionBuilder.or(mindlistAdmin.title.contains(keyword));
                         break;
                     case "ct": //내용
-                        conditionBuilder.or(mindlist.content.contains(keyword));
+                        conditionBuilder.or(mindlistAdmin.content.contains(keyword));
                         break;
                 }
             }
@@ -90,7 +90,7 @@ public class SearchMindlistRepositoryImpl extends QuerydslRepositorySupport impl
         }
         tuple.where(booleanBuilder);
 
-        tuple.groupBy(mindlist);
+        tuple.groupBy(mindlistAdmin);
 
         this.getQuerydsl().applyPagination(pageable, tuple);
 

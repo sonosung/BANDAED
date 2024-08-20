@@ -1,9 +1,7 @@
 package org.astrologist.midea.repository;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import org.astrologist.midea.entity.Mindlist;
-import org.astrologist.midea.entity.QMindlist;
+import org.astrologist.midea.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -23,23 +23,32 @@ public class MindlistRepositoryTests {
 
     @Test
     public void insertDummies() {
-        IntStream.rangeClosed(1,5).forEach(i-> {
+        IntStream.rangeClosed(1,100).forEach(i-> {
+
+            User user = User.builder().nickname("nickname" + i).build();
 
             Mindlist mindlist = Mindlist.builder()
                     .composer("composer"+i)
-                    .title("Title...." + i)
-                    .url("usl..." +i)
                     .content("content.."+i)
-                    .nickname("nickname" + (i % 10))
+                    .nickname(user)
+                    .title("title...." + i)
+                    .url("url..." +i)
+                    .calm(true)
+                    .happy(true)
+                    .sad(true)
+                    .stressed(true)
+                    .energetic(true)
+                    .joyful(true)
                     .build();
-            System.out.println(mindlistRepository.save(mindlist));
+
+            mindlistRepository.save(mindlist);
         });
     }
 
     @Test
     public void updateTest() {
 
-        Optional<Mindlist> result = mindlistRepository.findById(20L);
+        Optional<Mindlist> result = mindlistRepository.findById(2L);
 
         if(result.isPresent()){
 
@@ -56,53 +65,37 @@ public class MindlistRepositoryTests {
     }
 
     @Test
-    public void testQuery1(){
+    public void testReadWithWriter() {
 
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("mno").descending());
+        Object result = mindlistRepository.getMindlistdWithWriter(100L);
 
-        QMindlist qMindlist = QMindlist.mindlist; //1
+        Object[] arr = (Object[])result;
 
-        String keyword = "1";
+        System.out.println("-------------------------------");
+        System.out.println(Arrays.toString(arr));
 
-        BooleanBuilder builder = new BooleanBuilder(); //2
-
-        BooleanExpression expression = qMindlist.composer.contains(keyword); //3
-
-        builder.and(expression); //4
-
-        Page<Mindlist> result = mindlistRepository.findAll(builder, pageable); //5
-
-        result.stream().forEach((mindlist -> {
-            System.out.println(mindlist);
-        }));
     }
 
     @Test
-    public void testQuery2(){
+    public void testSearchPage() {
 
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("mno").descending());
+        Pageable pageable =
+                PageRequest.of(0,10,
+                        Sort.by("mno").descending()
+                                .and(Sort.by("title").ascending()));
 
-        QMindlist qMindlist = QMindlist.mindlist;
+        Page<Object[]> result = mindlistRepository.searchPage("t", "1", pageable);
 
-        String keyword = "1";
+    }
 
-        BooleanBuilder builder = new BooleanBuilder();
+    @Test
+    public void testGetMindlistWithReply() {
 
-        BooleanExpression exTitle = qMindlist.composer.contains(keyword); //제목에 포함된 키워드.
+        List<Object[]> result = mindlistRepository.getMindlistWithComment(100L);
 
-        BooleanExpression exContent = qMindlist.url.contains(keyword); //내용에 포함된 키워드.
-
-        BooleanExpression exAll = exTitle.or(exContent); //타이틀과 내용 둘중에 하나라도 포함되있을 경우.
-
-        builder.and(exAll);
-
-        builder.and(qMindlist.mno.gt(5L)); // gt 는 greater than 연산자. mno가 250L 큰 숫자의 게시물이 조회됨.
-
-        Page<Mindlist> result = mindlistRepository.findAll(builder, pageable); //5
-
-        result.stream().forEach((mindlist -> {
-            System.out.println(mindlist);
-        }));
+        for (Object[] arr : result) {
+            System.out.println(Arrays.toString(arr));
+        }
     }
 
 }
