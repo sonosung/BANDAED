@@ -6,6 +6,8 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -38,4 +40,9 @@ public class UserService {
             userRepository.save(user);
         }
     }
-}
+
+        // User ID로 사용자 조회 메서드 추가
+        public Optional<User> findById (Long userId){
+            return userRepository.findById(userId);
+        }
+    }
