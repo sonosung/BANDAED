@@ -27,6 +27,12 @@ public interface MindlistAdminService {
                 .url(dto.getUrl())
                 .content(dto.getContent())
                 .nickname(dto.getNickname())
+                .calm(dto.isCalm())
+                .happy(dto.isHappy())
+                .joyful(dto.isJoyful())
+                .energetic(dto.isEnergetic())
+                .sad(dto.isSad())
+                .stressed(dto.isStressed())
                 .build();
         return entity;
     }
@@ -42,6 +48,12 @@ public interface MindlistAdminService {
                 .nickname(entity.getNickname())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
+                .calm(entity.isCalm())
+                .happy(entity.isHappy())
+                .joyful(entity.isJoyful())
+                .energetic(entity.isEnergetic())
+                .sad(entity.isSad())
+                .stressed(entity.isStressed())
                 .build();
 
         return mindlistAdminDTO;

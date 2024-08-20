@@ -1,10 +1,12 @@
 package org.astrologist.midea.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
-@ToString
+@ToString(exclude = {"email", "nickname"})
 @Getter
 @Builder
 @AllArgsConstructor
@@ -14,6 +16,12 @@ public class Mindlist extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mno;
+
+    @ManyToOne (fetch = FetchType.LAZY)
+    private User email;  // 이메일 필드, 고유값이며 필수
+
+    @Column(length = 100, nullable = false)
+    private String nickname;
 
     @Column(length = 100, nullable = false)
     private String composer;
@@ -27,17 +35,12 @@ public class Mindlist extends BaseEntity {
     @Column(length = 1500, nullable = false)
     private String url;
 
-    @Column(length = 50, nullable = false)
-    private String nickname;
-
-    @Column(length = 1000, nullable = false)
-    private String profileImagePath;  // 사용자 프로필 이미지 경로
-
     public void changeComposer(String composer){
         this.composer = composer;
     }
 
-    public void changeContent(String content){this.content = content; }
+    public void changeContent(String content){
+        this.content = content; }
 
     public void changeTitle(String title){
         this.title = title;

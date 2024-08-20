@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.astrologist.midea.dto.MindlistAdminDTO;
-import org.astrologist.midea.dto.MyPageUploadDTO;
 import org.astrologist.midea.dto.PageRequestDTO;
 import org.astrologist.midea.entity.User;
 import org.astrologist.midea.service.MindlistAdminService;
@@ -12,6 +11,7 @@ import org.astrologist.midea.service.UserPageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,12 +44,9 @@ public class MindlistAdminController {
     @GetMapping("/mlAdminRegister")
     public void register(Model model){
 
+
         // 세션에서 현재 로그인한 사용자 정보를 가져옵니다.
         User loggedInUser = (User) session.getAttribute("user");
-
-        // 사용자의 정보를 DTO로 변환하여 모델에 추가합니다.
-        MyPageUploadDTO userPageDTO = MyPageUploadDTO.fromEntity(loggedInUser);
-        model.addAttribute("user", userPageDTO);
 
         log.info("user name : " + loggedInUser);
 
@@ -66,14 +63,16 @@ public class MindlistAdminController {
 
         // 세션에서 현재 로그인한 사용자 정보를 가져옵니다.
         User loggedInUser = (User) session.getAttribute("user");
-
-        // 사용자의 정보를 DTO로 변환하여 모델에 추가합니다.
-        MyPageUploadDTO userPageDTO = MyPageUploadDTO.fromEntity(loggedInUser);
-        model.addAttribute("user", userPageDTO);
-
+        // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트합니다.
         if (loggedInUser == null) {
             return "redirect:/midea/login";
         }
+        // 사용자가 MEMBER 또는 ADMIN 권한이 아닌 경우 로그인 페이지로 리다이렉트합니다.
+        if (loggedInUser.getUserRole() != User.UserRole.ADMIN) {
+            return "redirect:/midea/login";
+        }
+
+        log.info("loggedInUser Post....." + loggedInUser);
 
         return "redirect:/midea/mindlistAdmin";
     }

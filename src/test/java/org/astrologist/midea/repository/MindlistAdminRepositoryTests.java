@@ -31,6 +31,13 @@ public class MindlistAdminRepositoryTests {
                     .url("usl..." +i)
                     .content("content.."+i)
                     .nickname("nickname" + (i % 10))
+                    .profileImagePath(null)
+                    .calm(true)
+                    .happy(true)
+                    .sad(true)
+                    .stressed(true)
+                    .energetic(true)
+                    .joyful(true)
                     .build();
             System.out.println(mindlistAdminRepository.save(mindlistAdminAdmin));
         });

@@ -18,8 +18,8 @@ public class MindlistDTO {
     private String title;
     private String content;
     private String url;
+    private String email;
     private String nickname;
-    private String profileImagePath;
     private LocalDateTime regDate, modDate;
 
     private boolean happy;

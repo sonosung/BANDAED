@@ -29,11 +29,11 @@ public class MindlistAdminServiceImpl implements MindlistAdminService{
     private final MindlistAdminRepository repository; //반드시 final로 선언.
 
     @Override
-    public Long register(MindlistAdminDTO mindlistAdminDTO) {
-        log.info("DTO---------------------");
-        log.info(mindlistAdminDTO);
+    public Long register(MindlistAdminDTO dto) {
+        log.info("dto---------------------");
+        log.info(dto);
 
-        MindlistAdmin entity = dtoToEntity(mindlistAdminDTO);
+        MindlistAdmin entity = dtoToEntity(dto);
 
         log.info(entity);
 
@@ -82,6 +82,12 @@ public class MindlistAdminServiceImpl implements MindlistAdminService{
             entity.changeContent(dto.getContent());
             entity.changeTitle(dto.getTitle());
             entity.changeUrl(dto.getUrl());
+            entity.changeHappy(dto.isHappy());
+            entity.changeSad(dto.isSad());
+            entity.changeCalm(dto.isCalm());
+            entity.changeStressed(dto.isStressed());
+            entity.changeJoyful(dto.isJoyful());
+            entity.changeEnergetic(dto.isEnergetic());
 
             repository.save(entity);
         }

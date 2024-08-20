@@ -7,14 +7,19 @@ import lombok.extern.log4j.Log4j2;
 import org.astrologist.midea.dto.MindlistDTO;
 import org.astrologist.midea.dto.PageRequestDTO;
 import org.astrologist.midea.dto.PageResultDTO;
+import org.astrologist.midea.entity.Member;
 import org.astrologist.midea.entity.Mindlist;
 import org.astrologist.midea.entity.QMindlist;
+import org.astrologist.midea.entity.User;
+import org.astrologist.midea.repository.CommentRepository;
 import org.astrologist.midea.repository.MindlistRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -25,102 +30,76 @@ public class MindlistServiceImpl implements MindlistService {
 
     private final MindlistRepository repository; //반드시 final로 선언.
 
+    private final CommentRepository commentRepository;
+
     @Override
     public Long register(MindlistDTO dto) {
         log.info("DTO---------------------");
         log.info(dto);
 
-        Mindlist entity = dtoToEntity(dto);
+        Mindlist mindlist = dtoToEntity(dto);
 
-        log.info(entity);
+        repository.save(mindlist);
 
-        repository.save(entity);
-
-        return entity.getMno();
+        return mindlist.getMno();
     }
 
     @Override
-    public PageResultDTO<MindlistDTO, Mindlist> getList(PageRequestDTO requestDTO){
+    public PageResultDTO<MindlistDTO, Object[]> getList(PageRequestDTO pageRequestDTO) {
 
-        Pageable pageable = requestDTO.getPageable(Sort.by("mno").descending());
+        log.info(pageRequestDTO);
 
-        BooleanBuilder booleanBuilder = getSearch(requestDTO); //검색 조건 처리
+        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User) en[1],(Long)en[2]));
 
-        Page<Mindlist> result = repository.findAll(booleanBuilder, pageable); //Querydsl 사용
+//        Page<Object[]> result = repository.getBoardWithReplyCount(
+//                pageRequestDTO.getPageable(Sort.by("bno").descending())  );
+        Page<Object[]> result = repository.searchPage(
+                pageRequestDTO.getType(),
+                pageRequestDTO.getKeyword(),
+                pageRequestDTO.getPageable(Sort.by("mno").descending())  );
 
-        Function<Mindlist, MindlistDTO> fn = (entity -> entityToDto(entity));
 
         return new PageResultDTO<>(result, fn);
-
     }
 
     @Override
     public MindlistDTO read(Long mno) {
 
-        Optional<Mindlist> result = repository.findById(mno);
+//        Optional<Mindlist> result = repository.findById(mno);
 
-        return result.isPresent()? entityToDto(result.get()): null;
+        Object result = repository.getMindlistByMno(mno);
+
+        Object[] arr = (Object[]) result;
+
+        return entityToDTO((Mindlist)arr[0], (User) arr[1], (Long)arr[2]);
     }
 
+    @Transactional
     @Override
-    public void remove(Long mno) {
+    public void removeWithComments(Long mno) {
+
+        //댓글 부터 삭제
+        commentRepository.deleteByMno(mno);
+
         repository.deleteById(mno);
+
     }
 
+    @Transactional
     @Override
-    public void modify(MindlistDTO dto) {
-        Optional<Mindlist> result = repository.findById(dto.getMno());
+    public void modify(MindlistDTO mindlistDTO) {
 
-        if(result.isPresent()){
+        Mindlist mindlist = repository.getReferenceById(mindlistDTO.getMno());
 
-            Mindlist entity = result.get();
+        if(mindlist != null) {
 
-            entity.changeComposer(dto.getComposer());
-            entity.changeContent(dto.getContent());
-            entity.changeTitle(dto.getTitle());
-            entity.changeUrl(dto.getUrl());
+            mindlist.changeTitle(mindlistDTO.getTitle());
+            mindlist.changeContent(mindlistDTO.getContent());
+            mindlist.changeUrl(mindlistDTO.getUrl());
+            mindlist.changeComposer(mindlistDTO.getComposer());
 
-            repository.save(entity);
+            repository.save(mindlist);
         }
-
-    }
-
-    //Querydsl 처리
-    private BooleanBuilder getSearch(PageRequestDTO requestDTO){
-        String type = requestDTO.getType();
-
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
-
-        QMindlist qMindlist = QMindlist.mindlist;
-
-        String keyword = requestDTO.getKeyword();
-
-        //mno가 0보다 큰 조건만 검색
-        BooleanExpression expression = qMindlist.mno.gt(0L);
-
-        booleanBuilder.and(expression);
-
-        if (type == null || type.trim().length() == 0){
-            return booleanBuilder;
-        }
-
-        //검색조건 작성하기
-        BooleanBuilder conditionBuilder = new BooleanBuilder();
-
-        if(type.contains("c")){
-            conditionBuilder.or(qMindlist.composer.contains(keyword));
-        }
-        if(type.contains("t")){
-            conditionBuilder.or(qMindlist.title.contains(keyword));
-        }
-        if(type.contains("n")){
-            conditionBuilder.or(qMindlist.nickname.contains(keyword));
-        }
-
-        //모든 조건 통합
-        booleanBuilder.and(conditionBuilder);
-
-        return booleanBuilder;
     }
 
 }

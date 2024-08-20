@@ -43,21 +43,25 @@ public class MindlistController {
     }
 
     @GetMapping("/mlRegister")
-    public void register(){
+    public void register(User user){
+
+
         log.info("mlRegister get...");
+
     }
 
     @PostMapping("/mlRegister")
-    public String register(MindlistDTO dto, RedirectAttributes redirectAttributes){
+    public String register(MindlistDTO dto, RedirectAttributes redirectAttributes, Model model, User user){
         log.info("dto....." + dto);
 
         //새로 추가된 엔티티의 번호
         Long mno = mindlistService.register(dto);
+        String writer = (String)session.getAttribute("user");
 
         redirectAttributes.addFlashAttribute("msg", mno);
 
-        User loggedInUser = (User) session.getAttribute("user");
-
+        model.addAttribute("dto", dto);
+        model.addAttribute("user",writer);
 
         return "redirect:/midea/mindlist";
     }
@@ -76,7 +80,7 @@ public class MindlistController {
 
         log.info("mno: " + mno);
 
-        mindlistService.remove(mno);
+        mindlistService.removeWithComments(mno);
 
         redirectAttributes.addFlashAttribute("msg", mno);
 
@@ -95,7 +99,7 @@ public class MindlistController {
         redirectAttributes.addAttribute("type", requestDTO.getType());
         redirectAttributes.addAttribute("keyword", requestDTO.getKeyword());
         redirectAttributes.addAttribute("mno", dto.getMno());
-        redirectAttributes.addAttribute("nickname",userDTO.getNickname());
+//        redirectAttributes.addAttribute("nickname",userDTO.getNickname());
 
         return "redirect:/midea/mlread";
     }

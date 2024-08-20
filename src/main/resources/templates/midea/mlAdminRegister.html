@@ -32,15 +32,28 @@
                 <input class="form-control" name="title" placeholder="Enter title...">
             </div>
 
-            <select class="custom-select" name="type">
-                <option aria-label="Default select example" th:selected="${moodSelectDTO.type == null}">Mood</option>
-                <option value="c" th:selected="${moodSelectDTO.type == 'c'}">Calm</option>
-                <option value="e" th:selected="${moodSelectDTO.type == 'e'}">Energetic</option>
-                <option value="h" th:selected="${moodSelectDTO.type == 'h'}">Happy</option>
-                <option value="j" th:selected="${moodSelectDTO.type == 'j'}">Joyful</option>
-                <option value="s" th:selected="${moodSelectDTO.type == 's'}">Sad</option>
-                <option value="st" th:selected="${moodSelectDTO.type == 'st'}">Stressed</option>
-            </select>
+<!--            <div class="content-row">-->
+<!--                <div class="checkbox-grid col-sm-12">-->
+<!--                    <label>-->
+<!--                        <input type="checkbox" th:field="*{happy}">Happy-->
+<!--                    </label>-->
+<!--                    <label>-->
+<!--                        <input type="checkbox" th:field="*{sad}">Sad-->
+<!--                    </label>-->
+<!--                    <label>-->
+<!--                        <input type="checkbox" th:field="*{calm}">Calm-->
+<!--                    </label>-->
+<!--                    <label>-->
+<!--                        <input type="checkbox" th:field="*{stressed}">Stressed-->
+<!--                    </label>-->
+<!--                    <label>-->
+<!--                        <input type="checkbox" th:field="*{joyful}">Joyful-->
+<!--                    </label>-->
+<!--                    <label>-->
+<!--                        <input type="checkbox" th:field="*{energetic}">Energetic-->
+<!--                    </label>-->
+<!--                </div>-->
+<!--            </div>-->
 
             <div class="form-group">
                 <label>URL</label>
@@ -55,6 +68,11 @@
             <div class="form-group">
                 <label>Writer</label>
                 <input type="text" class="form-control" name="writer" placeholder="Ender your name...">
+            </div>
+
+            <div class="form-group">
+                <label>Nickname</label>
+                <input type="text" class="form-control" name="nickname" placeholder="Ender your nickname...">
             </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>

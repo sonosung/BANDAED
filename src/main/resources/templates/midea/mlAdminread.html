@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<<th:block th:replace="~{/layout/wooxtravel :: setContent(~{this::content} )}">
+<
+<th:block th:replace="~{/layout/wooxtravel :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
 
         <div class="page-heading">
@@ -16,22 +17,45 @@
         </div>
 
         <div class="col-lg-6 offset-lg-3">
-        <h1 class="mt-4">Mindlist Read Page</h1>
+            <h1 class="mt-4">Mindlist Read Page</h1>
 
-        <div class="form-group">
-            <label>Mno</label>
-            <input type="text" class="form-control" name="mno" th:value="${dto.mno}" readonly>
-        </div>
+            <div class="form-group">
+                <label>Mno</label>
+                <input type="text" class="form-control" name="mno" th:value="${dto.mno}" readonly>
+            </div>
 
-        <div class="form-group">
-            <label>Composer</label>
-            <input type="text" class="form-control" name="composer" th:value="${dto.composer}" readonly>
-        </div>
+            <div class="form-group">
+                <label>Composer</label>
+                <input type="text" class="form-control" name="composer" th:value="${dto.composer}" readonly>
+            </div>
 
-        <div class="form-group">
-            <label>Title</label>
-            <input type="text" class="form-control" name="title" th:value="${dto.title}" readonly>
-        </div>
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" class="form-control" name="title" th:value="${dto.title}" readonly>
+            </div>
+
+            <div class="content-row">
+                <div class="checkbox-grid col-sm-12">
+                    <label>
+                        <input type="checkbox" th:checked="${user.happy}" disabled>Happy
+                    </label>
+                    <label>
+                        <input type="checkbox" th:checked="${user.sad}" disabled>Sad
+                    </label>
+                    <label>
+                        <input type="checkbox" th:checked="${user.calm}" disabled>Calm
+                    </label>
+                    <label>
+                        <input type="checkbox" th:checked="${user.stressed}" disabled>Stressed
+                    </label>
+                    <label>
+                        <input type="checkbox" th:checked="${user.joyful}" disabled>Joyful
+                    </label>
+                    <label>
+                        <input type="checkbox" th:checked="${user.energetic}" disabled>Energetic
+                    </label>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label>URL</label>
@@ -43,36 +67,38 @@
                 <textarea class="form-control" rows="5" name="content" readonly>[[${dto.content}]]</textarea>
             </div>
 
-        <div class="form-group">
-            <label>Writer</label>
-            <input type="text" class="form-control" name="writer" th:value="${dto.nickname}" readonly>
-        </div>
+            <div class="form-group">
+                <label>Writer</label>
+                <input type="text" class="form-control" name="writer" th:value="${dto.nickname}" readonly>
+            </div>
 
-        <div class="form-group">
-            <label>RegDate</label>
-            <input type="text" class="form-control" name="regDate" th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
-        </div>
+            <div class="form-group">
+                <label>RegDate</label>
+                <input type="text" class="form-control" name="regDate"
+                       th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
+            </div>
 
-        <div class="form-group">
-            <label>ModDate</label>
-            <input type="text" class="form-control" name="modDate" th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
-        </div>
+            <div class="form-group">
+                <label>ModDate</label>
+                <input type="text" class="form-control" name="modDate"
+                       th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
+            </div>
 
-        <a th:href="@{/midea/mlAdminmodify(mno = ${dto.mno},
+            <a th:href="@{/midea/mlAdminmodify(mno = ${dto.mno},
         page=${requestDTO.page},
         type=${requestDTO.type},
         keyword=${requestDTO.keyword}
         )}">
-            <button type="button" class="btn btn-primary">Modify</button>
-        </a>
+                <button type="button" class="btn btn-primary">Modify</button>
+            </a>
 
-        <a th:href="@{/midea/mindlistAdmin(
+            <a th:href="@{/midea/mindlistAdmin(
         page=${requestDTO.page},
         type=${requestDTO.type},
         keyword=${requestDTO.keyword}
         )}">
-            <button type="button" class="btn btn-info">List</button>
-        </a>
+                <button type="button" class="btn btn-info">List</button>
+            </a>
         </div>
     </th:block>
 </th:block>

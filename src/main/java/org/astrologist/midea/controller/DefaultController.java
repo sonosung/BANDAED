@@ -17,6 +17,8 @@ public class DefaultController {
 
     private final MindlistService mindlistService; //MindlistService 인터페이스를 final로 구현.
 
+    private final HttpSession session;
+
     @GetMapping("/")
     public String index() {
         return "redirect:/midea/index";
@@ -39,12 +41,9 @@ public class DefaultController {
         log.info("portfolio......................");
     }
 
-    @GetMapping({"/index"/*, "/community"*/, "/contact"})
-    public void mindlist(HttpSession session){
+    @GetMapping({"/index", "/contact"})
+    public void mindlist(){
 
-        // 세션에서 현재 로그인한 사용자 정보를 가져옵니다.
-        User loggedInUser = (User) session.getAttribute("user");
-
-        log.info("Welcome to Midea.. " + loggedInUser);
+        log.info("Welcome to Midea.. ");
     }
 }
