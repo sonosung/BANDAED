@@ -39,7 +39,7 @@ public interface MindlistAdminService {
         return entity;
     }
 
-    default MindlistAdminDTO entityToDTO(MindlistAdmin entity, User user, Long commentCount) {
+    default MindlistAdminDTO entityToDto(MindlistAdmin entity, User user, Long commentCount) {
 
         MindlistAdminDTO mindlistAdminDTO = MindlistAdminDTO.builder()
                 .mno(entity.getMno())

@@ -51,7 +51,7 @@ public class MindlistAdminServiceImpl implements MindlistAdminService{
 
         Object[] arr = (Object[])result;
 
-        return entityToDTO((MindlistAdmin) arr[0], (User)arr[1], (Long)arr[2]);
+        return entityToDto((MindlistAdmin) arr[0], (User)arr[1], (Long)arr[2]);
     }
 
     @Override
