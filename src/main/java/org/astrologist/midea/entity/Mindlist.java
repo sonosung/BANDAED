@@ -56,6 +56,10 @@ public class Mindlist extends BaseEntity {
     @Column(nullable = false)
     private boolean energetic = false;  // 사용자 감정 필드 (예: 활기참), 기본값은 false
 
+    @Builder.Default
+    @Column(nullable = false)
+    private int likeCount = 0;  // 게시물에 대한 총 좋아요 수
+
     public void changeComposer(String composer){
         this.composer = composer;
     }
