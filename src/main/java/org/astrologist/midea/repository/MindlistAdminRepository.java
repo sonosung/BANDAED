@@ -20,13 +20,13 @@ public interface MindlistAdminRepository extends JpaRepository<MindlistAdmin, Lo
     @Query("SELECT ma, c FROM MindlistAdmin ma LEFT JOIN Comment c ON c.mindlistAdmin = ma WHERE ma.mno = :mno")
     List<Object[]> getMindlistAdminWithReply(@Param("mno") Long mno);
 
-    @Query(value ="SELECT ma, e, count(c) " +
-            " FROM MindlistAdmin ma " +
-            " LEFT JOIN ma.email e " +
-            " LEFT JOIN Comment c ON c.mindlistAdmin = ma " +
-            " GROUP BY ma",
-            countQuery ="SELECT count(ma) FROM MindlistAdmin ma")
-    Page<Object[]> getMindlistAdminWithCommentCount(Pageable pageable);
+//    @Query(value ="SELECT ma, e, count(c) " +
+//            " FROM MindlistAdmin ma " +
+//            " LEFT JOIN ma.email e " +
+//            " LEFT JOIN Comment c ON c.mindlistAdmin = ma " +
+//            " GROUP BY ma",
+//            countQuery ="SELECT count(ma) FROM MindlistAdmin ma")
+//    Page<Object[]> getMindlistAdminWithCommentCount(Pageable pageable);
 
 
     @Query("SELECT ma, e, count(c) " +

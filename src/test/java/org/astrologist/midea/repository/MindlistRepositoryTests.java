@@ -67,7 +67,7 @@ public class MindlistRepositoryTests {
     @Test
     public void testReadWithWriter() {
 
-        Object result = mindlistRepository.getMindlistdWithWriter(100L);
+        Object result = mindlistRepository.getMindlistWithWriter(100L);
 
         Object[] arr = (Object[])result;
 

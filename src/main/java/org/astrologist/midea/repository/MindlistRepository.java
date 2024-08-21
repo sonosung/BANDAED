@@ -13,23 +13,23 @@ import java.util.List;
 
 public interface MindlistRepository extends JpaRepository<Mindlist, Long>, SearchMindlistRepository {
 
-    @Query("select m, e from Mindlist m left join m.email e where m.mno =:mno")
-    Object getMindlistdWithWriter(@Param("mno") Long mno);
+    @Query("select m, n from Mindlist m left join m.nickname n where m.mno =:mno")
+    Object getMindlistWithWriter(@Param("mno") Long mno);
 
     @Query("SELECT m, c FROM Mindlist m LEFT JOIN Comment c ON c.mindlist = m WHERE m.mno = :mno")
     List<Object[]> getMindlistWithComment(@Param("mno") Long mno);
 
-    @Query(value ="SELECT m, e, count(c) " +
-            " FROM Mindlist m " +
-            " LEFT JOIN m.email e " +
-            " LEFT JOIN Comment c ON c.mindlist = m " +
-            " GROUP BY m",
-            countQuery ="SELECT count(m) FROM Mindlist m")
-    Page<Object[]> getMindlistWithCommentCount(Pageable pageable);
+//    @Query(value ="SELECT m, e, count(c) " +
+//            " FROM Mindlist m " +
+//            " LEFT JOIN m.email e " +
+//            " LEFT JOIN Comment c ON c.mindlist = m " +
+//            " GROUP BY m",
+//            countQuery ="SELECT count(m) FROM Mindlist m")
+//    Page<Object[]> getMindlistWithCommentCount(Pageable pageable);
 
 
-    @Query("SELECT m, e, count(c) " +
-            " FROM Mindlist m LEFT JOIN m.email e " +
+    @Query("SELECT m, n, count(c) " +
+            " FROM Mindlist m LEFT JOIN m.nickname n " +
             " LEFT OUTER JOIN Comment c ON c.mindlist = m" +
             " WHERE m.mno = :mno")
     Object getMindlistByMno(@Param("mno") Long mno);
