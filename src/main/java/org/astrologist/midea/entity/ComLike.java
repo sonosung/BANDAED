@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "likes")
-public class Like {
+@Table(name = "comlike")
+public class ComLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,5 +24,6 @@ public class Like {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
-    private UserPost post;  // 좋아요가 눌린 게시물 (외래 키)
+    private Community post;  // 좋아요가 눌린 게시물 (외래 키)
 }
+

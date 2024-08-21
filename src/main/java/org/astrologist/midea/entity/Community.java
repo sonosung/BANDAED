@@ -30,6 +30,10 @@ public class Community {
 
     private LocalDateTime timestamp;
 
+    @Builder.Default
+    @Column(nullable = false)
+    private int likeCount = 0;  // 게시물에 대한 총 좋아요 수
+
     public enum Subcategory {
         MinimalTechno,
         MinimalHouse,
