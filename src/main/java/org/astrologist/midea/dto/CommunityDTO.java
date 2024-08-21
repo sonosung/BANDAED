@@ -1,11 +1,10 @@
 package org.astrologist.midea.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.astrologist.midea.entity.Community;
 
+@Getter
+@Setter
 @Data
 @Builder
 @NoArgsConstructor
@@ -14,5 +13,15 @@ public class CommunityDTO {
     private Long userId;
     private String composer;
     private String content;
-    private Community.Subcategory subcategory;  // Community 엔티티의 Subcategory 열거형을 사용
+    private String subcategory;  // Community 엔티티의 Subcategory 열거형을 사용
+
+    @Override
+    public String toString() {
+        return "CommunityDTO{" +
+                "userId=" + userId +
+                ", composer='" + composer + '\'' +
+                ", content='" + content + '\'' +
+                ", subcategory='" + subcategory + '\'' +
+                '}';
+    }
 }

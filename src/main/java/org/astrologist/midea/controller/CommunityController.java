@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @Controller
 @RequestMapping("/midea/community")
 @RequiredArgsConstructor
@@ -20,25 +19,16 @@ public class CommunityController {
 
     private final CommunityService communityService;
 
-    /**
-     * 커뮤니티 페이지를 표시합니다.
-     * 게시글 목록과 새로운 게시글을 작성하기 위한 폼을 모델에 추가합니다.
-     *
-     * @param model   - 모델 객체
-     * @param session - 세션 객체
-     * @return community/community 템플릿
-     */
     @GetMapping
     public String getCommunityPage(Model model, HttpSession session) {
-        // 세션에서 로그인된 사용자 정보를 가져오기
+
         User user = (User) session.getAttribute("user");
 
-        // 사용자 정보가 있으면 닉네임과 프로필 이미지를 모델에 추가, 없으면 기본값 설정
         if (user != null) {
             model.addAttribute("username", user.getNickname());
             model.addAttribute("userRole", user.getUserRole().name());
+            model.addAttribute("userId", user.getId());
 
-            // 프로필 이미지 경로가 없을 경우 기본 이미지를 설정
             String profileImagePath = user.getProfileImagePath();
             if (profileImagePath == null || profileImagePath.isEmpty()) {
                 profileImagePath = "/default.images/default-profile.jpg";
@@ -50,13 +40,45 @@ public class CommunityController {
             model.addAttribute("profileImage", "/default.images/default-profile.jpg");
         }
 
-        // 커뮤니티 게시글 목록 추가
         List<Community> communityList = communityService.getAllCommunities();
         model.addAttribute("communities", communityList);
 
-        // 새로운 게시글 작성을 위한 DTO 객체 추가
         model.addAttribute("communityDTO", new CommunityDTO());
 
         return "community/community";  // community.html 템플릿을 렌더링
+    }
+
+    @PostMapping
+    @ResponseBody
+    public String createCommunityPost(@RequestBody CommunityDTO communityDTO, HttpSession session) {
+
+        System.out.println("createCommunityPost 메서드 호출됨");
+
+        User user = (User) session.getAttribute("user");
+
+
+        if (user != null) {
+            System.out.println("세션에서 가져온 사용자 ID: " + user.getId());
+        } else {
+            System.out.println("세션에 사용자가 없습니다.");
+        }
+
+        if (user == null) {
+            return "로그인이 필요합니다.";
+        }
+
+        communityDTO.setUserId(user.getId());
+
+        System.out.println("DTO 내용: " + communityDTO.toString());
+
+        try {
+            communityService.createCommunityPost(communityDTO);
+            System.out.println("게시글이 성공적으로 저장되었습니다.");
+            return "게시글이 성공적으로 저장되었습니다.";
+        } catch (Exception e) {
+            System.err.println("게시글 저장 중 오류 발생: " + e.getMessage());
+            e.printStackTrace();  // 오류 스택 트레이스 출력
+            return "게시글 저장 중 오류가 발생했습니다.";
+        }
     }
 }

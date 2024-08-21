@@ -299,6 +299,10 @@
     <link rel="stylesheet" href="https://use.typekit.net/rou7uxf.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.6/vue.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <!-- Vue.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <!-- Axios CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 </head>
 <body>
@@ -838,14 +842,15 @@
                 el: ".grid",
                 data() {
                     return {
-                        activeCategory: null,  // 현재 선택된 카테고리
-                        selectedTitle: null,  // 현재 선택된 타이틀
+                        userId: '[[${userId}]]',
+                        activeCategory: null,
+                        selectedTitle: null,
                         post: "",
                         posts: [],
                         isLiked: [],
-                        userRole: '[[${userRole}]]',  // 서버에서 전달받은 UserRole을 가져옵니다.
-                        username: '[[${username}]]',  // 서버에서 전달받은 닉네임을 가져옵니다.
-                        selectedCategory: null // 선택된 채팅방 카테고리
+                        userRole: '[[${userRole}]]',
+                        username: '[[${username}]]',
+                        selectedCategory: null
                     };
                 },
                 updated() {
@@ -857,16 +862,15 @@
                 methods: {
                     selectTitle(title) {
                         this.selectedTitle = title;
-                        this.selectedCategory = title.replace('#', ''); // 카테고리를 선택하면 저장 (ex. '#Minimal Techno' -> 'Minimal Techno')
+                        this.selectedCategory = title.replace('#', '').trim(); // 해시태그와 공백 제거 후 저장
                     },
                     createPost() {
-                        // 카테고리가 선택되었는지 확인
+
                         if (!this.selectedCategory) {
                             alert('메시지를 입력하기 전에 카테고리를 선택해주세요.');
                             return;
                         }
 
-                        // UserRole 확인
                         if (this.userRole !== 'MEMBER' && this.userRole !== 'ADMIN') {
                             alert('MIDEA 회원용 커뮤니티입니다. 로그인 해주세요.');
                             window.location.href = '/midea/login'; // 로그인 페이지로 리다이렉트
@@ -878,32 +882,36 @@
                             return false;
                         }
 
-                        // 현재 시간 가져오기
                         let timestamp = new Date().toLocaleString();
 
-                        // post 객체 생성
                         let postObject = {
                             username: this.username,
                             timestamp: timestamp,
                             message: messageContent,
-                            subcategory: this.selectedCategory // 선택된 카테고리를 포함
+                            subcategory: this.selectedCategory.replace(' ', '') // 선택된 카테고리를 포함
                         };
 
-                        // post 객체를 배열에 추가
                         this.posts.push(postObject);
                         this.isLiked.push(false);
                         this.post = "";
 
-                        // 서버에 메시지 전송 (AJAX 사용 가능)
-                        axios.post('/midea/community', {
-                            userId: userId,  // 세션에서 가져온 사용자 ID를 사용
+                        const payload = {
+                            userId: this.userId,  // Vue 인스턴스의 userId 사용
                             composer: this.username,
                             content: messageContent,
                             subcategory: this.selectedCategory
-                        }).then(response => {
+                        };
+
+                        axios.post('/midea/community', payload, {
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => {
                             console.log("Message sent to server:", response.data);
-                        }).catch(error => {
-                            console.error("Failed to send message:", error);
+                        })
+                        .catch(error => {
+                            console.error("Failed to send message:", error.response ? error.response.data : error.message);
                         });
                     },
                     editPost(index) {
@@ -924,7 +932,7 @@
                 }
             });
         </script>
-</th:block>
+    </th:block>
 </th:block>
 </body>
 </html>
