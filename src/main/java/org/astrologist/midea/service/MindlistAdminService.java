@@ -18,11 +18,12 @@ public interface MindlistAdminService {
 
     void modify(MindlistAdminDTO dto);
 
+    //게시물 등록을 위해 MindlistAdminDTO를 MindlistAdmin 엔티티 타입으로 변환하기 위한 처리
     default MindlistAdmin dtoToEntity(MindlistAdminDTO dto) {
 
         User user = User.builder().email(dto.getEmail()).build();
 
-        MindlistAdmin entity = MindlistAdmin.builder()
+        MindlistAdmin mindlistAdmin = MindlistAdmin.builder()
                 .mno(dto.getMno())
                 .composer(dto.getComposer())
                 .title(dto.getTitle())
@@ -36,7 +37,7 @@ public interface MindlistAdminService {
                 .sad(dto.isSad())
                 .stressed(dto.isStressed())
                 .build();
-        return entity;
+        return mindlistAdmin;
     }
 
     default MindlistAdminDTO entityToDto(MindlistAdmin entity, User user, Long commentCount) {

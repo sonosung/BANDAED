@@ -36,7 +36,6 @@ public class MindlistAdminServiceImpl implements MindlistAdminService{
         log.info(dto);
 
         MindlistAdmin mindlistAdmin = dtoToEntity(dto);
-
         log.info(mindlistAdmin);
 
         repository.save(mindlistAdmin);
