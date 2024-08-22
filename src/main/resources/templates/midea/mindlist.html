@@ -186,7 +186,9 @@
                     </div>
                     <div class="col-6">
                       <i class="fa-solid fa-user"></i>
-                      <span class="list">[[${dto.nickname}]]</span>
+                      <span class="list">[[${dto.email}]]</span>
+                      <span class="list" th:value="${dto.nickname}"></span>
+                      <span class="list" th:value="${email_id}"></span>
                     </div>
                   </div>
                   <p>[[${dto.content}]]</p>

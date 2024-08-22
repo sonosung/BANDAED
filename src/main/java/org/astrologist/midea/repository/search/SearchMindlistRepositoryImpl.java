@@ -32,10 +32,10 @@ public class SearchMindlistRepositoryImpl extends QuerydslRepositorySupport impl
 
 
         JPQLQuery<Mindlist> jpqlQuery = from(mindlist);
-        jpqlQuery.leftJoin(user).on(mindlist.nickname.eq(user));
+        jpqlQuery.leftJoin(user).on(mindlist.email.eq(user));
         jpqlQuery.leftJoin(comment).on(comment.mindlist.eq(mindlist));
 
-        JPQLQuery<Tuple> tuple = jpqlQuery.select(mindlist, user.nickname, comment.count());
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(mindlist, user.email, comment.count());
         tuple.groupBy(mindlist);
 
         log.info("---------------------------");
@@ -58,7 +58,7 @@ public class SearchMindlistRepositoryImpl extends QuerydslRepositorySupport impl
         QUser user = QUser.user;
 
         JPQLQuery<Mindlist>jpqlQuery = from(mindlist);
-        jpqlQuery.leftJoin(user).on(mindlist.nickname.eq(user));
+        jpqlQuery.leftJoin(user).on(mindlist.email.eq(user));
         jpqlQuery.leftJoin(comment).on(comment.mindlist.eq(mindlist));
 
         JPQLQuery<Tuple> tuple = jpqlQuery.select(mindlist, user, comment.count());

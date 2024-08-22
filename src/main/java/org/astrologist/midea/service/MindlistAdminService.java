@@ -25,6 +25,7 @@ public interface MindlistAdminService {
 
         MindlistAdmin mindlistAdmin = MindlistAdmin.builder()
                 .mno(dto.getMno())
+                .nickname(dto.getNickname())
                 .composer(dto.getComposer())
                 .title(dto.getTitle())
                 .url(dto.getUrl())

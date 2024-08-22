@@ -15,7 +15,9 @@ public class MindlistAdmin extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mno;
 
-    @ManyToOne (fetch = FetchType.LAZY)
+    private String nickname;
+
+    @ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private User email;  // 이메일 필드, 고유값이며 필수
 
     @Column(length = 100, nullable = false)

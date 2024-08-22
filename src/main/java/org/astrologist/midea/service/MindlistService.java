@@ -19,7 +19,11 @@ public interface MindlistService {
 
     default Mindlist dtoToEntity(MindlistDTO dto) {
 
-        User user = User.builder().nickname(dto.getNickname()).build();
+        User user = User.builder()
+                .email(dto.getEmail())
+                .nickname(dto.getNickname())
+                .password(dto.getPassword())
+                .build();
 
         Mindlist mindlist = Mindlist.builder()
                 .mno(dto.getMno())
@@ -27,13 +31,16 @@ public interface MindlistService {
                 .title(dto.getTitle())
                 .url(dto.getUrl())
                 .content(dto.getContent())
-                .nickname(user)
+//                .nickname(user.getNickname())
+//                .nickname(user.getNickname())
+                .email(user)
                 .calm(dto.isCalm())
                 .happy(dto.isHappy())
                 .joyful(dto.isJoyful())
                 .energetic(dto.isEnergetic())
                 .sad(dto.isSad())
                 .stressed(dto.isStressed())
+                .likeCount(dto.getLikeCount())
                 .build();
         return mindlist;
     }
@@ -47,7 +54,8 @@ public interface MindlistService {
                 .composer(mindlist.getComposer())
                 .title(mindlist.getTitle())
                 .url(mindlist.getUrl())
-                .nickname(user.getNickname())
+                .email(String.valueOf(user))
+                .nickname(String.valueOf(user))
                 .content(mindlist.getContent())
                 .regDate(mindlist.getRegDate())
                 .modDate(mindlist.getModDate())

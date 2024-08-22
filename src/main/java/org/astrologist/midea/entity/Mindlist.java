@@ -17,8 +17,12 @@ public class Mindlist extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mno;
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    private User nickname;  // 이메일 필드, 고유값이며 필수
+    @ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private User email;  // 닉네임 필드, 고유값이며 필수
+
+    private String nickname;
+
+    private String password;
 
     @Column(length = 100, nullable = false)
     private String composer;

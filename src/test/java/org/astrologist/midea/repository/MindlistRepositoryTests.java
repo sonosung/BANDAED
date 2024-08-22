@@ -23,16 +23,23 @@ public class MindlistRepositoryTests {
 
     @Test
     public void insertDummies() {
-        IntStream.rangeClosed(1,100).forEach(i-> {
 
-            User user = User.builder().nickname("nickname" + i).build();
+        IntStream.rangeClosed(1, 100).forEach(i -> {
+
+            User user = User.builder()
+                    .email("test2email" + i + "@naver.com")
+                    .password("test2password" + i)  // 패스워드 설정
+                    .nickname("test2nickname" + i)  // 닉네임 설정
+                    .build();
 
             Mindlist mindlist = Mindlist.builder()
-                    .composer("composer"+i)
-                    .content("content.."+i)
-                    .nickname(user)
+                    .composer("composer" + i)
+                    .content("content.." + i)
+//                    .nickname(String.valueOf(user))
+                    .email(user)
                     .title("title...." + i)
-                    .url("url..." +i)
+                    .url("url..." + i)
+                    .likeCount(i)
                     .calm(true)
                     .happy(true)
                     .sad(true)
@@ -44,6 +51,7 @@ public class MindlistRepositoryTests {
             mindlistRepository.save(mindlist);
         });
     }
+
 
     @Test
     public void updateTest() {

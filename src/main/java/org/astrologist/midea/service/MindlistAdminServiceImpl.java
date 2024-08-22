@@ -74,7 +74,7 @@ public class MindlistAdminServiceImpl implements MindlistAdminService{
     public void removeWithComments(Long mno) {
 
         //댓글 부터 삭제
-        commentRepository.deleteByMno(mno);
+        commentRepository.deleteMAByMno(mno);
 
         repository.deleteById(mno);
 

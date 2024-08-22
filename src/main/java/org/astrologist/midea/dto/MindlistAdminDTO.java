@@ -23,6 +23,7 @@ public class MindlistAdminDTO {
     private String nickname;
     private LocalDateTime regDate, modDate;
     private int commentCount; //해당 게시글의 댓글 수
+    private int likeCount; //게시물의 좋아요 수
 
     private boolean happy;
     private boolean sad;

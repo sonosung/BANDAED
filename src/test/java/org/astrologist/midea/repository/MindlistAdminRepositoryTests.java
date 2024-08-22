@@ -4,6 +4,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.astrologist.midea.entity.MindlistAdmin;
 import org.astrologist.midea.entity.QMindlistAdmin;
+import org.astrologist.midea.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,13 +26,22 @@ public class MindlistAdminRepositoryTests {
 
     @Test
     public void insertDummies() {
-        IntStream.rangeClosed(1,10).forEach(i-> {
+        IntStream.rangeClosed(1,100).forEach(i-> {
+
+            User user = User.builder()
+                    .email(i+ "email" + i + "@naver.com")
+                    .password(i+ "password" + i)  // 패스워드 설정
+                    .nickname(i+ "nickname" + i)  // 닉네임 설정
+                    .build();
+
 
             MindlistAdmin mindlistAdmin = MindlistAdmin.builder()
+
                     .composer("composer"+i)
                     .title("Title...." + i)
                     .url("usl..." +i)
                     .content("content.."+i)
+                    .email(user)
                     .calm(true)
                     .happy(true)
                     .sad(true)
