@@ -1,5 +1,5 @@
 package org.astrologist.midea.entity;
-
+//커뮤니티 엔티티
 import jakarta.persistence.*;
 import lombok.*;
 
