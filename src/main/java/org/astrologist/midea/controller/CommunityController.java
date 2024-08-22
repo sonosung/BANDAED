@@ -3,9 +3,11 @@ package org.astrologist.midea.controller;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.astrologist.midea.dto.CommunityDTO;
+import org.astrologist.midea.dto.MideaLikeDTO;
 import org.astrologist.midea.entity.Community;
 import org.astrologist.midea.entity.User;
 import org.astrologist.midea.service.CommunityService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -50,12 +52,11 @@ public class CommunityController {
 
     @PostMapping
     @ResponseBody
-    public String createCommunityPost(@RequestBody CommunityDTO communityDTO, HttpSession session) {
+    public ResponseEntity<?> createCommunityPost(@RequestBody CommunityDTO communityDTO, HttpSession session) {
 
         System.out.println("createCommunityPost 메서드 호출됨");
 
         User user = (User) session.getAttribute("user");
-
 
         if (user != null) {
             System.out.println("세션에서 가져온 사용자 ID: " + user.getId());
@@ -64,7 +65,7 @@ public class CommunityController {
         }
 
         if (user == null) {
-            return "로그인이 필요합니다.";
+            return ResponseEntity.status(403).body("로그인이 필요합니다.");
         }
 
         communityDTO.setUserId(user.getId());
@@ -72,13 +73,31 @@ public class CommunityController {
         System.out.println("DTO 내용: " + communityDTO.toString());
 
         try {
-            communityService.createCommunityPost(communityDTO);
+            Community newPost = communityService.createCommunityPost(communityDTO);
             System.out.println("게시글이 성공적으로 저장되었습니다.");
-            return "게시글이 성공적으로 저장되었습니다.";
+            return ResponseEntity.ok(newPost.getId());  // 생성된 게시물의 ID를 반환
         } catch (Exception e) {
             System.err.println("게시글 저장 중 오류 발생: " + e.getMessage());
             e.printStackTrace();  // 오류 스택 트레이스 출력
-            return "게시글 저장 중 오류가 발생했습니다.";
+            return ResponseEntity.status(500).body("게시글 저장 중 오류가 발생했습니다.");
+        }
+    }
+
+    @PostMapping("/like")
+    @ResponseBody
+    public ResponseEntity<String> toggleLike(@RequestBody MideaLikeDTO mideaLikeDTO, HttpSession session) {
+
+        User user = (User) session.getAttribute("user");
+
+        if (user == null) {
+            return ResponseEntity.status(403).body("로그인이 필요합니다.");
+        }
+
+        try {
+            communityService.toggleLike(mideaLikeDTO, user);
+            return ResponseEntity.ok("좋아요 상태가 변경되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("좋아요 상태 변경 실패: " + e.getMessage());
         }
     }
 }
