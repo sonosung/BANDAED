@@ -50,6 +50,18 @@ public class CommunityController {
         return "community/community";  // community.html 템플릿을 렌더링
     }
 
+    @GetMapping("/subcategory/{subcategory}")
+    @ResponseBody
+    public ResponseEntity<List<Community>> getCommunitiesBySubcategory(@PathVariable String subcategory) {
+        try {
+            Community.Subcategory subcategoryEnum = Community.Subcategory.valueOf(subcategory);
+            List<Community> communities = communityService.getCommunitiesBySubcategory(subcategoryEnum);
+            return ResponseEntity.ok(communities);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
     @PostMapping
     @ResponseBody
     public ResponseEntity<?> createCommunityPost(@RequestBody CommunityDTO communityDTO, HttpSession session) {

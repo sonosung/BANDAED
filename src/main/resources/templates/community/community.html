@@ -750,19 +750,19 @@
                     </div>
                     <div class="header__channel">
                         <div class="channel__item" v-if="activeCategory === 'styles'">
-                            <div class="channel__title" @click="selectTitle('#Minimal Techno')">#Minimal Techno</div>
-                            <div class="channel__title" @click="selectTitle('#Minimal House')">#Minimal House</div>
-                            <div class="channel__title" @click="selectTitle('#Minimal Classical')">#Minimal Classical</div>
+                            <div class="channel__title" @click="loadSubcategoryPosts('MinimalTechno')">#Minimal Techno</div>
+                            <div class="channel__title" @click="loadSubcategoryPosts('MinimalHouse')">#Minimal House</div>
+                            <div class="channel__title" @click="loadSubcategoryPosts('MinimalClassical')">#Minimal Classical</div>
                         </div>
                         <div class="channel__item" v-if="activeCategory === 'artists'">
-                            <div class="channel__title" @click="selectTitle('#Steve Reich')">#Steve Reich</div>
-                            <div class="channel__title" @click="selectTitle('#Philip Glass')">#Philip Glass</div>
-                            <div class="channel__title" @click="selectTitle('#Terry Riley')">#Terry Riley</div>
+                            <div class="channel__title" @click="loadSubcategoryPosts('SteveReich')">#Steve Reich</div>
+                            <div class="channel__title" @click="loadSubcategoryPosts('PhilipGlass')">#Philip Glass</div>
+                            <div class="channel__title" @click="loadSubcategoryPosts('TerryRiley')">#Terry Riley</div>
                         </div>
                         <div class="channel__item" v-if="activeCategory === 'instruments'">
-                            <div class="channel__title" @click="selectTitle('#Synthesizer')">#Synthesizer</div>
-                            <div class="channel__title" @click="selectTitle('#Piano')">#Piano</div>
-                            <div class="channel__title" @click="selectTitle('#Percussion')">#Percussion</div>
+                            <div class="channel__title" @click="loadSubcategoryPosts('Synthesizer')">#Synthesizer</div>
+                            <div class="channel__title" @click="loadSubcategoryPosts('Piano')">#Piano</div>
+                            <div class="channel__title" @click="loadSubcategoryPosts('Percussion')">#Percussion</div>
                         </div>
                     </div>
                     <div class="header__profile">
@@ -793,9 +793,9 @@
                         <div class="main__post" v-for="(post, index) in posts" :key="post.id">
                             <div class="post__avatar"></div>
                             <div class="post__content">
-                                <div class="post__name" style="color:#33FFFF; font-weight: bold; font-size: 15px">{{ post.username }}</div>
+                                <div class="post__name" style="color:#33FFFF; font-weight: bold; font-size: 15px">{{ post.composer }}</div>
                                 <div class="post__timestamp">{{ post.timestamp }}</div>
-                                <div class="post__message">{{ post.message }}</div>
+                                <div class="post__message">{{ post.content }}</div>
                                 <div class="post__actions" style="display: inline-block; min-height: -0.5cm;">
                                     <button @click="editPost(index)" style="border-radius: 20px; font-size: 10px; background-color: #E5FEFE;">수정</button>
                                     <button @click="deletePost(index)" style="border-radius: 20px; font-size: 10px; background-color: #00CCCC;">삭제</button>
@@ -860,9 +860,23 @@
                     });
                 },
                 methods: {
+                    loadSubcategoryPosts(subcategory) {
+                        axios.get(`/midea/community/subcategory/${subcategory}`)
+                            .then(response => {
+                                this.posts = response.data;
+                                this.isLiked = new Array(this.posts.length).fill(false);  // 좋아요 상태 초기화
+                                this.selectedCategory = subcategory;
+                            })
+                            .catch(error => {
+                                console.error("Failed to load posts:", error.response ? error.response.data : error.message);
+                            });
+                    },
                     selectTitle(title) {
                         this.selectedTitle = title;
                         this.selectedCategory = title.replace('#', '').trim();
+
+                        // 선택된 Subcategory에 해당하는 게시글을 불러옴
+                        this.loadSubcategoryPosts(this.selectedCategory);
                     },
                     createPost() {
                         if (!this.selectedCategory) {
@@ -884,9 +898,9 @@
                         let timestamp = new Date().toLocaleString();
 
                         let postObject = {
-                            username: this.username,
+                            composer: this.username,  // 이 부분을 수정 (username이 아닌 composer)
                             timestamp: timestamp,
-                            message: messageContent,
+                            content: messageContent,  // content로 메시지 내용을 설정
                             subcategory: this.selectedCategory.replace(' ', '')
                         };
 
@@ -907,6 +921,10 @@
                             this.posts.push(postObject);  // 화면에 실시간으로 게시물을 추가
                             this.isLiked.push(false);  // 새 게시물의 좋아요 상태를 초기화
                             this.post = "";  // 입력 필드를 초기화
+                            this.$nextTick(() => {
+                                let chat = this.$refs.chat;
+                                chat.scrollTop = chat.scrollHeight;  // 스크롤을 맨 아래로 이동
+                            });
                             console.log("Message sent to server with ID:", response.data);
                         })
                         .catch(error => {
@@ -961,7 +979,7 @@
                 }
             });
         </script>
-    </th:block>
+</th:block>
 </th:block>
 </body>
 </html>
