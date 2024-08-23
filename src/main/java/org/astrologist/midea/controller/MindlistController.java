@@ -39,7 +39,7 @@ public class MindlistController {
     }
 
     @GetMapping("/mlRegister")
-    public void register(Model model){
+    public String register(Model model){
     // 현재 로그인한 사용자 정보 가져오기
         User loggedInUser = (User) session.getAttribute("user");
 
@@ -47,11 +47,15 @@ public class MindlistController {
             String nickname = loggedInUser.getNickname();
             model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
             log.info("Logged in user's nickname: " + nickname);
+        }else {
+            log.info("로그인 하세요~!");
+            return "redirect:/midea/mindlist";
         }
+        return "redirect:/midea/mlRegister";
     }
 
     @PostMapping("/mlRegister")
-    public String register(MindlistDTO dto, RedirectAttributes redirectAttributes){
+    public String register(MindlistDTO dto, RedirectAttributes redirectAttributes, User user){
 
         log.info("dto....." + dto);
 
@@ -88,7 +92,7 @@ public class MindlistController {
     }
 
     @PostMapping("/mlmodify")
-    public String modify(MindlistDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes, UserDTO userDTO) {
+    public String modify(MindlistDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes) {
 
         log.info("post modify....");
         log.info("dto: " + dto);
@@ -98,7 +102,6 @@ public class MindlistController {
         redirectAttributes.addAttribute("page", requestDTO.getPage());
         redirectAttributes.addAttribute("type", requestDTO.getType());
         redirectAttributes.addAttribute("keyword", requestDTO.getKeyword());
-
         redirectAttributes.addAttribute("mno", dto.getMno());
 
         return "redirect:/midea/mlread";

@@ -186,14 +186,16 @@
                     </div>
                     <div class="col-6">
                       <i class="fa-solid fa-user"></i>
-                      <span class="list">[[${dto.email}]]</span>
-                      <span class="list" th:value="${dto.nickname}"></span>
-                      <span class="list" th:value="${email_id}"></span>
+                      <span class="list">[[${dto.nickname}]]</span>
+<!--                      <span class="list" th:value="${dto.nickname}"></span>-->
+<!--                      <input type="text" name="writer" th:value="${dto.nickname}" readonly>-->
+<!--                      <span class="list" th:value="${email_id}"></span>-->
                     </div>
                   </div>
                   <p>[[${dto.content}]]</p>
                   <div class="main-button">
-                    <a th:href="@{dto.url}">음악 들으러 가기</a>
+<!--                    <a th:href="@{dto.url}">음악 들으러 가기</a>-->
+                    <a th:href="@{#}" th:onclick="|location.href='@{dto.url}'|">음악 들으러 가기</a>
                   </div>
                 </div>
               </div>

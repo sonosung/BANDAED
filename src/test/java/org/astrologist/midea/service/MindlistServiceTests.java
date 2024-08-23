@@ -3,6 +3,7 @@ package org.astrologist.midea.service;
 import org.astrologist.midea.dto.MindlistDTO;
 import org.astrologist.midea.dto.PageRequestDTO;
 import org.astrologist.midea.dto.PageResultDTO;
+import org.astrologist.midea.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,8 +22,16 @@ public class MindlistServiceTests {
                 .title("Sample Title...")
                 .url("Sample URL...")
                 .content("Sample Content..")
-                .nickname("nickname")
+                .nickname("iguana")       //현재 데이터베이스에 존재하는 유저 닉네임
+//                .email("email4@naver.com")   //현재 데이터베이스에 존재하는 유저 이메일
+//                .password("password2")       //현재 데이터베이스에 존재하는 유저 비밀번호
                 .build();
+
+//        User user = User.builder()
+//                .nickname("test nickname")
+//                .password("test password")
+//                .email("test email")
+//                .build();
 
         Long mno = mindlistService.register(mindlistDTO);
     }
@@ -42,6 +51,16 @@ public class MindlistServiceTests {
     }
 
     @Test
+    public void testRead(){
+
+        Long mno = 10L;
+
+        MindlistDTO mindlistDTO = mindlistService.read(mno);
+
+        System.out.println(mindlistDTO);
+    }
+
+    @Test
     public void testRemove() {
 
         Long mno = 1L;
@@ -51,13 +70,23 @@ public class MindlistServiceTests {
     }
 
     @Test
-    public void testRead(){
+    public void testModify() {
 
-        Long mno = 1L;
+        MindlistDTO mindlistDTO = MindlistDTO.builder()
+                .mno(2L)
+                .composer("change composer")
+                .content("change content")
+                .title("change title")
+                .url("change url")
+                .happy(true)
+                .sad(false)
+                .calm(true)
+                .stressed(false)
+                .joyful(true)
+                .energetic(true)
+                .build();
 
-        MindlistDTO mindlistDTO = mindlistService.read(mno);
-
-        System.out.println(mindlistDTO);
+        mindlistService.modify(mindlistDTO);
     }
 
 }

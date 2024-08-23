@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -41,7 +42,7 @@ public class MindlistAdminRepositoryTests {
                     .title("Title...." + i)
                     .url("usl..." +i)
                     .content("content.."+i)
-                    .email(user)
+                    .nickname(user.getNickname())
                     .calm(true)
                     .happy(true)
                     .sad(true)
@@ -63,7 +64,7 @@ public class MindlistAdminRepositoryTests {
         MindlistAdmin mindlistAdmin = result.get();
 
         System.out.println(mindlistAdmin);
-        System.out.println(mindlistAdmin.getEmail());
+        System.out.println(mindlistAdmin.getUserIdx());
 
     }
 
@@ -103,6 +104,32 @@ public class MindlistAdminRepositoryTests {
 
         mindlistAdminRepository.search1();
 
+    }
+
+    @Transactional
+    @Test
+    public void testGetMindlistWithReply() {
+
+        List<Object[]> result = mindlistAdminRepository.getMindlistAdminWithComment(100L);
+
+        for (Object[] arr : result) {
+            System.out.println(Arrays.toString(arr));
+        }
+    }
+
+    @Transactional
+    @Test
+    public void testWithCommentCount() {
+
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("mno").descending());
+
+        Page<Object[]> result = mindlistAdminRepository.getMindlistAdminWithCommentCount(pageable);
+
+        result.get().forEach(row -> {
+            Object[] arr = (Object[])row;
+
+            System.out.println(Arrays.toString(arr));
+        });
     }
 
     @Test

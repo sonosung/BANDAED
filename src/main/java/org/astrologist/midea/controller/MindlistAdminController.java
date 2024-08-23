@@ -42,13 +42,23 @@ public class MindlistAdminController {
     }
 
     @GetMapping("/mlAdminRegister")
-    public void register(Model model){
-
+    public String register(Model model, RedirectAttributes redirectAttributes){
 
         // 세션에서 현재 로그인한 사용자 정보를 가져옵니다.
         User loggedInUser = (User) session.getAttribute("user");
 
-        log.info("user name : " + loggedInUser);
+        // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트합니다.
+        if (loggedInUser == null) {
+            return "redirect:/midea/login";
+        }
+        // 사용자가 ADMIN 권한이 아닌 경우 이전 페이지로 리다이렉트합니다.
+        else if (loggedInUser.getUserRole() != User.UserRole.ADMIN) {
+            return "redirect:/midea/mindlistAdmin";
+        }
+
+        log.info("loggedInUser Post....." + loggedInUser);
+
+        return "redirect:/midea/mindlistAdmin";
 
     }
 
@@ -60,19 +70,6 @@ public class MindlistAdminController {
         Long mno = mindlistAdminService.register(dto);
 
         redirectAttributes.addFlashAttribute("msg", mno);
-
-        // 세션에서 현재 로그인한 사용자 정보를 가져옵니다.
-        User loggedInUser = (User) session.getAttribute("user");
-        // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트합니다.
-        if (loggedInUser == null) {
-            return "redirect:/midea/login";
-        }
-        // 사용자가 MEMBER 또는 ADMIN 권한이 아닌 경우 로그인 페이지로 리다이렉트합니다.
-        if (loggedInUser.getUserRole() != User.UserRole.ADMIN) {
-            return "redirect:/midea/login";
-        }
-
-        log.info("loggedInUser Post....." + loggedInUser);
 
         return "redirect:/midea/mindlistAdmin";
     }

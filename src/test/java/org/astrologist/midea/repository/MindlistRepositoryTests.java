@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,16 +28,19 @@ public class MindlistRepositoryTests {
         IntStream.rangeClosed(1, 100).forEach(i -> {
 
             User user = User.builder()
-                    .email("test2email" + i + "@naver.com")
-                    .password("test2password" + i)  // 패스워드 설정
-                    .nickname("test2nickname" + i)  // 닉네임 설정
+//                    .id(Long.valueOf(i))
+                    .email("testemail" + i + "@naver.com")
+                    .password("testpassword" + i)  // 패스워드 설정
+                    .nickname("testnickname" + i)  // 닉네임 설정
                     .build();
 
             Mindlist mindlist = Mindlist.builder()
                     .composer("composer" + i)
                     .content("content.." + i)
-//                    .nickname(String.valueOf(user))
-                    .email(user)
+//                    .userIdx(User.builder().email("user" + i + "@naver.com").build())
+//                    .userIdx(User.builder().nickname("nickname" + i).build())
+                    .nickname(user.getNickname())
+//                    .userIdx(user)
                     .title("title...." + i)
                     .url("url..." + i)
                     .likeCount(i)
@@ -52,6 +56,66 @@ public class MindlistRepositoryTests {
         });
     }
 
+    @Transactional
+    @Test
+    public void testRead1() {
+
+        Optional<Mindlist> result = mindlistRepository.findById(100L);
+
+        Mindlist mindlist = result.get();
+
+        System.out.println(mindlist);
+//        System.out.println(mindlist.getNickname());
+        System.out.println(mindlist.getUserIdx());
+    }
+
+    @Test
+    public void testReadWithWriter() {
+
+        Object result = mindlistRepository.getMindlistWithWriter(100L);
+
+        Object[] arr = (Object[])result;
+
+        System.out.println("-------------------------------");
+        System.out.println(Arrays.toString(arr));
+
+    }
+
+    @Transactional
+    @Test
+    public void testGetMindlistWithReply() {
+
+        List<Object[]> result = mindlistRepository.getMindlistWithComment(100L);
+
+        for (Object[] arr : result) {
+            System.out.println(Arrays.toString(arr));
+        }
+    }
+
+    @Transactional
+    @Test
+    public void testWithCommentCount() {
+
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("mno").descending());
+
+        Page<Object[]> result = mindlistRepository.getMindlistWithCommentCount(pageable);
+
+        result.get().forEach(row -> {
+            Object[] arr = (Object[])row;
+
+            System.out.println(Arrays.toString(arr));
+        });
+    }
+
+    @Test
+    public void testRead3() {
+
+        Object result = mindlistRepository.getMindlistByMno(100L);
+
+        Object[] arr = (Object[])result;
+
+        System.out.println(Arrays.toString(arr));
+    }
 
     @Test
     public void updateTest() {
@@ -73,18 +137,6 @@ public class MindlistRepositoryTests {
     }
 
     @Test
-    public void testReadWithWriter() {
-
-        Object result = mindlistRepository.getMindlistWithWriter(100L);
-
-        Object[] arr = (Object[])result;
-
-        System.out.println("-------------------------------");
-        System.out.println(Arrays.toString(arr));
-
-    }
-
-    @Test
     public void testSearchPage() {
 
         Pageable pageable =
@@ -94,16 +146,6 @@ public class MindlistRepositoryTests {
 
         Page<Object[]> result = mindlistRepository.searchPage("t", "1", pageable);
 
-    }
-
-    @Test
-    public void testGetMindlistWithReply() {
-
-        List<Object[]> result = mindlistRepository.getMindlistWithComment(100L);
-
-        for (Object[] arr : result) {
-            System.out.println(Arrays.toString(arr));
-        }
     }
 
 }

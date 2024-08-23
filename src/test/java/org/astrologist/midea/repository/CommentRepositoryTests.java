@@ -6,6 +6,7 @@ import org.astrologist.midea.entity.MindlistAdmin;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,7 @@ public class CommentRepositoryTests {
             Mindlist mindlist = Mindlist.builder().mno(mno).build();
 
             Comment comment = Comment.builder()
-                    .text("comment.." + i)
+                    .text("sounds good to me.." + i)
                     .mindlist(mindlist)
                     .commenter("commenter" + i) //comment 테이블의 칼럼명.
                     .build();
@@ -36,6 +37,7 @@ public class CommentRepositoryTests {
         });
     }
 
+    @Transactional
     @Test
     public void readComment1() {
         Optional<Comment> result = commentRepository.findById(100L);

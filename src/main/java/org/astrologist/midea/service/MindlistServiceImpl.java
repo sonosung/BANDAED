@@ -25,9 +25,10 @@ public class MindlistServiceImpl implements MindlistService {
 
     private final CommentRepository commentRepository;
 
+    //글쓰기
     @Override
     public Long register(MindlistDTO dto) {
-        log.info("DTO---------------------");
+        log.info("-------------MindlistServiceImpl register() 실행--------------");
         log.info(dto);
 
         Mindlist mindlist = dtoToEntity(dto);
@@ -37,6 +38,7 @@ public class MindlistServiceImpl implements MindlistService {
         return mindlist.getMno();
     }
 
+    //리스트 조회
     @Override
     public PageResultDTO<MindlistDTO, Object[]> getList(PageRequestDTO pageRequestDTO) {
 
@@ -55,6 +57,7 @@ public class MindlistServiceImpl implements MindlistService {
         return new PageResultDTO<>(result, fn);
     }
 
+    //상세페이지 조회
     @Override
     public MindlistDTO read(Long mno) {
 
@@ -65,6 +68,7 @@ public class MindlistServiceImpl implements MindlistService {
         return entityToDTO((Mindlist)arr[0], (User)arr[1], (Long)arr[2]);
     }
 
+    //삭제
     @Transactional
     @Override
     public void removeWithComments(Long mno) {
@@ -76,6 +80,7 @@ public class MindlistServiceImpl implements MindlistService {
 
     }
 
+    //수정
     @Transactional
     @Override
     public void modify(MindlistDTO mindlistDTO) {
@@ -84,10 +89,10 @@ public class MindlistServiceImpl implements MindlistService {
 
         if(mindlist != null) {
 
-            mindlist.changeTitle(mindlistDTO.getTitle());
-            mindlist.changeContent(mindlistDTO.getContent());
-            mindlist.changeUrl(mindlistDTO.getUrl());
             mindlist.changeComposer(mindlistDTO.getComposer());
+            mindlist.changeContent(mindlistDTO.getContent());
+            mindlist.changeTitle(mindlistDTO.getTitle());
+            mindlist.changeUrl(mindlistDTO.getUrl());
             mindlist.changeHappy(mindlistDTO.isHappy());
             mindlist.changeSad(mindlistDTO.isSad());
             mindlist.changeCalm(mindlistDTO.isCalm());

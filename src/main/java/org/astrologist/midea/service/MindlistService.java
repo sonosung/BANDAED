@@ -15,14 +15,15 @@ public interface MindlistService {
 
     void removeWithComments(Long mno);
 
-    void modify(MindlistDTO dto);
+    void modify(MindlistDTO mindlistDTO);
 
     default Mindlist dtoToEntity(MindlistDTO dto) {
 
+        //User 테이블의 NotNull 속성으로 인한 설정.
         User user = User.builder()
                 .email(dto.getEmail())
                 .nickname(dto.getNickname())
-                .password(dto.getPassword())
+//                .password(dto.getPassword())
                 .build();
 
         Mindlist mindlist = Mindlist.builder()
@@ -31,9 +32,9 @@ public interface MindlistService {
                 .title(dto.getTitle())
                 .url(dto.getUrl())
                 .content(dto.getContent())
-//                .nickname(user.getNickname())
-//                .nickname(user.getNickname())
-                .email(user)
+//                .email(user)
+                .nickname(dto.getNickname())
+//                .password(user)
                 .calm(dto.isCalm())
                 .happy(dto.isHappy())
                 .joyful(dto.isJoyful())
@@ -45,8 +46,6 @@ public interface MindlistService {
         return mindlist;
     }
 
-
-
     default MindlistDTO entityToDTO(Mindlist mindlist, User user, Long commentCount){
 
         MindlistDTO mindlistDTO = MindlistDTO.builder()
@@ -54,8 +53,11 @@ public interface MindlistService {
                 .composer(mindlist.getComposer())
                 .title(mindlist.getTitle())
                 .url(mindlist.getUrl())
-                .email(String.valueOf(user))
-                .nickname(String.valueOf(user))
+//                .email(user.getNickname())
+//                .nickname(user.getNickname())
+                .nickname(mindlist.getNickname())
+                .likeCount(mindlist.getLikeCount())
+                .commentCount(commentCount.intValue())
                 .content(mindlist.getContent())
                 .regDate(mindlist.getRegDate())
                 .modDate(mindlist.getModDate())
@@ -65,4 +67,3 @@ public interface MindlistService {
     }
 
 }
-

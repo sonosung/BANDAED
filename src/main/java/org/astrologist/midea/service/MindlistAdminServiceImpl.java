@@ -30,9 +30,10 @@ public class MindlistAdminServiceImpl implements MindlistAdminService{
 
     private final CommentRepository commentRepository;
 
+    //글쓰기
     @Override
     public Long register(MindlistAdminDTO dto) {
-        log.info("dto---------------------");
+        log.info("-------------MindlistAdminServiceImpl register() 실행--------------");
         log.info(dto);
 
         MindlistAdmin mindlistAdmin = dtoToEntity(dto);
@@ -43,16 +44,7 @@ public class MindlistAdminServiceImpl implements MindlistAdminService{
         return mindlistAdmin.getMno();
     }
 
-    @Override
-    public MindlistAdminDTO read(Long mno) {
-
-        Object result = repository.getMindlistAdminByMno(mno);
-
-        Object[] arr = (Object[])result;
-
-        return entityToDto((MindlistAdmin) arr[0], (User)arr[1], (Long)arr[2]);
-    }
-
+    //리스트 조회
     @Override
     public PageResultDTO<MindlistAdminDTO, Object[]> getList(PageRequestDTO pageRequestDTO) {
 
@@ -69,6 +61,18 @@ public class MindlistAdminServiceImpl implements MindlistAdminService{
         return new PageResultDTO<>(result, fn);
     }
 
+    //상세페이지 조회
+    @Override
+    public MindlistAdminDTO read(Long mno) {
+
+        Object result = repository.getMindlistAdminByMno(mno);
+
+        Object[] arr = (Object[])result;
+
+        return entityToDto((MindlistAdmin) arr[0], (User)arr[1], (Long)arr[2]);
+    }
+
+    //삭제
     @Transactional
     @Override
     public void removeWithComments(Long mno) {
@@ -80,8 +84,11 @@ public class MindlistAdminServiceImpl implements MindlistAdminService{
 
     }
 
+    //수정
+    @Transactional
     @Override
     public void modify(MindlistAdminDTO mindlistAdminDTO) {
+
         Optional<MindlistAdmin> result = repository.findById(mindlistAdminDTO.getMno());
 
         if(result.isPresent()){

@@ -19,6 +19,7 @@ public class MindlistAdminDTO {
     private String title;
     private String content;
     private String url;
+    private Long userIdx;
     private String email;
     private String nickname;
     private LocalDateTime regDate, modDate;

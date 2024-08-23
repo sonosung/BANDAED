@@ -19,9 +19,9 @@ public class MindlistDTO {
     private String title;
     private String content;
     private String url;
+    private Long userIdx;
     private String email;
     private String nickname;
-    private String password;
     private LocalDateTime regDate, modDate;
     private int commentCount; //해당 게시글의 댓글 수
     private int likeCount; //게시물의 좋아요 수

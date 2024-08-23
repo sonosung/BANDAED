@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
-@ToString(exclude = "nickname")
+@ToString(exclude = "userIdx")
 @Getter
 @Builder
 @AllArgsConstructor
@@ -17,12 +17,20 @@ public class Mindlist extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mno;
 
+//    @ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private User email;  // 닉네임 필드, 고유값이며 필수
+//
+//    @ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private User nickname;
+//
+//    @ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private User password;
+
     @ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private User email;  // 닉네임 필드, 고유값이며 필수
+    private User userIdx;
 
+    @Column(length = 100, nullable = false)
     private String nickname;
-
-    private String password;
 
     @Column(length = 100, nullable = false)
     private String composer;
@@ -78,6 +86,7 @@ public class Mindlist extends BaseEntity {
     public void changeUrl(String url){
         this.url = url;
     }
+
     public void changeHappy(boolean happy) {
         this.happy = happy;
     }

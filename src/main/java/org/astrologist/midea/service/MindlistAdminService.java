@@ -21,7 +21,10 @@ public interface MindlistAdminService {
     //게시물 등록을 위해 MindlistAdminDTO를 MindlistAdmin 엔티티 타입으로 변환하기 위한 처리
     default MindlistAdmin dtoToEntity(MindlistAdminDTO dto) {
 
-        User user = User.builder().email(dto.getEmail()).build();
+        User user = User.builder()
+                .email(dto.getEmail())
+                .nickname(dto.getNickname())
+                .build();
 
         MindlistAdmin mindlistAdmin = MindlistAdmin.builder()
                 .mno(dto.getMno())
@@ -30,7 +33,7 @@ public interface MindlistAdminService {
                 .title(dto.getTitle())
                 .url(dto.getUrl())
                 .content(dto.getContent())
-                .email(user)
+//                .email(user)
                 .calm(dto.isCalm())
                 .happy(dto.isHappy())
                 .joyful(dto.isJoyful())
@@ -49,7 +52,7 @@ public interface MindlistAdminService {
                 .title(entity.getTitle())
                 .url(entity.getUrl())
                 .content(entity.getContent())
-                .email(user.getEmail())
+                .nickname(entity.getNickname())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
                 .calm(entity.isCalm())
