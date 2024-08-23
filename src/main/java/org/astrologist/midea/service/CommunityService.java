@@ -76,4 +76,10 @@ public class CommunityService {
 
         communityRepository.save(post);
     }
+    // 추가된 메서드: 사용자가 특정 게시물에 좋아요를 눌렀는지 확인하는 메서드
+    public boolean isPostLikedByUser(Long postId, User user) {
+        Community post = communityRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시물을 찾을 수 없습니다."));
+        return mideaLikeRepository.existsByUserAndPost1(user, post);
+    }
 }

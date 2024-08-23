@@ -864,9 +864,18 @@
                         axios.get(`/midea/community/subcategory/${subcategory}`)
                             .then(response => {
                                 this.posts = response.data;
-                                this.isLiked = new Array(this.posts.length).fill(false);  // 좋아요 상태 초기화
                                 this.selectedCategory = subcategory;
+                                this.isLiked = new Array(this.posts.length).fill(false);  // 좋아요 상태 초기화
+                                this.posts.forEach((post, index) => {
+                                axios.get(`/midea/community/like-status/${post.id}`)
+                            .then(likeResponse => {
+                                this.$set(this.isLiked, index, likeResponse.data);
                             })
+                            .catch(error => {
+                                console.error("Failed to load like status:", error.response ? error.response.data : error.message);
+                            });
+                    });
+                })
                             .catch(error => {
                                 console.error("Failed to load posts:", error.response ? error.response.data : error.message);
                             });

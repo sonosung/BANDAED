@@ -9,4 +9,5 @@ import java.util.Optional;
 
 public interface MideaLikeRepository extends JpaRepository<MideaLike, Long> {
     Optional<MideaLike> findByUserAndPost1(User user, Community post);
+    boolean existsByUserAndPost1(User user, Community post);
 }
