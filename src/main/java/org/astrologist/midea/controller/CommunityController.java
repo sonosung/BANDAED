@@ -112,4 +112,17 @@ public class CommunityController {
             return ResponseEntity.status(500).body("좋아요 상태 변경 실패: " + e.getMessage());
         }
     }
+
+    @GetMapping("/like-status/{postId}")
+    @ResponseBody
+    public ResponseEntity<Boolean> getLikeStatus(@PathVariable Long postId, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+
+        if (user == null) {
+            return ResponseEntity.status(403).body(false);
+        }
+
+        boolean isLiked = communityService.isPostLikedByUser(postId, user);
+        return ResponseEntity.ok(isLiked);
+    }
 }
