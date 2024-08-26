@@ -29,6 +29,8 @@ public class MindlistServiceImpl implements MindlistService {
     //글쓰기
     @Override
     public Long register(MindlistDTO dto) {
+
+
         log.info("-------------MindlistServiceImpl register() 실행--------------");
         log.info(dto);
 
@@ -66,7 +68,7 @@ public class MindlistServiceImpl implements MindlistService {
 
         Object[] arr = (Object[])result;
 
-        return entityToDTO((Mindlist)arr[0], (User)arr[1], (Long)arr[2]/*, (Long)arr[3]*/);
+        return entityToDTO((Mindlist)arr[0], (User)arr[1], (Long)arr[2]);
     }
 
     //삭제

@@ -183,7 +183,7 @@
 
           <tr th:each="dto : ${result.dtoList}" >
             <th scope="row">
-              <a th:href="@{/midea/mlread(mno = ${dto.mno},
+              <a th:href="@{/midea/mlAdminRead(mno = ${dto.mno},
                 page=${result.page},
                 type = ${pageRequestDTO.type},
                 keyword = ${pageRequestDTO.keyword}

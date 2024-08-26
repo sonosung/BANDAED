@@ -13,6 +13,7 @@ public class CommentServiceTests {
     @Autowired
     private CommentService service;
 
+    //------------------------------------------유저 게시판 댓글 리스트------------------------------------------
     @Test
     public void testGetList() {
         Long mno = 100L;
@@ -22,9 +23,11 @@ public class CommentServiceTests {
         commentDTOList.forEach(commentDTO -> System.out.println(commentDTO));
     }
 
+
+    //------------------------------------------관리자 게시판 댓글 리스트------------------------------------------
     @Test
     public void testGetMaList() {
-        Long mno = 100L;
+        Long mno = 30L;
 
         List<CommentDTO> commentDTOList = service.getMaList(mno);
 

@@ -44,12 +44,12 @@ public interface MindlistService {
                 .stressed(dto.isStressed())
                 .likeCount(dto.getLikeCount())
                 .commentCount(dto.getCommentCount())
-                .viewCount(dto.getViewCount())
+//                .viewCount(dto.getViewCount())
                 .build();
         return mindlist;
     }
 
-    default MindlistDTO entityToDTO(Mindlist mindlist, User user, Long commentCount/*, Long viewCount*/){
+    default MindlistDTO entityToDTO(Mindlist mindlist, User user, Long commentCount){
 
         MindlistDTO mindlistDTO = MindlistDTO.builder()
                 .mno(mindlist.getMno())
@@ -59,6 +59,12 @@ public interface MindlistService {
 //                .email(user.getNickname())
 //                .nickname(user.getNickname())
                 .nickname(mindlist.getNickname())
+                .calm(mindlist.isCalm())
+                .happy(mindlist.isHappy())
+                .joyful(mindlist.isJoyful())
+                .energetic(mindlist.isEnergetic())
+                .sad(mindlist.isSad())
+                .stressed(mindlist.isStressed())
                 .likeCount(mindlist.getLikeCount())
                 .commentCount(commentCount.intValue())
 //                .viewCount(viewCount.intValue())

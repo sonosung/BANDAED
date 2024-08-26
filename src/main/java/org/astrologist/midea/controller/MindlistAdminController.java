@@ -48,22 +48,37 @@ public class MindlistAdminController {
     @GetMapping("/mlAdminRegister")
     public String register(Model model, RedirectAttributes redirectAttributes){
 
-        // 세션에서 현재 로그인한 사용자 정보를 가져옵니다.
-        User user = (User) session.getAttribute("user");
+//        // 세션에서 현재 로그인한 사용자 정보를 가져옵니다.
+//        User user = (User) session.getAttribute("user");
+//
+//        // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트합니다.
+//        if (user == null) {
+//            return "redirect:/midea/login";
+//        }
+//        // 사용자가 ADMIN 권한이 아닌 경우 이전 페이지로 리다이렉트합니다.
+//        if (user.getUserRole() != ADMIN) {
+//            return "redirect:/midea/mindlistAdmin";
+//        }
+//
+//        log.info("loggedInUser Post....." + user);
+//
+//        return "redirect:/midea/mindlistAdmin";
 
-        // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트합니다.
-        if (user == null) {
+        // 현재 로그인한 사용자 정보 가져오기
+        User loggedInUser = (User) session.getAttribute("user");
+
+        if (loggedInUser == null) {
+            log.info("로그인 하세요~!");
             return "redirect:/midea/login";
         }
-        // 사용자가 ADMIN 권한이 아닌 경우 이전 페이지로 리다이렉트합니다.
-        if (user.getUserRole() != ADMIN) {
-            return "redirect:/midea/mindlistAdmin";
+        if (loggedInUser != null) {
+            String nickname = loggedInUser.getNickname();
+            model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
+            log.info("Logged in user's nickname: " + nickname);
+            log.info("user role : " + loggedInUser.getUserRole());
+
         }
-
-        log.info("loggedInUser Post....." + user);
-
-        return "redirect:/midea/mindlistAdmin";
-
+        return "midea/mlAdminRegister";
     }
 
     @PostMapping("/mlAdminRegister")
@@ -78,7 +93,7 @@ public class MindlistAdminController {
         return "redirect:/midea/mindlistAdmin";
     }
 
-    @GetMapping({"/mlAdminread", "/mlAdminmodify"}) //수정과 삭제 모두 read()가 필요하므로, 한번에 맵핑
+    @GetMapping({"/mlAdminRead", "/mlAdminModify"}) //수정과 삭제 모두 read()가 필요하므로, 한번에 맵핑
     public void read(long mno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
         log.info("mno: " + mno);
 
@@ -99,7 +114,7 @@ public class MindlistAdminController {
         return "redirect:/midea/mindlistAdmin";
     }
 
-    @PostMapping("/mlAdminmodify")
+    @PostMapping("/mlAdminModify")
     public String modify(MindlistAdminDTO dto, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, RedirectAttributes redirectAttributes) {
 
         log.info("post modify................................................");
@@ -112,7 +127,7 @@ public class MindlistAdminController {
         redirectAttributes.addAttribute("keyword", requestDTO.getKeyword());
         redirectAttributes.addAttribute("mno", dto.getMno());
 
-        return "redirect:/midea/mlAdminread";
+        return "redirect:/midea/mlAdminRead";
     }
 
 }
