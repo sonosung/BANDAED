@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -33,6 +34,9 @@ public class Community {
     @Builder.Default
     @Column(nullable = false)
     private int likeCount = 0;  // 게시물에 대한 총 좋아요 수
+
+    @OneToMany(mappedBy = "post1", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MideaLike> mideaLikes;
 
     public enum Subcategory {
         MinimalTechno,

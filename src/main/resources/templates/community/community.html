@@ -850,13 +850,45 @@
                         isLiked: [],
                         userRole: '[[${userRole}]]',
                         username: '[[${username}]]',
-                        selectedCategory: null
+                        selectedCategory: null,
+                        isPosting: false, // 게시글 작성 중 상태를 표시하기 위한 변수
+                    };
+                },
+                created() {
+                    const eventSource = new EventSource('/midea/community/sse');
+
+                    eventSource.onmessage = (event) => {
+                        const newPost = JSON.parse(event.data);
+                        console.log("SSE 이벤트 수신 확인: 새로운 게시글이 도착했습니다.", newPost);
+
+                        // ID 검증
+                        if (newPost.id) {
+                            this.displayNewPost(newPost);
+                        } else {
+                            console.error("SSE로 수신된 게시물에 ID가 없습니다.");
+                        }
+                    };
+
+                    eventSource.addEventListener('newPost', (event) => {
+                        const newPost = JSON.parse(event.data);
+                        console.log("SSE newPost 이벤트 수신 확인: 새로운 게시글이 도착했습니다.", newPost);
+                        this.displayNewPost(newPost);
+                    });
+
+                    eventSource.onerror = (error) => {
+                        console.error("SSE 연결 오류 발생:", error);
+                    };
+
+                    eventSource.onopen = () => {
+                        console.log("SSE 연결이 열렸습니다.");
                     };
                 },
                 updated() {
                     this.$nextTick(() => {
                         let chat = this.$refs.chat;
-                        chat.scrollTop = chat.scrollHeight;
+                        if (chat) {
+                            chat.scrollTop = chat.scrollHeight;  // 스크롤을 맨 아래로 이동
+                        }
                     });
                 },
                 methods: {
@@ -865,17 +897,17 @@
                             .then(response => {
                                 this.posts = response.data;
                                 this.selectedCategory = subcategory;
-                                this.isLiked = new Array(this.posts.length).fill(false);  // 좋아요 상태 초기화
+                                this.isLiked = new Array(this.posts.length).fill(false);
                                 this.posts.forEach((post, index) => {
-                                axios.get(`/midea/community/like-status/${post.id}`)
-                            .then(likeResponse => {
-                                this.$set(this.isLiked, index, likeResponse.data);
+                                    axios.get(`/midea/community/like-status/${post.id}`)
+                                        .then(likeResponse => {
+                                            this.$set(this.isLiked, index, likeResponse.data);
+                                        })
+                                        .catch(error => {
+                                            console.error("Failed to load like status:", error.response ? error.response.data : error.message);
+                                        });
+                                });
                             })
-                            .catch(error => {
-                                console.error("Failed to load like status:", error.response ? error.response.data : error.message);
-                            });
-                    });
-                })
                             .catch(error => {
                                 console.error("Failed to load posts:", error.response ? error.response.data : error.message);
                             });
@@ -883,11 +915,12 @@
                     selectTitle(title) {
                         this.selectedTitle = title;
                         this.selectedCategory = title.replace('#', '').trim();
-
-                        // 선택된 Subcategory에 해당하는 게시글을 불러옴
                         this.loadSubcategoryPosts(this.selectedCategory);
                     },
                     createPost() {
+                        console.log("User ID:", this.userId);
+                        console.log("User Role:", this.userRole);
+
                         if (!this.selectedCategory) {
                             alert('메시지를 입력하기 전에 카테고리를 선택해주세요.');
                             return;
@@ -901,17 +934,10 @@
 
                         let messageContent = this.post && this.post.trim();
                         if (!messageContent) {
-                            return false;
+                            return;
                         }
 
-                        let timestamp = new Date().toLocaleString();
-
-                        let postObject = {
-                            composer: this.username,  // 이 부분을 수정 (username이 아닌 composer)
-                            timestamp: timestamp,
-                            content: messageContent,  // content로 메시지 내용을 설정
-                            subcategory: this.selectedCategory.replace(' ', '')
-                        };
+                        this.isPosting = true; // 게시글 작성 시작
 
                         const payload = {
                             userId: this.userId,
@@ -926,49 +952,163 @@
                             }
                         })
                         .then(response => {
-                            postObject.id = response.data;  // 서버에서 반환된 ID를 postObject에 설정
-                            this.posts.push(postObject);  // 화면에 실시간으로 게시물을 추가
-                            this.isLiked.push(false);  // 새 게시물의 좋아요 상태를 초기화
-                            this.post = "";  // 입력 필드를 초기화
-                            this.$nextTick(() => {
-                                let chat = this.$refs.chat;
-                                chat.scrollTop = chat.scrollHeight;  // 스크롤을 맨 아래로 이동
-                            });
-                            console.log("Message sent to server with ID:", response.data);
+                            if (response.status === 200) {
+                                console.log("서버에 게시글이 성공적으로 전송되었습니다. ID:", response.data);
+                                this.post = ""; // 입력 필드를 초기화
+                                this.isPosting = false; // 게시글 작성 완료
+
+                                this.$nextTick(() => {
+                                    let chat = this.$refs.chat;
+                                    if (chat) {
+                                        chat.scrollTop = chat.scrollHeight;  // 스크롤을 맨 아래로 이동
+                                    }
+                                });
+
+                                console.log("Message sent to server with ID:", response.data);
+                            } else if (response.status === 409) {
+                                alert("동일한 내용의 게시물이 이미 존재합니다.");
+                                this.isPosting = false;
+                            }
                         })
                         .catch(error => {
-                            console.error("Failed to send message:", error.response ? error.response.data : error.message);
+                            console.error("게시글 전송 실패:", error.response ? error.response.data : error.message);
+                            this.isPosting = false; // 오류 발생 시 게시글 작성 상태 리셋
+                            alert('게시글 전송에 실패했습니다. 다시 시도해주세요.');
                         });
                     },
+                    displayNewPost(post) {
+                        // 현재 선택된 카테고리와 새 게시글의 카테고리가 일치하는 경우에만 추가
+                        if (this.selectedCategory === post.subcategory) {
+                            this.posts.push(post);
+                            this.isLiked.push(false); // 새 게시글의 좋아요 상태 초기화
+                            this.$nextTick(() => {
+                                let chat = this.$refs.chat;
+                                if (chat) {
+                                    chat.scrollTop = chat.scrollHeight; // 스크롤을 맨 아래로 이동
+                                }
+                            });
+                        }
+                    },
                     editPost(index) {
-                        let newPost = prompt("수정할 내용을 입력하세요:", this.posts[index].message);
-                        if (newPost !== null) {
-                            this.posts[index].message = newPost.trim();
+                        let post = this.posts[index];
+
+                            console.log("editPost 호출됨, index:", index);
+                            console.log("현재 게시글:", post);
+                            console.log("로그인된 사용자 ID:", this.userId);
+                            console.log("게시글 작성자 ID:", post.userId);
+
+                        // 로그인 여부 확인
+                        if (!this.userId) {
+                            console.log("로그인되지 않은 상태입니다.");
+                            alert("로그인이 필요합니다.");
+                            return;
+                        }
+
+                        console.log("로그인된 사용자 ID:", this.userId);
+
+                        // 사용자 권한 확인
+                        if (Number(post.userId) !== Number(this.userId)) {
+                            console.log("사용자 권한 부족. 게시글 작성자 ID:", post.userId, "현재 사용자 ID:", this.userId);
+                            alert("게시글을 수정할 권한이 없습니다.");
+                            return;
+                        }
+
+                        console.log("사용자 권한 확인 완료.");
+
+                        // 새로운 내용 입력받기
+                        let newContent = prompt("수정할 내용을 입력하세요:", post.content);
+                        if (newContent !== null) {
+                            console.log("새로운 내용 입력됨:", newContent.trim());
+                            axios.put(`/midea/community/${post.id}`, {
+                                content: newContent.trim()
+                            })
+                            .then(response => {
+                                // 게시글 내용 업데이트
+                                console.log("게시글 수정 성공, 응답:", response.data);
+                                this.posts[index].content = newContent.trim();
+                                alert("게시글이 성공적으로 수정되었습니다.");
+                            })
+                            .catch(error => {
+                                // 권한 오류 또는 기타 오류 처리
+                                if (error.response && error.response.status === 403) {
+                                    console.error("권한 오류:", error.response.data);
+                                    alert("게시글을 수정할 권한이 없습니다.");
+                                } else {
+                                    console.error("게시글 수정 실패:", error.response ? error.response.data : error.message);
+                                    alert("게시글 수정에 실패했습니다.");
+                                }
+                            });
+                        } else {
+                            console.log("게시글 수정 취소됨.");
                         }
                     },
                     deletePost(index) {
+                        let post = this.posts[index];
+
+                            console.log("deletePost 호출됨, index:", index);
+                            console.log("현재 게시글:", post);
+                            console.log("로그인된 사용자 ID:", this.userId);
+                            console.log("게시글 작성자 ID:", post.userId);
+
+                        // 로그인 여부 확인 - this.userId가 null이거나 undefined이면 로그인되지 않은 상태로 간주
+                        if (!this.userId) {
+                            console.log("로그인되지 않은 상태입니다.");
+                            alert("로그인이 필요합니다.");
+                            return;
+                        }
+
+                        console.log("로그인된 사용자 ID:", this.userId);
+
+                        // 사용자 권한 확인
+                        if (Number(post.userId) !== Number(this.userId)) {
+                            console.log("사용자 권한 부족. 게시글 작성자 ID:", post.userId, "현재 사용자 ID:", this.userId);
+                            alert("게시글을 삭제할 권한이 없습니다.");
+                            return;
+                        }
+
+                        console.log("사용자 권한 확인 완료.");
+
+                        // 삭제 확인
                         if (confirm("이 게시글을 삭제하시겠습니까?")) {
-                            this.posts.splice(index, 1);
-                            this.isLiked.splice(index, 1);
+                            console.log("게시글 삭제 확인됨.");
+                            axios.delete(`/midea/community/${post.id}`)
+                            .then(response => {
+                                // 게시글 목록에서 삭제
+                                console.log("게시글 삭제 성공, 응답:", response.data);
+                                this.posts.splice(index, 1);
+                                this.isLiked.splice(index, 1);
+                                alert("게시글이 성공적으로 삭제되었습니다.");
+                            })
+                            .catch(error => {
+                                // 권한 오류 또는 기타 오류 처리
+                                if (error.response && error.response.status === 403) {
+                                    console.error("권한 오류:", error.response.data);
+                                    alert("게시글을 삭제할 권한이 없습니다.");
+                                } else {
+                                    console.error("게시글 삭제 실패:", error.response ? error.response.data : error.message);
+                                    alert("게시글 삭제에 실패했습니다.");
+                                }
+                            });
+                        } else {
+                            console.log("게시글 삭제 취소됨.");
                         }
                     },
                     toggleLike(postId, index) {
-                        console.log("Post ID:", postId);  // 여기에 로그를 추가하여 postId가 무엇인지 확인
-                        console.log("Post Object:", this.posts[index]); // Post 객체 로그 추가
+                        console.log("Post ID:", postId);
+                        console.log("Post Object:", this.posts[index]);
 
+                        // ID가 존재하는지 확인
                         if (!postId) {
                             console.error("Post ID is null or undefined!");
                             return;
                         }
-                        const isCurrentlyLiked = this.isLiked[index];
 
-                        // 현재 좋아요 상태를 반전
+                        const isCurrentlyLiked = this.isLiked[index];
                         this.$set(this.isLiked, index, !isCurrentlyLiked);
 
-                        // 좋아요 상태에 따라 서버로 요청을 보냅니다
                         const payload = {
                             userId: this.userId,
-                            postId: postId,  // 여기서 postId가 제대로 전달되는지 확인
+                            postId: postId,
                         };
 
                         axios.post('/midea/community/like', payload, {
@@ -981,14 +1121,13 @@
                         })
                         .catch(error => {
                             console.error("좋아요 상태 변경 실패:", error.response ? error.response.data : error.message);
-                            // 실패 시 원래 상태로 롤백
-                            this.$set(this.isLiked, index, isCurrentlyLiked);
+                            this.$set(this.isLiked, index, isCurrentlyLiked); // 오류 발생 시 롤백
                         });
                     }
                 }
             });
         </script>
-</th:block>
+    </th:block>
 </th:block>
 </body>
 </html>
