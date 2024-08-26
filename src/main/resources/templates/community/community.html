@@ -750,19 +750,19 @@
                     </div>
                     <div class="header__channel">
                         <div class="channel__item" v-if="activeCategory === 'styles'">
-                            <div class="channel__title" @click="loadSubcategoryPosts('MinimalTechno')">#Minimal Techno</div>
-                            <div class="channel__title" @click="loadSubcategoryPosts('MinimalHouse')">#Minimal House</div>
-                            <div class="channel__title" @click="loadSubcategoryPosts('MinimalClassical')">#Minimal Classical</div>
+                            <div class="channel__title" @click="loadSubcategoryPosts('MinimalTechno', '#Minimal Techno')">#Minimal Techno</div>
+                            <div class="channel__title" @click="loadSubcategoryPosts('MinimalHouse', '#Minimal House')">#Minimal House</div>
+                            <div class="channel__title" @click="loadSubcategoryPosts('MinimalClassical', '#Minimal Classical')">#Minimal Classical</div>
                         </div>
                         <div class="channel__item" v-if="activeCategory === 'artists'">
-                            <div class="channel__title" @click="loadSubcategoryPosts('SteveReich')">#Steve Reich</div>
-                            <div class="channel__title" @click="loadSubcategoryPosts('PhilipGlass')">#Philip Glass</div>
-                            <div class="channel__title" @click="loadSubcategoryPosts('TerryRiley')">#Terry Riley</div>
+                            <div class="channel__title" @click="loadSubcategoryPosts('SteveReich', '#Minimal Classical')">#Steve Reich</div>
+                            <div class="channel__title" @click="loadSubcategoryPosts('PhilipGlass', '#Philip Glass')">#Philip Glass</div>
+                            <div class="channel__title" @click="loadSubcategoryPosts('TerryRiley', '#Terry Riley')">#Terry Riley</div>
                         </div>
                         <div class="channel__item" v-if="activeCategory === 'instruments'">
-                            <div class="channel__title" @click="loadSubcategoryPosts('Synthesizer')">#Synthesizer</div>
-                            <div class="channel__title" @click="loadSubcategoryPosts('Piano')">#Piano</div>
-                            <div class="channel__title" @click="loadSubcategoryPosts('Percussion')">#Percussion</div>
+                            <div class="channel__title" @click="loadSubcategoryPosts('Synthesizer', '#Synthesizer')">#Synthesizer</div>
+                            <div class="channel__title" @click="loadSubcategoryPosts('Piano', '#Piano')">#Piano</div>
+                            <div class="channel__title" @click="loadSubcategoryPosts('Percussion', '#Percussion')">#Percussion</div>
                         </div>
                     </div>
                     <div class="header__profile">
@@ -844,7 +844,7 @@
                     return {
                         userId: '[[${userId}]]',
                         activeCategory: null,
-                        selectedTitle: null,
+                        selectedTitle: 'Community', // 기본 타이틀 설정
                         post: "",
                         posts: [],
                         isLiked: [],
@@ -855,38 +855,54 @@
                     };
                 },
                 created() {
-                    const eventSource = new EventSource('/midea/community/sse');
+                    this.initializeSSE(); // SSE 초기화
+                    this.loadInitialPosts(); // 초기 데이터 로드
 
-                    eventSource.onmessage = (event) => {
-                        const newPost = JSON.parse(event.data);
-                        console.log("SSE 이벤트 수신 확인: 새로운 게시글이 도착했습니다.", newPost);
-
-                        // SSE로 수신된 메시지 처리
-                        this.displayNewPost(newPost);
-                    };
-
-                    eventSource.onerror = (error) => {
-                        console.error("SSE 연결 오류 발생:", error);
-                    };
-
-                    eventSource.onopen = () => {
-                        console.log("SSE 연결이 열렸습니다.");
-                    };
-
-                    eventSource.onclose = () => {
-                        console.warn("SSE 연결이 닫혔습니다.");
-                    };
-                },
-                updated() {
-                    this.$nextTick(() => {
-                        let chat = this.$refs.chat;
-                        if (chat) {
-                            chat.scrollTop = chat.scrollHeight;  // 스크롤을 맨 아래로 이동
+                    // 10초마다 데이터를 새로 고침하는 코드
+                    setInterval(() => {
+                        if (this.selectedCategory) {
+                            this.loadSubcategoryPosts(this.selectedCategory, this.selectedTitle);
                         }
-                    });
+                    }, 2000); // 2초마다 데이터를 새로 고침
                 },
                 methods: {
-                    loadSubcategoryPosts(subcategory) {
+                    initializeSSE() {
+                        const eventSource = new EventSource('/midea/community/sse');
+
+                        eventSource.onmessage = (event) => {
+                            const newPost = JSON.parse(event.data);
+                            console.log("SSE 이벤트 수신 확인: 새로운 게시글이 도착했습니다.", newPost);
+
+                            // SSE로 수신된 메시지 처리
+                            this.displayNewPost(newPost);
+                        };
+
+                        eventSource.onerror = (error) => {
+                            console.error("SSE 연결 오류 발생:", error);
+
+                            // SSE 연결 재시도 로직 추가
+                            setTimeout(() => {
+                                console.log("SSE 연결 재시도 중...");
+                                this.initializeSSE();
+                            }, 3000); // 3초 후 재시도
+                        };
+
+                        eventSource.onopen = () => {
+                            console.log("SSE 연결이 열렸습니다.");
+                        };
+
+                        eventSource.onclose = () => {
+                            console.warn("SSE 연결이 닫혔습니다.");
+                        };
+                    },
+                    loadInitialPosts() {
+                        if (this.selectedCategory) {
+                            this.loadSubcategoryPosts(this.selectedCategory, this.selectedTitle);
+                        }
+                    },
+                    loadSubcategoryPosts(subcategory, title) {
+                        this.selectedTitle = title; // 새로운 타이틀로 항상 업데이트
+
                         axios.get(`/midea/community/subcategory/${subcategory}`)
                             .then(response => {
                                 this.posts = response.data;
@@ -909,7 +925,7 @@
                     selectTitle(title) {
                         this.selectedTitle = title;
                         this.selectedCategory = title.replace('#', '').trim();
-                        this.loadSubcategoryPosts(this.selectedCategory);
+                        this.loadSubcategoryPosts(this.selectedCategory, title);
                     },
                     createPost() {
                         console.log("User ID:", this.userId);

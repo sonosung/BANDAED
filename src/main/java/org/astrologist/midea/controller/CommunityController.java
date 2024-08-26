@@ -222,16 +222,23 @@ public class CommunityController {
 
     private void notifyClients(Community newPost) {
         List<SseEmitter> deadEmitters = new ArrayList<>();
+        logger.info("Notifying {} clients about new post with ID: {}", emitters.size(), newPost.getId());
+
         for (SseEmitter emitter : emitters) {
             try {
                 emitter.send(SseEmitter.event()
                         .name("newPost")
                         .data(new CommunityDTO(newPost), MediaType.APPLICATION_JSON));
+                logger.info("Successfully notified client for post ID: {}", newPost.getId());
             } catch (IOException e) {
+                logger.error("Failed to notify client for post ID: {}. Removing emitter.", newPost.getId(), e);
                 deadEmitters.add(emitter);
             }
         }
-        emitters.removeAll(deadEmitters);
+        if (!deadEmitters.isEmpty()) {
+            emitters.removeAll(deadEmitters);
+            logger.info("Removed {} dead emitters.", deadEmitters.size());
+        }
     }
 
     // 공통 로그 메시지 출력 메서드
