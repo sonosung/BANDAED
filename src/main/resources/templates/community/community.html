@@ -861,19 +861,9 @@
                         const newPost = JSON.parse(event.data);
                         console.log("SSE 이벤트 수신 확인: 새로운 게시글이 도착했습니다.", newPost);
 
-                        // ID 검증
-                        if (newPost.id) {
-                            this.displayNewPost(newPost);
-                        } else {
-                            console.error("SSE로 수신된 게시물에 ID가 없습니다.");
-                        }
-                    };
-
-                    eventSource.addEventListener('newPost', (event) => {
-                        const newPost = JSON.parse(event.data);
-                        console.log("SSE newPost 이벤트 수신 확인: 새로운 게시글이 도착했습니다.", newPost);
+                        // SSE로 수신된 메시지 처리
                         this.displayNewPost(newPost);
-                    });
+                    };
 
                     eventSource.onerror = (error) => {
                         console.error("SSE 연결 오류 발생:", error);
@@ -881,6 +871,10 @@
 
                     eventSource.onopen = () => {
                         console.log("SSE 연결이 열렸습니다.");
+                    };
+
+                    eventSource.onclose = () => {
+                        console.warn("SSE 연결이 닫혔습니다.");
                     };
                 },
                 updated() {
@@ -954,6 +948,17 @@
                         .then(response => {
                             if (response.status === 200) {
                                 console.log("서버에 게시글이 성공적으로 전송되었습니다. ID:", response.data);
+
+                                // 즉시 메시지를 화면에 반영
+                                this.displayNewPost({
+                                    id: response.data,
+                                    userId: this.userId,
+                                    composer: this.username,
+                                    content: messageContent,
+                                    timestamp: new Date().toISOString(),
+                                    subcategory: this.selectedCategory
+                                });
+
                                 this.post = ""; // 입력 필드를 초기화
                                 this.isPosting = false; // 게시글 작성 완료
 
@@ -981,6 +986,10 @@
                         if (this.selectedCategory === post.subcategory) {
                             this.posts.push(post);
                             this.isLiked.push(false); // 새 게시글의 좋아요 상태 초기화
+
+                            // 강제로 UI 업데이트를 트리거하기 위해 $forceUpdate() 호출
+                            this.$forceUpdate();
+
                             this.$nextTick(() => {
                                 let chat = this.$refs.chat;
                                 if (chat) {
@@ -992,10 +1001,10 @@
                     editPost(index) {
                         let post = this.posts[index];
 
-                            console.log("editPost 호출됨, index:", index);
-                            console.log("현재 게시글:", post);
-                            console.log("로그인된 사용자 ID:", this.userId);
-                            console.log("게시글 작성자 ID:", post.userId);
+                        console.log("editPost 호출됨, index:", index);
+                        console.log("게시글 수정 시작, 현재 게시글:", post);
+                        console.log("로그인된 사용자 ID:", this.userId);
+                        console.log("게시글 작성자 ID:", post.userId);
 
                         // 로그인 여부 확인
                         if (!this.userId) {
@@ -1025,7 +1034,7 @@
                             .then(response => {
                                 // 게시글 내용 업데이트
                                 console.log("게시글 수정 성공, 응답:", response.data);
-                                this.posts[index].content = newContent.trim();
+                                this.$set(this.posts, index, { ...this.posts[index], content: newContent.trim() });
                                 alert("게시글이 성공적으로 수정되었습니다.");
                             })
                             .catch(error => {
@@ -1045,10 +1054,10 @@
                     deletePost(index) {
                         let post = this.posts[index];
 
-                            console.log("deletePost 호출됨, index:", index);
-                            console.log("현재 게시글:", post);
-                            console.log("로그인된 사용자 ID:", this.userId);
-                            console.log("게시글 작성자 ID:", post.userId);
+                        console.log("deletePost 호출됨, index:", index);
+                        console.log("게시글 삭제 시작, 현재 게시글:", post);
+                        console.log("로그인된 사용자 ID:", this.userId);
+                        console.log("게시글 작성자 ID:", post.userId);
 
                         // 로그인 여부 확인 - this.userId가 null이거나 undefined이면 로그인되지 않은 상태로 간주
                         if (!this.userId) {
@@ -1077,6 +1086,7 @@
                                 console.log("게시글 삭제 성공, 응답:", response.data);
                                 this.posts.splice(index, 1);
                                 this.isLiked.splice(index, 1);
+                                this.$forceUpdate(); // 강제로 UI 업데이트를 트리거하기 위해 호출
                                 alert("게시글이 성공적으로 삭제되었습니다.");
                             })
                             .catch(error => {
