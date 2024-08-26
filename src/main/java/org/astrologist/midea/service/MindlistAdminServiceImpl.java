@@ -69,7 +69,7 @@ public class MindlistAdminServiceImpl implements MindlistAdminService{
 
         Object[] arr = (Object[])result;
 
-        return entityToDto((MindlistAdmin) arr[0], (User)arr[1], (Long)arr[2]);
+        return entityToDto((MindlistAdmin)arr[0], (User)arr[1], (Long)arr[2]);
     }
 
     //삭제
@@ -110,5 +110,13 @@ public class MindlistAdminServiceImpl implements MindlistAdminService{
         }
 
     }
+
+//    public Mindlist getMindlist(Long mno){
+//        Optional<MindlistAdmin> mindlistAdmin = this.repository.findById(mno);
+//        if(mindlistAdmin.isPresent()) {
+//            MindlistAdmin mindlistAdmin11 = mindlistAdmin.get();
+//            mindlistAdmin11.setViewCount(mindlistAdmin11.getViewCount()+1);
+//        }
+//    }
 
 }

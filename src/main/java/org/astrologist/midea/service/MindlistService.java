@@ -7,6 +7,7 @@ import org.astrologist.midea.entity.Mindlist;
 import org.astrologist.midea.entity.User;
 
 public interface MindlistService {
+
     Long register(MindlistDTO dto);
 
     PageResultDTO<MindlistDTO, Object[]> getList(PageRequestDTO requestDTO);
@@ -19,7 +20,7 @@ public interface MindlistService {
 
     default Mindlist dtoToEntity(MindlistDTO dto) {
 
-        //User 테이블의 NotNull 속성으로 인한 설정.
+        //UserDTO에서 게시판에 보여주고 싶은 객체를 가져와서 게시판 dto로 보냄.
         User user = User.builder()
                 .email(dto.getEmail())
                 .nickname(dto.getNickname())
@@ -42,11 +43,13 @@ public interface MindlistService {
                 .sad(dto.isSad())
                 .stressed(dto.isStressed())
                 .likeCount(dto.getLikeCount())
+                .commentCount(dto.getCommentCount())
+                .viewCount(dto.getViewCount())
                 .build();
         return mindlist;
     }
 
-    default MindlistDTO entityToDTO(Mindlist mindlist, User user, Long commentCount){
+    default MindlistDTO entityToDTO(Mindlist mindlist, User user, Long commentCount/*, Long viewCount*/){
 
         MindlistDTO mindlistDTO = MindlistDTO.builder()
                 .mno(mindlist.getMno())
@@ -58,6 +61,7 @@ public interface MindlistService {
                 .nickname(mindlist.getNickname())
                 .likeCount(mindlist.getLikeCount())
                 .commentCount(commentCount.intValue())
+//                .viewCount(viewCount.intValue())
                 .content(mindlist.getContent())
                 .regDate(mindlist.getRegDate())
                 .modDate(mindlist.getModDate())

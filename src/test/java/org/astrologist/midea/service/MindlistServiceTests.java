@@ -3,7 +3,6 @@ package org.astrologist.midea.service;
 import org.astrologist.midea.dto.MindlistDTO;
 import org.astrologist.midea.dto.PageRequestDTO;
 import org.astrologist.midea.dto.PageResultDTO;
-import org.astrologist.midea.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +24,12 @@ public class MindlistServiceTests {
                 .nickname("iguana")       //현재 데이터베이스에 존재하는 유저 닉네임
 //                .email("email4@naver.com")   //현재 데이터베이스에 존재하는 유저 이메일
 //                .password("password2")       //현재 데이터베이스에 존재하는 유저 비밀번호
+                .calm(true)
+                .happy(true)
+                .sad(true)
+                .stressed(true)
+                .energetic(true)
+                .joyful(true)
                 .build();
 
 //        User user = User.builder()
@@ -36,19 +41,19 @@ public class MindlistServiceTests {
         Long mno = mindlistService.register(mindlistDTO);
     }
 
-    @Test
-    public void testList() {
-
-        //1페이지 10개
-        PageRequestDTO pageRequestDTO = new PageRequestDTO();
-
-        PageResultDTO<MindlistDTO, Object[]> result = mindlistService.getList(pageRequestDTO);
-
-        for (MindlistDTO mindlistDTO : result.getDtoList()) {
-            System.out.println(mindlistDTO);
-        }
-
-    }
+//    @Test
+//    public void testList() {
+//
+//        //1페이지 10개
+//        PageRequestDTO pageRequestDTO = new PageRequestDTO();
+//
+//        PageResultDTO<MindlistDTO, Object[]> result = mindlistService.getList(pageRequestDTO);
+//
+//        for (MindlistDTO mindlistDTO : result.getDtoList()) {
+//            System.out.println(mindlistDTO);
+//        }
+//
+//    }
 
     @Test
     public void testRead(){

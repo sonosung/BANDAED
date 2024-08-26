@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import static org.astrologist.midea.entity.User.UserRole.ADMIN;
+import static org.astrologist.midea.entity.User.UserRole.MEMBER;
+import static org.astrologist.midea.entity.User.UserRole.GUEST;
+
 @Controller
 @RequestMapping("/midea")
 @Log4j2
@@ -45,18 +49,18 @@ public class MindlistAdminController {
     public String register(Model model, RedirectAttributes redirectAttributes){
 
         // 세션에서 현재 로그인한 사용자 정보를 가져옵니다.
-        User loggedInUser = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute("user");
 
         // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트합니다.
-        if (loggedInUser == null) {
+        if (user == null) {
             return "redirect:/midea/login";
         }
         // 사용자가 ADMIN 권한이 아닌 경우 이전 페이지로 리다이렉트합니다.
-        else if (loggedInUser.getUserRole() != User.UserRole.ADMIN) {
+        if (user.getUserRole() != ADMIN) {
             return "redirect:/midea/mindlistAdmin";
         }
 
-        log.info("loggedInUser Post....." + loggedInUser);
+        log.info("loggedInUser Post....." + user);
 
         return "redirect:/midea/mindlistAdmin";
 

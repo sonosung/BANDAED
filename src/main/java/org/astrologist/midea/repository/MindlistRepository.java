@@ -1,6 +1,5 @@
 package org.astrologist.midea.repository;
 
-
 import org.astrologist.midea.entity.Mindlist;
 import org.astrologist.midea.repository.search.SearchMindlistRepository;
 import org.springframework.data.domain.Page;

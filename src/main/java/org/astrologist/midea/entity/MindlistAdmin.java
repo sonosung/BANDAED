@@ -6,6 +6,7 @@ import lombok.*;
 @Entity
 @ToString(exclude = "userIdx")
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -60,6 +61,14 @@ public class MindlistAdmin extends BaseEntity {
     @Builder.Default
     @Column(nullable = false)
     private int likeCount = 0;  // 게시물에 대한 총 좋아요 수
+
+    @Builder.Default
+    @Column(nullable = false)
+    private int commentCount = 0;  // 게시물에 대한 총 댓글 수
+
+    @Builder.Default
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int viewCount = 0;  // 게시물에 대한 총 조회수
 
     public void changeComposer(String composer) {
         this.composer = composer;

@@ -39,19 +39,21 @@ public class MindlistController {
     }
 
     @GetMapping("/mlRegister")
-    public String register(Model model){
-    // 현재 로그인한 사용자 정보 가져오기
+    public void register(Model model){
+        // 현재 로그인한 사용자 정보 가져오기
         User loggedInUser = (User) session.getAttribute("user");
+        String nickname = loggedInUser.getNickname();
+        model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
+        log.info("user role : " + loggedInUser.getUserRole());
 
-        if (loggedInUser != null) {
-            String nickname = loggedInUser.getNickname();
-            model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
-            log.info("Logged in user's nickname: " + nickname);
-        }else {
-            log.info("로그인 하세요~!");
-            return "redirect:/midea/mindlist";
-        }
-        return "redirect:/midea/mlRegister";
+//        if (loggedInUser == null) {
+//            log.info("로그인 하세요~!");
+//            return "redirect:/midea/login";
+//        }else {
+//            model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
+//            log.info("Logged in user's nickname: " + nickname);
+//            return "redirect:/midea/mlRegister";
+//        }
     }
 
     @PostMapping("/mlRegister")

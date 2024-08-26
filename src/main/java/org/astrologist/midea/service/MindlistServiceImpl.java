@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 @Service
@@ -44,8 +45,8 @@ public class MindlistServiceImpl implements MindlistService {
 
         log.info(pageRequestDTO);
 
+//        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2],(Long)en[3]));
         Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2]));
-
 //        Page<Object[]> result = repository.getBoardWithReplyCount(
 //                pageRequestDTO.getPageable(Sort.by("bno").descending())  );
         Page<Object[]> result = repository.searchPage(
@@ -65,7 +66,7 @@ public class MindlistServiceImpl implements MindlistService {
 
         Object[] arr = (Object[])result;
 
-        return entityToDTO((Mindlist)arr[0], (User)arr[1], (Long)arr[2]);
+        return entityToDTO((Mindlist)arr[0], (User)arr[1], (Long)arr[2]/*, (Long)arr[3]*/);
     }
 
     //삭제
@@ -102,6 +103,19 @@ public class MindlistServiceImpl implements MindlistService {
 
             repository.save(mindlist);
         }
+    }
+
+    @Transactional
+    public Mindlist getViewByMindlistOrderByCno(Long mno) {
+        Optional<Mindlist> mindlist = this.repository.findById(mno);
+        if (mindlist.isPresent()) {
+            Mindlist mindlist1 = mindlist.get();
+            mindlist1.setViewCount(mindlist1.getViewCount() + 1);
+            this.repository.save(mindlist1);
+            return mindlist1;
+
+        }
+        return null;
     }
 
 }
