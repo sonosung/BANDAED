@@ -35,6 +35,7 @@
                         <option value="c" th:selected="${pageRequestDTO.type == 'c'}">아티스트</option>
                         <option value="t" th:selected="${pageRequestDTO.type == 't'}">곡명</option>
                         <option value="n" th:selected="${pageRequestDTO.type == 'n'}">작성자</option>
+                        <option value="ct" th:selected="${pageRequestDTO.type == 'ct'}">내용</option>
                         <option value="tc" th:selected="${pageRequestDTO.type == 'tc'}">곡명 + 아티스트</option>
                         <option value="tcn" th:selected="${pageRequestDTO.type == 'tcn'}">곡명 + 아티스트 + 작성자</option>
                       </select>
@@ -173,6 +174,7 @@
           <div class="item">
             <div class="row">
               <div class="col-lg-6">
+                <div id="player"></div>
                   [[${dto.url}]]
               </div>
               <div class="col-lg-6 align-self-center">
@@ -182,7 +184,7 @@
                   <div class="row">
                     <div class="col-6">
                       <i class="fa-solid fa-music"></i>
-                      <span class="list">[[${dto.title}]]</span>
+                      <span class="list">[[${dto.title}]] ---- [<b th:text="${dto.commentCount}"></b>]</span>
                     </div>
                     <div class="col-6">
                       <i class="fa-solid fa-user"></i>
@@ -407,7 +409,7 @@
         player = new YT.Player('player', {
           height: '360',
           width: '640',
-          videoId: 'M7lc1UVf-VE',
+          videoId: "{dto.url}",
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange

@@ -17,7 +17,7 @@
         </div>
 
         <div class="col-lg-6 offset-lg-3">
-            <h1 class="mt-4">Mindlist Read Page</h1>
+            <h1 class="mt-4">Mindlist Admin Read Page</h1>
 
             <div class="form-group">
                 <label>Mno</label>
@@ -34,25 +34,25 @@
                 <input type="text" class="form-control" name="title" th:value="${dto.title}" readonly>
             </div>
 
-            <div class="content-row">
+            <div class="content-row mt-2">
                 <div class="checkbox-grid col-sm-12">
                     <label>
-                        <input type="checkbox" th:checked="${user.happy}" disabled>Happy
+                        <input type="checkbox" th:checked="${dto.happy}" disabled> Happy
                     </label>
                     <label>
-                        <input type="checkbox" th:checked="${user.sad}" disabled>Sad
+                        <input type="checkbox" th:checked="${dto.sad}" disabled> Sad
                     </label>
                     <label>
-                        <input type="checkbox" th:checked="${user.calm}" disabled>Calm
+                        <input type="checkbox" th:checked="${dto.calm}" disabled> Calm
                     </label>
                     <label>
-                        <input type="checkbox" th:checked="${user.stressed}" disabled>Stressed
+                        <input type="checkbox" th:checked="${dto.stressed}" disabled> Stressed
                     </label>
                     <label>
-                        <input type="checkbox" th:checked="${user.joyful}" disabled>Joyful
+                        <input type="checkbox" th:checked="${dto.joyful}" disabled> Joyful
                     </label>
                     <label>
-                        <input type="checkbox" th:checked="${user.energetic}" disabled>Energetic
+                        <input type="checkbox" th:checked="${dto.energetic}" disabled> Energetic
                     </label>
                 </div>
             </div>
@@ -84,21 +84,82 @@
                        th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
             </div>
 
-            <a th:href="@{/midea/mlAdminmodify(mno = ${dto.mno},
-        page=${requestDTO.page},
-        type=${requestDTO.type},
-        keyword=${requestDTO.keyword}
-        )}">
-                <button type="button" class="btn btn-primary">Modify</button>
-            </a>
+            <div>
+                <div class="mt-4">
+                    <h5><span class="badge badge-secondary commentCount" style="background-color:powderblue;"> Comments [[${dto.commentCount}]]</span> </h5>
+                </div>
+                <div class="list-group commentList"></div>
+            </div>
 
-            <a th:href="@{/midea/mindlistAdmin(
-        page=${requestDTO.page},
-        type=${requestDTO.type},
-        keyword=${requestDTO.keyword}
-        )}">
-                <button type="button" class="btn btn-info">List</button>
-            </a>
+            <div class="mt-4">
+                <a th:href="@{/midea/mlAdminModify(mno = ${dto.mno},
+                    page=${requestDTO.page},
+                    type=${requestDTO.type},
+                    keyword=${requestDTO.keyword}
+                    )}">
+                    <button type="button" class="btn btn-primary">Modify</button>
+                </a>
+
+                <a th:href="@{/midea/mindlistAdmin(
+                    page=${requestDTO.page},
+                    type=${requestDTO.type},
+                    keyword=${requestDTO.keyword}
+                    )}">
+                    <button type="button" class="btn btn-info">List</button>
+                </a>
+            </div>
         </div>
+
+        <script th:inline="javascript">
+            $(document).ready(function() {
+
+                var mno = [[${dto.mno}]];
+
+                //댓글이 추가될 영역
+                var listGroup = $(".commentList");
+
+                //날짜 처리를 위한 함수
+                function formatTime(str){
+                    var sate = new Date(str);
+
+                    return date.getFullYEar() + '/' +
+                    (date.getMonth() + 1) + '/' +
+                    date.getDate() + ' ' +
+                    date.getHours() + ':' +
+                    date.getMinutes();
+                }
+
+                //특정한 게시글의 댓글을 처리하는 함수
+                function loadJSONData() {
+                    $.getJSON('/comments/mindlistAdmin'+mno, function(arr){
+
+                        console.log(arr);
+
+                        var str ="";
+
+                        $('.commentCount').html(" Comment Count " + arr.length);
+
+                        $.each(arr, function(idx, comment){ console.log(comment);
+                            str += ' <div class="card-body" data-cno="'+comment.cno+'"><b>'comment.cno +'</b>';
+                            str += ' <h5 class="card-title">'+comment.text+'</h5>';
+                            str += ' <h6 class="card-subtitle mb-2 text-muted">'+comment.commenter+'</h6>';
+                            str += ' <div class="card-body" data-cno="'+comment.cno+'"><b>'comment.cno +'</b>';
+                            str += ' <p class="card-text">'+ formatTime(comment.regdate)+'</p>';
+                            str += ' </div>';
+                            })
+
+                            listGroup.html(str)
+
+                        });
+                    }
+
+                $(".commentCount").click(function(){
+
+                    loadJSONData();
+
+                })//end click
+
+            });
+        </script>
     </th:block>
 </th:block>

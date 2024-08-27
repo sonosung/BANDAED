@@ -3,6 +3,7 @@ package org.astrologist.midea.controller;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.astrologist.midea.dto.MyPageUploadDTO;
 import org.astrologist.midea.dto.PageRequestDTO;
 import org.astrologist.midea.dto.MindlistDTO;
 import org.astrologist.midea.dto.UserDTO;
@@ -39,19 +40,36 @@ public class MindlistController {
     }
 
     @GetMapping("/mlRegister")
-    public String register(Model model){
-    // 현재 로그인한 사용자 정보 가져오기
+    public String register(Model model) {
+        // 현재 로그인한 사용자 정보 가져오기
         User loggedInUser = (User) session.getAttribute("user");
 
+        if (loggedInUser == null) {
+            log.info("로그인 하세요~!");
+            return "redirect:/midea/login";
+        }
         if (loggedInUser != null) {
             String nickname = loggedInUser.getNickname();
             model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
             log.info("Logged in user's nickname: " + nickname);
-        }else {
-            log.info("로그인 하세요~!");
-            return "redirect:/midea/mindlist";
+            log.info("user role : " + loggedInUser.getUserRole());
+
         }
-        return "redirect:/midea/mlRegister";
+        return "midea/mlRegister";
+//        // 세션에서 현재 로그인한 사용자 정보를 가져옵니다.
+//        User loggedInUser = (User) session.getAttribute("user");
+//        // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트합니다.
+//        if (loggedInUser == null) {
+//            return "redirect:/midea/login?redirectUrl=/midea/mlRegister";
+//        }
+//        // 사용자가 MEMBER 또는 ADMIN 권한이 아닌 경우 로그인 페이지로 리다이렉트합니다.
+//        if (loggedInUser.getUserRole() != User.UserRole.MEMBER && loggedInUser.getUserRole() != User.UserRole.ADMIN) {
+//            return "redirect:/midea/login";
+//        }
+//        // 사용자의 정보를 DTO로 변환하여 모델에 추가합니다.
+//        MindlistDTO mindlistDTO = MindlistDTO.fromEntity(loggedInUser);
+//        model.addAttribute("user", mindlistDTO);
+//        return "midea/mlRegister";  // 마이페이지 뷰를 반환합니다.
     }
 
     @PostMapping("/mlRegister")

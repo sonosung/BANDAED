@@ -15,15 +15,24 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/comments/")
 @Log4j2
 @RequiredArgsConstructor
 public class CommentController {
 
-    private final CommentService commentService;
+    private final CommentService commentService; //자동 주입을 위해 final
 
     @GetMapping(value = "/mindlist/{mno}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CommentDTO>> getListByMindlist(@PathVariable("mno") Long mno){
+
+        log.info("mno : " + mno);
+
+        return new ResponseEntity<>( commentService.getList(mno), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/mindlistAdmin/{mno}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CommentDTO>> getListByMindlistAdmin(@PathVariable("mno") Long mno){
+
         log.info("mno : " + mno);
 
         return new ResponseEntity<>( commentService.getList(mno), HttpStatus.OK);

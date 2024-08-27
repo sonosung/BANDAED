@@ -64,4 +64,9 @@ public class CommentServiceImpl implements CommentService{
         commentRepository.deleteById(cno);
     }
 
+    @Override
+    public void removeMa(Long cno) {
+        commentRepository.deleteById(cno);
+    }
+
 }

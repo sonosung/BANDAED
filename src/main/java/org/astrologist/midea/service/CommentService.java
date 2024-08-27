@@ -15,11 +15,13 @@ public interface CommentService {
 
     List<CommentDTO> getMaList(Long mno); //관리자 게시판 댓글
 
-    void modify(CommentDTO commentDTO);
+    void modify(CommentDTO commentDTO); //유저게시판 댓글 수정
 
-    void modifyMa(CommentDTO commentDTO);
+    void modifyMa(CommentDTO commentDTO); //관리자 게시판 댓글 수정
 
-    void remove(Long cno);
+    void remove(Long cno); //유저
+
+    void removeMa(Long cno);
 
     //CommentDTO를 Comment 객체로 변환 Mindlist객체의 처리가 수반됨.
     default Comment dtotoEntity(CommentDTO commentDTO){
@@ -57,7 +59,7 @@ public interface CommentService {
                 .cno(comment.getCno())
                 .text(comment.getText())
                 .commenter(comment.getCommenter())
-                .redDate(comment.getRegDate())
+                .regDate(comment.getRegDate())
                 .modDate(comment.getModDate())
                 .build();
 
@@ -70,7 +72,7 @@ public interface CommentService {
                 .cno(comment.getCno())
                 .text(comment.getText())
                 .commenter(comment.getCommenter())
-                .redDate(comment.getRegDate())
+                .regDate(comment.getRegDate())
                 .modDate(comment.getModDate())
                 .build();
 

@@ -81,6 +81,9 @@ public class SearchMindlistAdminRepositoryImpl extends QuerydslRepositorySupport
                     case "t": //제목
                         conditionBuilder.or(mindlistAdmin.title.contains(keyword));
                         break;
+                    case "n": //작성자
+                        conditionBuilder.or(mindlistAdmin.nickname.contains(keyword));
+                        break;
                     case "ct": //내용
                         conditionBuilder.or(mindlistAdmin.content.contains(keyword));
                         break;

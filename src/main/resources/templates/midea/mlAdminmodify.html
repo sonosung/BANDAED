@@ -21,7 +21,7 @@
 
         <h1 class="mt-4">Mindlist Modify Page</h1>
 
-        <form action="/midea/mlAdminmodify" method="post">
+        <form action="/midea/mlAdminModify" method="post">
             <!-- 페이지 번호 -->
             <input type="hidden" name="page" th:value="${requestDTO.page}">
             <input type="hidden" name="type" th:value="${requestDTO.type}">
@@ -42,28 +42,28 @@
                 <input type="text" class="form-control" name="title" th:value="${dto.title}" >
             </div>
 
-            <div class="content-row">
+<!--            <div class="content-row mt-2">
                 <div class="checkbox-grid col-sm-12">
                     <label>
-                        <input type="checkbox" th:field="*{happy}">Happy
+                        <input type="checkbox" th:field="*{happy}"> Happy
                     </label>
                     <label>
-                        <input type="checkbox" th:field="*{sad}">Sad
+                        <input type="checkbox" th:field="*{sad}"> Sad
                     </label>
                     <label>
-                        <input type="checkbox" th:field="*{calm}">Calm
+                        <input type="checkbox" th:field="*{calm}"> Calm
                     </label>
                     <label>
-                        <input type="checkbox" th:field="*{stressed}">Stressed
+                        <input type="checkbox" th:field="*{stressed}"> Stressed
                     </label>
                     <label>
-                        <input type="checkbox" th:field="*{joyful}">Joyful
+                        <input type="checkbox" th:field="*{joyful}"> Joyful
                     </label>
                     <label>
-                        <input type="checkbox" th:field="*{energetic}">Energetic
+                        <input type="checkbox" th:field="*{energetic}"> Energetic
                     </label>
                 </div>
-            </div>
+            </div>-->
 
             <div class="form-group">
                 <label>URL</label>
@@ -118,7 +118,7 @@
             }
 
             actionForm
-                .attr("action", "/midea/mlAdminmodify")
+                .attr("action", "/midea/mlAdminModify")
                 .attr("method", "post")
                 .submit();
             });

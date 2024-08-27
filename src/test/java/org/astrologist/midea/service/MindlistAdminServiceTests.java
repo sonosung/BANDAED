@@ -36,26 +36,26 @@ public class MindlistAdminServiceTests {
 
     }
 
-    @Test
-    public void testList() {
-
-        //1페이지 10개
-        PageRequestDTO pageRequestDTO = new PageRequestDTO();
-
-        PageResultDTO<MindlistAdminDTO, Object[]> result = MindlistAdminService.getList(pageRequestDTO);
-
-        for (MindlistAdminDTO mindlistAdminDTO : result.getDtoList()) {
-            System.out.println(mindlistAdminDTO);
-        }
-
-    }
+//    @Test
+//    public void testList() {
+//
+//        //1페이지 10개
+//        PageRequestDTO pageRequestDTO = new PageRequestDTO();
+//
+//        PageResultDTO<MindlistAdminDTO, Object[]> result = MindlistAdminService.getList(pageRequestDTO);
+//
+//        for (MindlistAdminDTO mindlistAdminDTO : result.getDtoList()) {
+//            System.out.println(mindlistAdminDTO);
+//        }
+//
+//    }
 
     @Test
     public void testRead() {
 
         Long mno = 100L;
 
-        MindlistAdminDTO mindlistAdminDTO = MindlistAdminService.read(mno);
+        MindlistAdminDTO mindlistAdminDTO = mindlistAdminService.read(mno);
 
         System.out.println(mindlistAdminDTO);
     }
@@ -78,7 +78,7 @@ public class MindlistAdminServiceTests {
                 .content("내용 변경합니다.2")
                 .build();
 
-        MindlistAdminService.modify(mindlistAdminDTO);
+        mindlistAdminService.modify(mindlistAdminDTO);
 
     }
 
@@ -94,7 +94,7 @@ public class MindlistAdminServiceTests {
 
         Pageable pageable = pageRequestDTO.getPageable(Sort.by("mno").descending());
 
-        PageResultDTO<MindlistAdminDTO, Object[]> result = MindlistAdminService.getList(pageRequestDTO);
+        PageResultDTO<MindlistAdminDTO, Object[]> result = mindlistAdminService.getList(pageRequestDTO);
 
         for (MindlistAdminDTO mindlistAdminDTO : result.getDtoList()) {
             System.out.println(mindlistAdminDTO);
