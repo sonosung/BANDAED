@@ -1,8 +1,6 @@
 package org.astrologist.midea.service;
 
-import org.astrologist.midea.dto.MindlistDTO;
-import org.astrologist.midea.dto.PageRequestDTO;
-import org.astrologist.midea.dto.PageResultDTO;
+import org.astrologist.midea.dto.*;
 import org.astrologist.midea.entity.Mindlist;
 import org.astrologist.midea.entity.User;
 
@@ -11,6 +9,8 @@ public interface MindlistService {
     Long register(MindlistDTO dto);
 
     PageResultDTO<MindlistDTO, Object[]> getList(PageRequestDTO requestDTO);
+
+    AlgorithmResultDTO<MindlistDTO, Object[]> getAlgorithmList(AlgorithmRequestDTO algorithmRequestDTO);
 
     MindlistDTO read(Long mno);
 

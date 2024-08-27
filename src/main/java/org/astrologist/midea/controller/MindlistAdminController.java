@@ -3,6 +3,7 @@ package org.astrologist.midea.controller;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.astrologist.midea.dto.AlgorithmRequestDTO;
 import org.astrologist.midea.dto.MindlistAdminDTO;
 import org.astrologist.midea.dto.PageRequestDTO;
 import org.astrologist.midea.entity.User;
@@ -18,9 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import static org.astrologist.midea.entity.User.UserRole.ADMIN;
-import static org.astrologist.midea.entity.User.UserRole.MEMBER;
-import static org.astrologist.midea.entity.User.UserRole.GUEST;
+import static org.astrologist.midea.entity.User.UserRole.*;
 
 @Controller
 @RequestMapping("/midea")
@@ -37,11 +36,35 @@ public class MindlistAdminController {
     private HttpSession session;  // 현재 사용자의 세션을 주입받습니다.
     
     @GetMapping("/mindlistAdmin")
-    public void list(PageRequestDTO pageRequestDTO, Model model){
+    public void list(PageRequestDTO pageRequestDTO, Model model, AlgorithmRequestDTO algorithmRequestDTO, User user){
+
+        String userImage = user.getProfileImagePath();
+
+        User loggedInUser = (User) session.getAttribute("user");
+
+        if (loggedInUser != null) {
+            String nickname = loggedInUser.getNickname();
+            model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
+            log.info("Logged in user's nickname: " + nickname);
+        } else {
+            String nickname = "GUEST";
+            model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
+        }
 
         log.info("list......................" + pageRequestDTO);
 
         model.addAttribute("result", mindlistAdminService.getList(pageRequestDTO));
+
+        model.addAttribute("algorithm", mindlistAdminService.getAlgorithmList(algorithmRequestDTO));
+
+        String profileImagePath = user.getProfileImagePath();
+
+        if (profileImagePath == null || profileImagePath.isEmpty()) {
+            profileImagePath = "/default.images/default-profile.jpg";
+        } else {
+            profileImagePath = userImage;
+        }
+        model.addAttribute("profileImage", profileImagePath);
 
     }
 
@@ -71,11 +94,13 @@ public class MindlistAdminController {
             log.info("로그인 하세요~!");
             return "redirect:/midea/login";
         }
-        if (loggedInUser != null) {
+        if (loggedInUser != null && loggedInUser.getUserRole() == ADMIN) {
             String nickname = loggedInUser.getNickname();
+            String userRole = String.valueOf(loggedInUser.getUserRole());
+            model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
             model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
             log.info("Logged in user's nickname: " + nickname);
-            log.info("user role : " + loggedInUser.getUserRole());
+            log.info("user role : " + userRole);
 
         }
         return "midea/mlAdminRegister";

@@ -3,10 +3,7 @@ package org.astrologist.midea.controller;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.astrologist.midea.dto.MyPageUploadDTO;
-import org.astrologist.midea.dto.PageRequestDTO;
-import org.astrologist.midea.dto.MindlistDTO;
-import org.astrologist.midea.dto.UserDTO;
+import org.astrologist.midea.dto.*;
 import org.astrologist.midea.entity.User;
 import org.astrologist.midea.service.MindlistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +28,37 @@ public class MindlistController {
     private HttpSession session; // 현재 사용자의 세션을 주입받습니다.
 
     @GetMapping("/mindlist")
-    public void list(PageRequestDTO pageRequestDTO, Model model){
+    public void list(PageRequestDTO pageRequestDTO, Model model, AlgorithmRequestDTO algorithmRequestDTO, User user, UserDTO userDTO){
+
+        String userImage = userDTO.getProfileImagePath();
+
+        User loggedInUser = (User) session.getAttribute("user");
+
+        if (loggedInUser != null) {
+            String nickname = loggedInUser.getNickname();
+            model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
+            log.info("Logged in user's nickname: " + nickname);
+        } else {
+            String nickname = "GUEST";
+            model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
+        }
 
         log.info("list......................" + pageRequestDTO);
 
+        log.info("algorithm......................" + algorithmRequestDTO);
+
         model.addAttribute("result", mindlistService.getList(pageRequestDTO));
+
+        model.addAttribute("algorithm", mindlistService.getAlgorithmList(algorithmRequestDTO));
+
+        String profileImagePath = user.getProfileImagePath();
+
+        if (profileImagePath == null || profileImagePath.isEmpty()) {
+            profileImagePath = "/default.images/default-profile.jpg";
+        } else {
+            profileImagePath = userImage;
+        }
+        model.addAttribute("profileImage", profileImagePath);
 
     }
 
@@ -86,7 +109,7 @@ public class MindlistController {
     }
 
     @GetMapping({"/mlread", "/mlmodify"}) //수정과 삭제 모두 read()가 필요하므로, 한번에 맵핑
-    public void read(@ModelAttribute("requestDTO") PageRequestDTO requestDTO, Long mno, Model model) {
+    public void read(@ModelAttribute("requestDTO") PageRequestDTO requestDTO, Long mno, Model model, AlgorithmRequestDTO algorithmRequestDTO) {
 
         log.info("mno: " + mno);
 

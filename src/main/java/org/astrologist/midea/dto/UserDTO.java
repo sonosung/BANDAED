@@ -1,11 +1,16 @@
 package org.astrologist.midea.dto;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.astrologist.midea.entity.User;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+
+@Getter
+@Setter
 public class UserDTO {
 
     @NotEmpty(message = "Nickname is mandatory")
@@ -25,6 +30,7 @@ public class UserDTO {
     private boolean stressed;
     private boolean joyful;
     private boolean energetic;
+    private String profileImagePath;
 
     // Getters and Setters
 
@@ -112,6 +118,7 @@ public class UserDTO {
                 .stressed(this.stressed)
                 .joyful(this.joyful)
                 .energetic(this.energetic)
+                .profileImagePath(this.profileImagePath)
                 .build();
     }
 }

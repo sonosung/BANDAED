@@ -32,28 +32,34 @@
                 <input class="form-control" name="title" placeholder="Enter title...">
             </div>
 
-<!--            <div class="content-row mt-2">
-                <div class="checkbox-grid col-sm-12">
-                    <label>
-                        <input type="checkbox" th:checked=""> Happy
-                    </label>
-                    <label>
-                        <input type="checkbox" th:checked=""> Sad
-                    </label>
-                    <label>
-                        <input type="checkbox" th:checked=""> Calm
-                    </label>
-                    <label>
-                        <input type="checkbox" th:checked=""> Stressed
-                    </label>
-                    <label>
-                        <input type="checkbox" th:checked="$"> Joyful
-                    </label>
-                    <label>
-                        <input type="checkbox" th:checked=""> Energetic
-                    </label>
+            <div class="content-row mt-2">
+                <div class="checkbox-grid">
+                    <div>
+                        <input type="checkbox" th:field="*{happy}" id="Happy"/>
+                        <label for="Happy">Happy</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" th:field="*{sad}" id="Sad"/>
+                        <label for="Sad">Sad</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" th:field="*{calm}" id="Calm"/>
+                        <label for="Calm">Calm</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" th:field="*{stressed}" id="Stressed"/>
+                        <label for="Stressed">Stressed</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" th:field="*{joyful}" id="Joyful"/>
+                        <label for="Joyful">Joyful</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" th:field="*{energetic}" id="Energetic"/>
+                        <label for="Energetic">Energetic</label>
+                    </div>
                 </div>
-            </div>-->
+            </div>
 
             <div class="form-group">
                 <label>URL</label>

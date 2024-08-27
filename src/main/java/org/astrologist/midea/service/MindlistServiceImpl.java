@@ -2,9 +2,7 @@ package org.astrologist.midea.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.astrologist.midea.dto.MindlistDTO;
-import org.astrologist.midea.dto.PageRequestDTO;
-import org.astrologist.midea.dto.PageResultDTO;
+import org.astrologist.midea.dto.*;
 import org.astrologist.midea.entity.Mindlist;
 import org.astrologist.midea.entity.User;
 import org.astrologist.midea.repository.CommentRepository;
@@ -58,6 +56,25 @@ public class MindlistServiceImpl implements MindlistService {
 
 
         return new PageResultDTO<>(result, fn);
+    }
+
+    //알고리즘 리스트 조회
+    @Override
+    public AlgorithmResultDTO<MindlistDTO, Object[]> getAlgorithmList(AlgorithmRequestDTO algorithmRequestDTO) {
+
+        log.info(algorithmRequestDTO);
+
+//        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2],(Long)en[3]));
+        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2]));
+//        Page<Object[]> result = repository.getBoardWithReplyCount(
+//                pageRequestDTO.getPageable(Sort.by("bno").descending())  );
+        Page<Object[]> algorithm = repository.searchPage(
+                algorithmRequestDTO.getType(),
+                algorithmRequestDTO.getKeyword(),
+                algorithmRequestDTO.getPageable(Sort.by("mno").descending())  );
+
+
+        return new AlgorithmResultDTO<>(algorithm, fn);
     }
 
     //상세페이지 조회

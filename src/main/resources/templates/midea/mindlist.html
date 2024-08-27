@@ -4,7 +4,6 @@
 <th:block th:replace="~{/layout/wooxtravel :: setContent(~{this::content} )}">
 
   <th:block th:fragment="content">
-
   <div class="page-heading">
     <div class="container">
       <div class="row">
@@ -78,10 +77,56 @@
               <div class="slider-content">
                 <div class="row">
                   <div class="col-lg-12">
-                    <h2>Caribbean’s <em>Cities &amp; Towns</em></h2>
+                    <h2>MIDEA’s <em>Best Choices for <b th:text="${nickname}"></b></em></h2>
                   </div>
                   <div class="col-lg-12">
                     <div class="owl-cites-town owl-carousel">
+
+                      <!-------------------------------- 알고리즘 목록 ------------------------------------>
+
+                      <!--<th scope="row">
+                        <! th:href="@{/midea/mlread(mno = ${dto.mno},
+                              page=${result.page},
+                              type = ${pageRequestDTO.type},
+                              keyword = ${pageRequestDTO.keyword}
+                              )}">
+                        </a>
+                      </th>-->
+                      <tr th:each="dto : ${algorithm.dtoList}" >
+                        <a th:href="@{/midea/mlread(mno = ${dto.url})}">
+                      <div class="item">
+                        <div class="thumb">
+<!--                          <img th:src="@{/wooxtravel/assets/images/cities-01.jpg}" alt="">-->
+
+                            <div id="playerAlgorithm"></div>
+                            [[${dto.url}]]
+
+<!--                          <h4>Havana</h4>-->
+                          <h4>[[${dto.title}]]</h4>
+                        </div>
+                      </div>
+                        </a>
+                      </tr>
+
+
+                 <!--     <div class="item">
+                        <div class="thumb">
+                          <img th:src="@{/wooxtravel/assets/images/cities-02.jpg}" alt="">
+                          <h4>Kingston</h4>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="thumb">
+                          <img th:src="@{/wooxtravel/assets/images/cities-03.jpg}" alt="">
+                          <h4>George Town</h4>
+                        </div>
+                      </div>
+                      <div class="item">
+                        <div class="thumb">
+                          <img th:src="@{/wooxtravel/assets/images/cities-04.jpg}" alt="">
+                          <h4>Santo Domingo</h4>
+                        </div>
+                      </div>
                       <div class="item">
                         <div class="thumb">
                           <img th:src="@{/wooxtravel/assets/images/cities-01.jpg}" alt="">
@@ -105,31 +150,7 @@
                           <img th:src="@{/wooxtravel/assets/images/cities-04.jpg}" alt="">
                           <h4>Santo Domingo</h4>
                         </div>
-                      </div>
-                      <div class="item">
-                        <div class="thumb">
-                          <img th:src="@{/wooxtravel/assets/images/cities-01.jpg}" alt="">
-                          <h4>Havana</h4>
-                        </div>
-                      </div>
-                      <div class="item">
-                        <div class="thumb">
-                          <img th:src="@{/wooxtravel/assets/images/cities-02.jpg}" alt="">
-                          <h4>Kingston</h4>
-                        </div>
-                      </div>
-                      <div class="item">
-                        <div class="thumb">
-                          <img th:src="@{/wooxtravel/assets/images/cities-03.jpg}" alt="">
-                          <h4>George Town</h4>
-                        </div>
-                      </div>
-                      <div class="item">
-                        <div class="thumb">
-                          <img th:src="@{/wooxtravel/assets/images/cities-04.jpg}" alt="">
-                          <h4>Santo Domingo</h4>
-                        </div>
-                      </div>
+                      </div>-->
                     </div>
                   </div>
                 </div>
@@ -409,7 +430,50 @@
         player = new YT.Player('player', {
           height: '360',
           width: '640',
-          videoId: "{dto.url}",
+          videoId: 'AwpWZVG5SsQ',
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      }
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        event.target.playVideo();
+      }
+
+      // 5. The API calls this function when the player's state changes.
+      //    The function indicates that when playing a video (state=1),
+      //    the player should play for six seconds and then stop.
+      var done = false;
+      function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+          //setTimeout(stopVideo, 6000);
+          done = true;
+        }
+      }
+      function stopVideo() {
+        player.stopVideo();
+      }
+    </script>
+
+<!--    <script th:inline="javascript">
+      // 2. This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var playerAlgorithm;
+      function onYouTubeIframeAPIReady() {
+        playerAlgorithm = new YT.playerAlgorithm('playerAlgorithm', {
+          height: '360',
+          width: '640',
+          videoId: 'AwpWZVG5SsQ',
           events: {
             'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
@@ -433,9 +497,9 @@
         }
       }
       function stopVideo() {
-        player.stopVideo();
+        playerAlgorithm.stopVideo();
       }
-    </script>
+    </script>-->
 
 </th:block>
 </th:block>
