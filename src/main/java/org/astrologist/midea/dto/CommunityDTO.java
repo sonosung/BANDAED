@@ -10,20 +10,20 @@ import org.astrologist.midea.entity.Community;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommunityDTO {
-    private Long id; // 게시물의 ID 추가
+    private Long id;
     private Long userId;
     private String composer;
     private String content;
     private String timestamp;
-    private String subcategory;  // Community 엔티티의 Subcategory 열거형을 사용
+    private String subcategory;
 
     public CommunityDTO(Community community) {
-        this.id = community.getId(); // 엔티티에서 ID를 가져옴
-        this.timestamp = community.getTimestamp().toString();
+        this.id = community.getId();
         this.userId = community.getUser().getId();
         this.composer = community.getComposer();
         this.content = community.getContent();
-        this.subcategory = community.getSubcategory().name();  // Subcategory 열거형의 이름을 문자열로 변환
+        this.timestamp = community.getTimestamp() != null ? community.getTimestamp().toString() : "Timestamp not available";  // null 체크
+        this.subcategory = community.getSubcategory().name();
     }
 
     @Override

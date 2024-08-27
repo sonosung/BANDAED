@@ -844,21 +844,31 @@
                     return {
                         userId: '[[${userId}]]',
                         activeCategory: null,
-                        selectedTitle: 'Community', // 기본 타이틀 설정
+                        selectedTitle: 'Community',
                         post: "",
                         posts: [],
                         isLiked: [],
                         userRole: '[[${userRole}]]',
                         username: '[[${username}]]',
                         selectedCategory: null,
-                        isPosting: false, // 게시글 작성 중 상태를 표시하기 위한 변수
+                        isPosting: false,
                     };
                 },
                 created() {
                     this.initializeSSE(); // SSE 초기화
-                    this.loadInitialPosts(); // 초기 데이터 로드
+                    this.loadInitialPosts();
 
-                    // 10초마다 데이터를 새로 고침하는 코드
+                    // 네트워크 상태 변화 감지
+                    window.addEventListener('offline', () => {
+                        alert('네트워크 연결이 끊어졌습니다. 연결이 복구되면 자동으로 재연결됩니다.');
+                    });
+
+                    window.addEventListener('online', () => {
+                        alert('네트워크 연결이 복구되었습니다. 다시 시도해주세요.');
+                        this.initializeSSE();
+                    });
+
+                    // SSE 수신이 안 될 때 데이터를 주기적으로 새로 고침
                     setInterval(() => {
                         if (this.selectedCategory) {
                             this.loadSubcategoryPosts(this.selectedCategory, this.selectedTitle);
@@ -870,17 +880,25 @@
                         const eventSource = new EventSource('/midea/community/sse');
 
                         eventSource.onmessage = (event) => {
-                            const newPost = JSON.parse(event.data);
-                            console.log("SSE 이벤트 수신 확인: 새로운 게시글이 도착했습니다.", newPost);
+                            try {
+                                const newPost = JSON.parse(event.data);
+                                console.log("SSE 이벤트 수신 확인: 새로운 게시글이 도착했습니다.", newPost);
 
-                            // SSE로 수신된 메시지 처리
-                            this.displayNewPost(newPost);
+                                // JSON이 제대로 파싱되었는지 확인
+                                if (newPost && typeof newPost === 'object') {
+                                    this.displayNewPost(newPost);
+                                } else {
+                                    console.error("Received data is not a valid JSON object:", event.data);
+                                }
+                            } catch (error) {
+                                console.error("Failed to parse SSE event data as JSON:", error);
+                            }
                         };
 
                         eventSource.onerror = (error) => {
                             console.error("SSE 연결 오류 발생:", error);
+                            eventSource.close();
 
-                            // SSE 연결 재시도 로직 추가
                             setTimeout(() => {
                                 console.log("SSE 연결 재시도 중...");
                                 this.initializeSSE();
@@ -922,10 +940,25 @@
                                 console.error("Failed to load posts:", error.response ? error.response.data : error.message);
                             });
                     },
-                    selectTitle(title) {
-                        this.selectedTitle = title;
-                        this.selectedCategory = title.replace('#', '').trim();
-                        this.loadSubcategoryPosts(this.selectedCategory, title);
+                    displayNewPost(post) {
+                        // 현재 선택된 카테고리와 새 게시글의 카테고리가 일치하는 경우에만 추가
+                        if (this.selectedCategory === post.subcategory) {
+                            this.posts.push(post);
+                            this.isLiked.push(false); // 새 게시글의 좋아요 상태 초기화
+
+                            // Vue.js의 reactivity를 활용하여 UI가 업데이트되도록 강제
+                            this.$forceUpdate();
+
+                            this.$nextTick(() => {
+                                let chat = this.$refs.chat;
+                                if (chat) {
+                                    chat.scrollTop = chat.scrollHeight; // 스크롤을 맨 아래로 이동
+                                }
+                            });
+                            console.log("New post displayed in UI:", post);
+                        } else {
+                            console.log("New post received but not displayed due to category mismatch:", post);
+                        }
                     },
                     createPost() {
                         console.log("User ID:", this.userId);
@@ -996,23 +1029,6 @@
                             this.isPosting = false; // 오류 발생 시 게시글 작성 상태 리셋
                             alert('게시글 전송에 실패했습니다. 다시 시도해주세요.');
                         });
-                    },
-                    displayNewPost(post) {
-                        // 현재 선택된 카테고리와 새 게시글의 카테고리가 일치하는 경우에만 추가
-                        if (this.selectedCategory === post.subcategory) {
-                            this.posts.push(post);
-                            this.isLiked.push(false); // 새 게시글의 좋아요 상태 초기화
-
-                            // 강제로 UI 업데이트를 트리거하기 위해 $forceUpdate() 호출
-                            this.$forceUpdate();
-
-                            this.$nextTick(() => {
-                                let chat = this.$refs.chat;
-                                if (chat) {
-                                    chat.scrollTop = chat.scrollHeight; // 스크롤을 맨 아래로 이동
-                                }
-                            });
-                        }
                     },
                     editPost(index) {
                         let post = this.posts[index];
