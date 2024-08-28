@@ -197,25 +197,15 @@ public class CommunityController {
 
     @GetMapping("/sse")
     public SseEmitter streamEvents(HttpSession session) {
-        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE); // 무제한 타임아웃 설정
-        emitters.add(emitter);
-
         User user = (User) session.getAttribute("user");
         if (user != null) {
+            SseEmitter emitter = createEmitter(user.getNickname());
             activeUsers.put(user.getId(), user.getNickname());
             broadcastActiveUsers(); // 새로운 사용자 접속 시 업데이트
             logger.info("사용자 {}(ID: {}) SSE 연결 시작", user.getNickname(), user.getId());
+            return emitter;
         }
-
-        // 연결 종료 시 호출할 메서드
-        emitter.onCompletion(() -> cleanUpEmitter(emitter, user));
-        emitter.onTimeout(() -> cleanUpEmitter(emitter, user));
-        emitter.onError(e -> {
-            cleanUpEmitter(emitter, user);
-            logger.error("SSE 연결 오류: {}", e.getMessage());
-        });
-
-        return emitter;
+        return new SseEmitter(); // 빈 emitter 반환
     }
 
     @PostMapping("/disconnect")
@@ -279,5 +269,33 @@ public class CommunityController {
 
         // 끊긴 emitter를 제거
         emitters.removeAll(deadEmitters);
+    }
+
+    // SSE Emitter 생성 메서드
+    public SseEmitter createEmitter(String userId) {
+        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE); // 타임아웃 설정 (무제한)
+
+        emitter.onCompletion(() -> {
+            // 연결이 정상적으로 종료되었을 때
+            emitters.remove(emitter);
+            logger.info("SSE 연결이 정상적으로 종료됨: {}", userId);
+        });
+
+        emitter.onTimeout(() -> {
+            // 연결이 타임아웃 되었을 때
+            emitters.remove(emitter);
+            logger.warn("SSE 연결이 타임아웃됨: {}", userId);
+            emitter.complete();
+        });
+
+        emitter.onError((ex) -> {
+            // 연결 중 오류 발생 시
+            emitters.remove(emitter);
+            logger.error("SSE 연결 중 오류 발생: {}", userId, ex);
+            emitter.complete();
+        });
+
+        emitters.add(emitter);
+        return emitter;
     }
 }
