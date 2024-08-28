@@ -39,5 +39,5 @@
     - 자유게시판 CRUD
     - 마이페이지
 
-PPT - https://keam.my.canva.site/bandaed<br>
+PPT - https://keam.my.canva.site/midea<br>
 Notion : https://sonosung.notion.site/16284e5e2b0e404794208ab486bcb753?v=007894a055f441ad94ede359a29e6400&pvs=4
