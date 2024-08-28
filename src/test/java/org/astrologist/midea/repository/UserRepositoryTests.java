@@ -2,6 +2,7 @@ package org.astrologist.midea.repository;
 
 import org.astrologist.midea.entity.User;
 import org.junit.jupiter.api.Test;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -20,14 +21,14 @@ public class UserRepositoryTests {
 
             User user = User.builder()
                     .email("admin" + i + "@naver.com")
-                    .password("123456"+i)
+                    .password(BCrypt.hashpw("password" + i, BCrypt.gensalt()))
                     .nickname("admin" + i)
-                    .calm(true)
-                    .energetic(true)
-                    .happy(true)
-                    .joyful(true)
-                    .sad(true)
-                    .stressed(true)
+                    .happy(i % 2 == 0)
+                    .sad(i % 3 == 0)
+                    .calm(i % 4 == 0)
+                    .stressed(i % 5 == 0)
+                    .joyful(i % 6 == 0)
+                    .energetic(i % 7 == 0)
                     .profileImagePath(null)
                     .emailActive(true)
                     .nicknameActive(true)
@@ -45,14 +46,14 @@ public class UserRepositoryTests {
 
             User user = User.builder()
                     .email("user" + i + "@naver.com")
-                    .password("123456" + i)
+                    .password(BCrypt.hashpw("password" + i, BCrypt.gensalt()))
                     .nickname("nickname" + i)
-                    .calm(true)
-                    .energetic(true)
-                    .happy(true)
-                    .joyful(true)
-                    .sad(true)
-                    .stressed(true)
+                    .happy(i % 2 == 0)
+                    .sad(i % 3 == 0)
+                    .calm(i % 4 == 0)
+                    .stressed(i % 5 == 0)
+                    .joyful(i % 6 == 0)
+                    .energetic(i % 7 == 0)
                     .profileImagePath(null)
                     .emailActive(true)
                     .nicknameActive(true)

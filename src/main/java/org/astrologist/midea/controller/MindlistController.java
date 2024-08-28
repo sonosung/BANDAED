@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.awt.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 
 @Controller
 @RequestMapping("/midea")
@@ -64,35 +68,20 @@ public class MindlistController {
 
     @GetMapping("/mlRegister")
     public String register(Model model) {
-        // 현재 로그인한 사용자 정보 가져오기
+
+        // 현재 로그인한 사용자 정보 가져와서, 로그인 하지 않았으면 로그인 페이지로 이동시킴.
         User loggedInUser = (User) session.getAttribute("user");
 
         if (loggedInUser == null) {
-            log.info("로그인 하세요~!");
+            log.info("Please Login~!");
             return "redirect:/midea/login";
-        }
-        if (loggedInUser != null) {
+        } else {
             String nickname = loggedInUser.getNickname();
             model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
             log.info("Logged in user's nickname: " + nickname);
             log.info("user role : " + loggedInUser.getUserRole());
-
         }
         return "midea/mlRegister";
-//        // 세션에서 현재 로그인한 사용자 정보를 가져옵니다.
-//        User loggedInUser = (User) session.getAttribute("user");
-//        // 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트합니다.
-//        if (loggedInUser == null) {
-//            return "redirect:/midea/login?redirectUrl=/midea/mlRegister";
-//        }
-//        // 사용자가 MEMBER 또는 ADMIN 권한이 아닌 경우 로그인 페이지로 리다이렉트합니다.
-//        if (loggedInUser.getUserRole() != User.UserRole.MEMBER && loggedInUser.getUserRole() != User.UserRole.ADMIN) {
-//            return "redirect:/midea/login";
-//        }
-//        // 사용자의 정보를 DTO로 변환하여 모델에 추가합니다.
-//        MindlistDTO mindlistDTO = MindlistDTO.fromEntity(loggedInUser);
-//        model.addAttribute("user", mindlistDTO);
-//        return "midea/mlRegister";  // 마이페이지 뷰를 반환합니다.
     }
 
     @PostMapping("/mlRegister")

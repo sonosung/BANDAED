@@ -44,12 +44,12 @@ public class MindlistRepositoryTests {
                     .title("title...." + i)
                     .url("url..." + i)
                     .likeCount(i)
-                    .calm(true)
-                    .happy(true)
-                    .sad(true)
-                    .stressed(true)
-                    .energetic(true)
-                    .joyful(true)
+                    .happy(i % 2 == 0)
+                    .sad(i % 3 == 0)
+                    .calm(i % 4 == 0)
+                    .stressed(i % 5 == 0)
+                    .joyful(i % 6 == 0)
+                    .energetic(i % 7 == 0)
                     .build();
 
             mindlistRepository.save(mindlist);

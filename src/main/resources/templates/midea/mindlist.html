@@ -3,504 +3,304 @@
 
 <th:block th:replace="~{/layout/wooxtravel :: setContent(~{this::content} )}">
 
-  <th:block th:fragment="content">
-  <div class="page-heading">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <h4>Discover New Music Everyday</h4>
-          <h2>Share Your Music &amp; More</h2>
-          <div class="border-button"><a th:href="@{/midea/mindlistAdmin}">관리자 게시판으로 이동</a></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-    <div class="search-form">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <form id="search-form" name="gs" method="submit" role="search" action="#">
-              <div class="row">
-                <div class="col-lg-2">
-                  <h4>Sort Music By:</h4>
-                </div>
-                <div class="col-lg-2">
-                  <fieldset>
-                    <input type="hidden" name="page" value="1">
-                    <div class="input-group-prepend">
-                      <select class="custom-select" name="type">
-                        <option aria-label="Default select example" th:selected="${pageRequestDTO.type == null}">검색 조건</option>
-                        <option value="c" th:selected="${pageRequestDTO.type == 'c'}">아티스트</option>
-                        <option value="t" th:selected="${pageRequestDTO.type == 't'}">곡명</option>
-                        <option value="n" th:selected="${pageRequestDTO.type == 'n'}">작성자</option>
-                        <option value="ct" th:selected="${pageRequestDTO.type == 'ct'}">내용</option>
-                        <option value="tc" th:selected="${pageRequestDTO.type == 'tc'}">곡명 + 아티스트</option>
-                        <option value="tcn" th:selected="${pageRequestDTO.type == 'tcn'}">곡명 + 아티스트 + 작성자</option>
-                      </select>
-                    </div>
-                  </fieldset>
-                </div>
-                <div class="col-lg-4">
-                  <fieldset>
-                    <input class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}" aria-label="Default select example">
-                  </fieldset>
-                </div>
-                <div class="col-lg-2">
-                  <fieldset>
-                    <button type="button" class="border-button btn-search">Search Results</button>
-                  </fieldset>
-                </div>
-                <div class="col-lg-2">
-              <span>
-                <a th:href="@{/midea/mlRegister}">
-                    <button type="button" class="border-button">Register</button>
-                </a>
-            </span>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  <div class="amazing-deals">
-    <div class="container">
-      <div class="row">
-
-        <!--=========================================== css 창 정사각형 ===============================================-->
-
-        <div class="cities-town">
-          <div class="container">
-            <div class="row">
-              <div class="slider-content">
+    <th:block th:fragment="content">
+        <div class="page-heading">
+            <div class="container">
                 <div class="row">
-                  <div class="col-lg-12">
-                    <h2>MIDEA’s <em>Best Choices for <b th:text="${nickname}"></b></em></h2>
-                  </div>
-                  <div class="col-lg-12">
-                    <div class="owl-cites-town owl-carousel">
-
-                      <!-------------------------------- 알고리즘 목록 ------------------------------------>
-
-                      <!--<th scope="row">
-                        <! th:href="@{/midea/mlread(mno = ${dto.mno},
-                              page=${result.page},
-                              type = ${pageRequestDTO.type},
-                              keyword = ${pageRequestDTO.keyword}
-                              )}">
-                        </a>
-                      </th>-->
-                      <tr th:each="dto : ${algorithm.dtoList}" >
-                        <a th:href="@{/midea/mlread(mno = ${dto.url})}">
-                      <div class="item">
-                        <div class="thumb">
-<!--                          <img th:src="@{/wooxtravel/assets/images/cities-01.jpg}" alt="">-->
-
-                            <div id="playerAlgorithm"></div>
-                            [[${dto.url}]]
-
-<!--                          <h4>Havana</h4>-->
-                          <h4>[[${dto.title}]]</h4>
-                        </div>
-                      </div>
-                        </a>
-                      </tr>
-
-
-                 <!--     <div class="item">
-                        <div class="thumb">
-                          <img th:src="@{/wooxtravel/assets/images/cities-02.jpg}" alt="">
-                          <h4>Kingston</h4>
-                        </div>
-                      </div>
-                      <div class="item">
-                        <div class="thumb">
-                          <img th:src="@{/wooxtravel/assets/images/cities-03.jpg}" alt="">
-                          <h4>George Town</h4>
-                        </div>
-                      </div>
-                      <div class="item">
-                        <div class="thumb">
-                          <img th:src="@{/wooxtravel/assets/images/cities-04.jpg}" alt="">
-                          <h4>Santo Domingo</h4>
-                        </div>
-                      </div>
-                      <div class="item">
-                        <div class="thumb">
-                          <img th:src="@{/wooxtravel/assets/images/cities-01.jpg}" alt="">
-                          <h4>Havana</h4>
-                        </div>
-                      </div>
-                      <div class="item">
-                        <div class="thumb">
-                          <img th:src="@{/wooxtravel/assets/images/cities-02.jpg}" alt="">
-                          <h4>Kingston</h4>
-                        </div>
-                      </div>
-                      <div class="item">
-                        <div class="thumb">
-                          <img th:src="@{/wooxtravel/assets/images/cities-03.jpg}" alt="">
-                          <h4>George Town</h4>
-                        </div>
-                      </div>
-                      <div class="item">
-                        <div class="thumb">
-                          <img th:src="@{/wooxtravel/assets/images/cities-04.jpg}" alt="">
-                          <h4>Santo Domingo</h4>
-                        </div>
-                      </div>-->
+                    <div class="col-lg-12">
+                        <h4>Discover New Music Everyday</h4>
+                        <h2>Share Your Music &amp; More</h2>
+                        <div class="border-button"><a th:href="@{/midea/mindlistAdmin}">관리자 게시판으로 이동</a></div>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
 
-<!--        <div class="col-lg-6 offset-lg-3">
-          <div class="section-heading text-center">
-            <h2>Best Weekly Music We Recommend you</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
-          </div>
-        </div>-->
-
-        <!--========================================== ↓ 게시판 ===============================================-->
-
-        <div>
-
-
-
-<!--            <div class="input-group">
-              <input class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
-              <div class="input-group-append" id="button-addon4">
-                <button class="btn btn-outline-secondary btn-search" type="button">Search</button>
-                <button class="btn btn-outline-secondary btn-clear" type="button">Clear</button>
-              </div>
-            </div>-->
-
-          <tr th:each="dto : ${result.dtoList}" >
-            <th scope="row">
-              <a th:href="@{/midea/mlread(mno = ${dto.mno},
-                page=${result.page},
-                type = ${pageRequestDTO.type},
-                keyword = ${pageRequestDTO.keyword}
-                )}">
-                [[${dto.mno}]]
-              </a>
-            </th>
-        <!--========================================== ↓ 폼1 ===============================================-->
-        <div class="col-lg-6 col-xxl-12 col-sm-7">
-          <div class="item">
-            <div class="row">
-              <div class="col-lg-6">
-                <div id="player"></div>
-                  [[${dto.url}]]
-              </div>
-              <div class="col-lg-6 align-self-center">
-                <div class="content">
-                  <span class="info">[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</span>
-                  <h3>[[${dto.composer}]]</h3>
-                  <div class="row">
-                    <div class="col-6">
-                      <i class="fa-solid fa-music"></i>
-                      <span class="list">[[${dto.title}]] ---- [<b th:text="${dto.commentCount}"></b>]</span>
+        <div class="search-form">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form id="search-form" name="gs" method="submit" role="search" action="#">
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <h4>Sort Music By:</h4>
+                                </div>
+                                <div class="col-lg-2">
+                                    <fieldset>
+                                        <input type="hidden" name="page" value="1">
+                                        <div class="input-group-prepend">
+                                            <select class="custom-select" name="type">
+                                                <option aria-label="Default select example"
+                                                        th:selected="${pageRequestDTO.type == null}">검색 조건
+                                                </option>
+                                                <option value="c" th:selected="${pageRequestDTO.type == 'c'}">아티스트
+                                                </option>
+                                                <option value="t" th:selected="${pageRequestDTO.type == 't'}">곡명
+                                                </option>
+                                                <option value="n" th:selected="${pageRequestDTO.type == 'n'}">작성자
+                                                </option>
+                                                <option value="ct" th:selected="${pageRequestDTO.type == 'ct'}">내용
+                                                </option>
+                                                <option value="tc" th:selected="${pageRequestDTO.type == 'tc'}">곡명 +
+                                                    아티스트
+                                                </option>
+                                                <option value="tcn" th:selected="${pageRequestDTO.type == 'tcn'}">곡명 +
+                                                    아티스트 + 작성자
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-4">
+                                    <fieldset>
+                                        <input class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}"
+                                               aria-label="Default select example">
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-2">
+                                    <fieldset>
+                                        <button type="button" class="border-button btn-search">Search Results</button>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-2">
+                                    <span>
+                                      <a th:href="@{/midea/mlRegister}">
+                                          <button type="button" class="border-button">Register</button>
+                                      </a>
+                                  </span>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="col-6">
-                      <i class="fa-solid fa-user"></i>
-                      <span class="list">[[${dto.nickname}]]</span>
-<!--                      <span class="list" th:value="${dto.nickname}"></span>-->
-<!--                      <input type="text" name="writer" th:value="${dto.nickname}" readonly>-->
-<!--                      <span class="list" th:value="${email_id}"></span>-->
-                    </div>
-                  </div>
-                  <p>[[${dto.content}]]</p>
-                  <div class="main-button">
-<!--                    <a th:href="@{dto.url}">음악 들으러 가기</a>-->
-                    <a th:href="@{#}" th:onclick="|location.href='@{dto.url}'|">음악 들으러 가기</a>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-          </tr>
 
-       <!-- &lt;!&ndash;========================================== ↓ 폼2 ===============================================&ndash;&gt;
-        <div class="col-lg-6 col-sm-6">
-          <div class="item">
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="image">
-                  <img th:src="@{/wooxtravel/assets/images/deals-02.jpg}" alt="">
-                </div>
-              </div>
-              <div class="col-lg-6 align-self-center">
-                <div class="content">
-                  <span class="info">*Today & Tomorrow Only</span>
-                  <h4>Venezia Italy Ipsum</h4>
-                  <div class="row">
-                    <div class="col-6">
-                      <i class="fa fa-clock"></i>
-                      <span class="list">5 Days</span>
+        <div class="visit-country">
+            <div class="container">
+                <div class="row">
+
+                    <!--=========================================== css 창 정사각형 ===============================================-->
+
+                    <div class="cities-town">
+                        <div class="container">
+                            <div class="row">
+                                <div class="slider-content">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h2>MIDEA’s <em>Best Choices for <b th:text="${nickname}"></b></em></h2>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="owl-cites-town owl-carousel">
+
+                                                <!-------------------------------- 알고리즘 목록 ------------------------------------>
+
+                                                <tr th:each="dto : ${algorithm.dtoList}">
+                                                    <a th:href="@{/midea/mlread(mno = ${dto.url})}">
+                                                        <div class="item">
+                                                            <div class="thumb">
+                                                                <iframe style="border-radius: 23px" width="200" height="200"
+                                                                        th:src="'https://www.youtube.com/embed/' + '${dto.url}' + '?si=9-XpOM_tjsPNFt0L'"
+                                                                        title="YouTube video player" frameborder="0"
+                                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                                        referrerpolicy="strict-origin-when-cross-origin"
+                                                                        allowfullscreen></iframe>
+                                                                [[${dto.url}]]
+                                                                <h4>[[${dto.title}]]</h4>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </tr>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-6">
-                      <i class="fa fa-map"></i>
-                      <span class="list">Daily Places</span>
+
+                    <div class="mt-4"></div>
+                    <div class="col-lg-6 offset-lg-3">
+                        <div class="section-heading text-center">
+                            <h2>Best Music We Recommend you</h2>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                                ut labore.</p>
+                        </div>
                     </div>
-                  </div>
-                  <p>Lorem ipsum dolor sit amet dire consectetur adipiscing elit.</p>
-                  <div class="main-button">
-                    <a href="contact.html">Make a Reservation</a>
-                  </div>
+
+                    <!--========================================== ↓ 게시글 ===============================================-->
+
+                    <tr th:each="dto : ${result.dtoList}">
+                    <div class="col-lg-12">
+                        <div class="item">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div id="ytplayer"></div>
+                                    <iframe style="border-radius: 23px" width="640" height="360"
+                                            th:src="'https://www.youtube.com/embed/' + '${dto.url}' + '?si=9-XpOM_tjsPNFt0L'"
+                                            title="YouTube video player" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            referrerpolicy="strict-origin-when-cross-origin"
+                                            allowfullscreen></iframe>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="right-content">
+                                        <h4>[[${dto.composer}]] - [[${dto.title}]]</h4>
+                                        <div class="main-button">
+                                            <a th:href="@{/midea/mlread(mno = ${dto.mno},
+                                              page=${result.page},
+                                              type = ${pageRequestDTO.type},
+                                              keyword = ${pageRequestDTO.keyword}
+                                              )}">Exploer More</a>
+                                        </div>
+                                        <p>[[${dto.content}]]</p>
+                                        <ul class="info">
+                                            <li>
+                                                <i class="fa fa-user"></i>
+                                                [[${dto.nickname}]]
+                                            </li>
+                                            <li>
+                                                <span>
+                                                    Views
+                                                    Comments <b th:text="${dto.commentCount}"></b>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</span>
+                                            </li>
+                                        </ul>
+                                        <div class="text-button">
+                                            <a href="">Listen On Spotify?
+                                                <i class="fa-brands fa-spotify"></i>
+                                                <i class="fa fa-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </tr>
+
+                    <!--========================================== ↓ 페이지 표시 ===============================================-->
+
+                    <div class="col-lg-12">
+                        <ul class="page-numbers">
+                            <ul class="pagination h-100 justify-content-center align-items-center">
+                                <li class="page-item " th:if="${result.prev}">
+                                    <a class="page-link" th:href="@{/midea/mindlist(
+                                        page = ${result.start -1},
+                                        type = ${pageRequestDTO.type},
+                                        keyword = ${pageRequestDTO.keyword}
+                                        )}" tabindex="-1"><i class="fa fa-arrow-left"></i></a>
+                                </li>
+
+                                <li th:class=" 'page-item ' + ${result.page == page?'active': ''} "
+                                    th:each="page: ${result.pageList}">
+                                    <a class="page-link" th:href="@{/midea/mindlist(
+                                        page = ${page},
+                                        type = ${pageRequestDTO.type},
+                                        keyword = ${pageRequestDTO.keyword}
+                                        )}">
+                                        [[${page}]]
+                                    </a>
+                                </li>
+
+                                <li class="page-item" th:if="${result.next}">
+                                    <a class="page-link" th:href="@{/midea/mindlist(page= ${result.end +1},
+                                        type=${pageRequestDTO.type},
+                                        keyword=${pageRequestDTO.keyword}
+                                        )}"><i class="fa fa-arrow-right"></i></a>
+                                </li>
+                            </ul>
+                        </ul>
+                    </div>
+
+                    <!-- 모달 창 등록 -->
+                    <div class="modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal=header">
+                                    <h5 class="modal-title">Modal title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <p>Modal body text goes here.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
+                <!--========================================== ↑ 게시판 ===============================================-->
+
             </div>
-          </div>
         </div>
 
-        &lt;!&ndash;========================================== ↓ 폼3 ===============================================&ndash;&gt;
-        <div class="col-lg-6 col-sm-6">
-          <div class="item">
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="image">
-                  <img th:src="@{/wooxtravel/assets/images/deals-03.jpg}" alt="">
-                </div>
-              </div>
-              <div class="col-lg-6 align-self-center">
-                <div class="content">
-                  <span class="info">**Undefined</span>
-                  <h4>Glasgow City Lorem</h4>
-                  <div class="row">
-                    <div class="col-6">
-                      <i class="fa fa-clock"></i>
-                      <span class="list">5 Days</span>
-                    </div>
-                    <div class="col-6">
-                      <i class="fa fa-map"></i>
-                      <span class="list">Daily Places</span>
-                    </div>
-                  </div>
-                  <p>Lorem ipsum dolor sit amet dire consectetur adipiscing elit.</p>
-                  <div class="main-button">
-                    <a href="contact.html">Make a Reservation</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <script th:inline="javascript">
+            var msg = [[${msg}]];
+            console.log(msg);
 
-        &lt;!&ndash;========================================== ↓ 폼4 ===============================================&ndash;&gt;
-        <div class="col-lg-6 col-sm-6">
-          <div class="item">
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="image">
-                  <img th:src="@{/wooxtravel/assets/images/deals-04.jpg}" alt="">
-                </div>
-              </div>
-              <div class="col-lg-6 align-self-center">
-                <div class="content">
-                  <span class="info">*Offer Until 24th March</span>
-                  <h4>Glasgow City Lorem</h4>
-                  <div class="row">
-                    <div class="col-6">
-                      <i class="fa fa-clock"></i>
-                      <span class="list">5 Days</span>
-                    </div>
-                    <div class="col-6">
-                      <i class="fa fa-map"></i>
-                      <span class="list">Daily Places</span>
-                    </div>
-                  </div>
-                  <p>This free CSS template is provided by Template Mo website.</p>
-                  <div class="main-button">
-                    <a href="contact.html">Make a Reservation</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>-->
+            if(msg){
+                $(".modal").modal();
+            }
 
+            var searchForm = $("#searchForm");
 
- <!--       <div class="col-lg-12">
-          <ul class="page-numbers">
-            <li><a href="#"><i class="fa fa-arrow-left"></i></a></li>
-            <li><a href="#">1</a></li>
-            <li class="active"><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#"><i class="fa fa-arrow-right"></i></a></li>
-          </ul>
-        </div>-->
-        </div>
+            $('.btn-search').click(function(e){
+                searchForm.submit();
+            });
+        </script>
 
-        <!--========================================== ↓ 페이지 표시 ===============================================-->
+        <script th:inline="javascript">
+            // 2. This code loads the IFrame Player API code asynchronously.
+            var tag = document.createElement('script');
 
-        <div class="col-lg-12">
-          <ul class="page-numbers">
-            <ul class="pagination h-100 justify-content-center align-items-center">
-              <li class="page-item " th:if="${result.prev}">
-                <a class="page-link" th:href="@{/midea/mindlist(
-                page = ${result.start -1},
-                type = ${pageRequestDTO.type},
-                keyword = ${pageRequestDTO.keyword}
-                )}" tabindex="-1">Previous</a>
-              </li>
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-              <li th:class=" 'page-item ' + ${result.page == page?'active': ''} "
-                  th:each="page: ${result.pageList}">
-                <a class="page-link" th:href="@{/midea/mindlist(
-                page = ${page},
-                type = ${pageRequestDTO.type},
-                keyword = ${pageRequestDTO.keyword}
-                )}">
-                  [[${page}]]
-                </a>
-              </li>
+            // 3. This function creates an <iframe> (and YouTube player)
+            //    after the API code downloads.
+            var player;
+            function onYouTubeIframeAPIReady() {
+              player = new YT.Player('player', {
+                height: '360',
+                width: '640',
+                videoId: '유투브링크',
+                events: {
+                  'onReady': onPlayerReady,
+                  'onStateChange': onPlayerStateChange
+                }
+              });
+            }
 
-              <li class="page-item" th:if="${result.next}">
-                <a class="page-link" th:href="@{/midea/mindlist(page= ${result.end +1},
-                type=${pageRequestDTO.type},
-                keyword=${pageRequestDTO.keyword}
-                )}">Next</a>
-              </li>
-            </ul>
-          </ul>
-        </div>
+            // 4. The API will call this function when the video player is ready.
+            function onPlayerReady(event) {
+              event.target.playVideo();
+            }
 
-        <!-- 모달 창 등록 -->
-        <div class="modal" tabindex="-1" role="dialog">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal=header">
-                <h5 class="modal-title">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
+            // 5. The API calls this function when the player's state changes.
+            //    The function indicates that when playing a video (state=1),
+            //    the player should play for six seconds and then stop.
+            var done = false;
+            function onPlayerStateChange(event) {
+              if (event.data == YT.PlayerState.PLAYING && !done) {
+                //setTimeout(stopVideo, 6000);
+                done = true;
+              }
+            }
+            function stopVideo() {
+              player.stopVideo();
+            }
+        </script>
 
-              <div class="modal-body">
-                <p>Modal body text goes here.</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--========================================== ↑ 게시판 ===============================================-->
-
-      </div>
-    </div>
-  </div>
-
-    <script th:inline="javascript">
-      var msg = [[${msg}]];
-      console.log(msg);
-
-      if(msg){
-          $(".modal").modal();
-      }
-
-      var searchForm = $("#searchForm");
-
-      $('.btn-search').click(function(e){
-          searchForm.submit();
-      });
-    </script>
-
-    <script th:inline="javascript">
-      // 2. This code loads the IFrame Player API code asynchronously.
-      var tag = document.createElement('script');
-
-      tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-      // 3. This function creates an <iframe> (and YouTube player)
-      //    after the API code downloads.
-      var player;
-      function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-          height: '360',
-          width: '640',
-          videoId: 'AwpWZVG5SsQ',
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
-        });
-      }
-
-      // 4. The API will call this function when the video player is ready.
-      function onPlayerReady(event) {
-        event.target.playVideo();
-      }
-
-      // 5. The API calls this function when the player's state changes.
-      //    The function indicates that when playing a video (state=1),
-      //    the player should play for six seconds and then stop.
-      var done = false;
-      function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-          //setTimeout(stopVideo, 6000);
-          done = true;
-        }
-      }
-      function stopVideo() {
-        player.stopVideo();
-      }
-    </script>
-
-<!--    <script th:inline="javascript">
-      // 2. This code loads the IFrame Player API code asynchronously.
-      var tag = document.createElement('script');
-
-      tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-      // 3. This function creates an <iframe> (and YouTube player)
-      //    after the API code downloads.
-      var playerAlgorithm;
-      function onYouTubeIframeAPIReady() {
-        playerAlgorithm = new YT.playerAlgorithm('playerAlgorithm', {
-          height: '360',
-          width: '640',
-          videoId: 'AwpWZVG5SsQ',
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
-        });
-      }
-
-      // 4. The API will call this function when the video player is ready.
-      function onPlayerReady(event) {
-        event.target.playVideo();
-      }
-
-      // 5. The API calls this function when the player's state changes.
-      //    The function indicates that when playing a video (state=1),
-      //    the player should play for six seconds and then stop.
-      var done = false;
-      function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-          setTimeout(stopVideo, 6000);
-          done = true;
-        }
-      }
-      function stopVideo() {
-        playerAlgorithm.stopVideo();
-      }
-    </script>-->
-
-</th:block>
+    </th:block>
 </th:block>
 </html>

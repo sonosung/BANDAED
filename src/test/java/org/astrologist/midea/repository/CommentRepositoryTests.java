@@ -97,4 +97,26 @@ public class CommentRepositoryTests {
 
         commentList.forEach(comment -> System.out.println(comment));
     }
+
+
+    @Test
+    public void insertMultiComment(){
+
+        IntStream.rangeClosed(1, 300).forEach(i -> {
+            //1부터 100까지의 임의의 번호를 이용.
+            long mno = (long)(Math.random() * 100) + 1;
+
+            Mindlist mindlist = Mindlist.builder().mno(mno).build();
+            MindlistAdmin mindlistAdmin = MindlistAdmin.builder().mno(mno).build();
+
+            Comment comment = Comment.builder()
+                    .text("sounds good to me.." + i)
+                    .mindlist(mindlist)
+                    .mindlistAdmin(mindlistAdmin)
+                    .commenter("commenter" + i) //comment 테이블의 칼럼명.
+                    .build();
+
+            commentRepository.save(comment);
+        });
+    }
 }
