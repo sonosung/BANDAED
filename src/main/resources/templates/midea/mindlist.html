@@ -100,12 +100,11 @@
                                                         <div class="item">
                                                             <div class="thumb">
                                                                 <iframe style="border-radius: 23px" width="200" height="200"
-                                                                        th:src="'https://www.youtube.com/embed/' + '${dto.url}' + '?si=9-XpOM_tjsPNFt0L'"
+                                                                        th:src="@{https://www.youtube.com/embed/} + ${dto.url} + @{?si=9-XpOM_tjsPNFt0L}"
                                                                         title="YouTube video player" frameborder="0"
                                                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                                                         referrerpolicy="strict-origin-when-cross-origin"
                                                                         allowfullscreen></iframe>
-                                                                [[${dto.url}]]
                                                                 <h4>[[${dto.title}]]</h4>
                                                             </div>
                                                         </div>
@@ -136,13 +135,18 @@
                         <div class="item">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <div id="ytplayer"></div>
+<!--                                    <div id="ytplayer"></div>-->
                                     <iframe style="border-radius: 23px" width="640" height="360"
-                                            th:src="'https://www.youtube.com/embed/' + '${dto.url}' + '?si=9-XpOM_tjsPNFt0L'"
+                                            th:src="@{https://www.youtube.com/embed/} + ${dto.url} + @{?si=9-XpOM_tjsPNFt0L}"
                                             title="YouTube video player" frameborder="0"
                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                             referrerpolicy="strict-origin-when-cross-origin"
                                             allowfullscreen></iframe>
+<!--                                    <iframe width="560" height="315"
+                                            th:src="https://www.youtube.com/embed/" + 'NXD-WJYtkyc?si=7jrZOsKfjX_X6yv4"
+                                            title="YouTube video player" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>-->
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="right-content">
