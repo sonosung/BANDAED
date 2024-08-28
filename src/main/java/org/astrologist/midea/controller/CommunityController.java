@@ -17,9 +17,8 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
@@ -31,6 +30,7 @@ public class CommunityController {
 
     private final CommunityService communityService;
     private final List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
+    private final Map<Long, String> activeUsers = new ConcurrentHashMap<>(); // 활성 사용자 목록
     private static final Logger logger = LoggerFactory.getLogger(CommunityController.class);
 
     @GetMapping
@@ -45,7 +45,6 @@ public class CommunityController {
 
         List<Community> communityList = communityService.getAllCommunities();
         model.addAttribute("communities", communityList);
-
         model.addAttribute("communityDTO", new CommunityDTO());
 
         return "community/community";  // community.html 템플릿을 렌더링
@@ -197,15 +196,68 @@ public class CommunityController {
     }
 
     @GetMapping("/sse")
-    public SseEmitter streamEvents() {
+    public SseEmitter streamEvents(HttpSession session) {
         SseEmitter emitter = new SseEmitter(Long.MAX_VALUE); // 무제한 타임아웃 설정
         emitters.add(emitter);
 
-        emitter.onCompletion(() -> emitters.remove(emitter));
-        emitter.onTimeout(() -> emitters.remove(emitter));
-        emitter.onError(e -> emitters.remove(emitter));
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            activeUsers.put(user.getId(), user.getNickname());
+            broadcastActiveUsers(); // 새로운 사용자 접속 시 업데이트
+            logger.info("사용자 {}(ID: {}) SSE 연결 시작", user.getNickname(), user.getId());
+        }
+
+        // 연결 종료 시 호출할 메서드
+        emitter.onCompletion(() -> cleanUpEmitter(emitter, user));
+        emitter.onTimeout(() -> cleanUpEmitter(emitter, user));
+        emitter.onError(e -> {
+            cleanUpEmitter(emitter, user);
+            logger.error("SSE 연결 오류: {}", e.getMessage());
+        });
 
         return emitter;
+    }
+
+    @PostMapping("/disconnect")
+    @ResponseBody
+    public ResponseEntity<String> disconnect(@RequestBody Map<String, Long> payload) {
+        Long userId = payload.get("userId");
+        if (userId != null && activeUsers.containsKey(userId)) {
+            activeUsers.remove(userId);
+            broadcastActiveUsers(); // 사용자 연결 종료 시 업데이트
+            logger.info("사용자 ID {} SSE 연결 종료 요청", userId);
+            return ResponseEntity.ok("Disconnected successfully.");
+        }
+        return ResponseEntity.status(400).body("User not found or already disconnected.");
+    }
+
+    private void cleanUpEmitter(SseEmitter emitter, User user) {
+        emitters.remove(emitter);
+        if (user != null) {
+            activeUsers.remove(user.getId());
+            logger.info("사용자 {}(ID: {}) SSE 연결 종료", user.getNickname(), user.getId());
+            broadcastActiveUsers(); // 사용자 연결 종료 시 업데이트
+        }
+    }
+
+    private void broadcastActiveUsers() {
+        List<String> activeUserList = new ArrayList<>(activeUsers.values());
+        logger.info("활성 사용자 목록: {}", activeUserList);
+
+        SseEmitter.SseEventBuilder event = SseEmitter.event()
+                .name("activeUsers")
+                .data(activeUserList);
+
+        List<SseEmitter> deadEmitters = new ArrayList<>();
+        for (SseEmitter emitter : emitters) {
+            try {
+                emitter.send(event);
+            } catch (IOException e) {
+                deadEmitters.add(emitter);
+                logger.warn("클라이언트로 이벤트 전송 중 오류 발생: {}", e.getMessage());
+            }
+        }
+        emitters.removeAll(deadEmitters);
     }
 
     private void notifyClients(Community community) {

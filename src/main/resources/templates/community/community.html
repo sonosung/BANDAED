@@ -826,12 +826,12 @@
                     </div>
                     <div class="footer__friends">
                         <div class="friend__category">Online</div>
-                        <div class="friend">
+                        <div v-for="user in activeUsers" :key="user" class="friend">
                             <div class="friend__avatar">
                                 <div class="avatar__status"></div>
                             </div>
                             <div class="friend__user">
-                                <div class="user__name">[[${username}]]</div>
+                                <div class="user__name">{{ user }}</div>
                             </div>
                         </div>
                     </div>
@@ -840,96 +840,133 @@
         </div>
         <script>
             new Vue({
-                el: ".grid",
-                data() {
-                    return {
-                        userId: '[[${userId}]]',
-                        activeCategory: null,
-                        selectedTitle: 'Community',
-                        post: "",
-                        posts: [],
-                        isLiked: [],
-                        userRole: '[[${userRole}]]',
-                        username: '[[${username}]]',
-                        selectedCategory: null,
-                        isPosting: false,
+            el: ".grid",
+            data() {
+                return {
+                    userId: '[[${userId}]]',
+                    activeCategory: null,
+                    selectedTitle: 'Community',
+                    post: "",
+                    posts: [],
+                    isLiked: [],
+                    userRole: '[[${userRole}]]',
+                    username: '[[${username}]]',
+                    selectedCategory: null,
+                    isPosting: false,
+                    activeUsers: [], // 활성 사용자 목록
+                    eventSource: null // SSE 이벤트 소스 객체
+                };
+            },
+            mounted() {
+                this.initializeSSE(); // SSE 초기화
+                this.loadInitialPosts();
+
+                // 네트워크 상태 변화 감지
+                window.addEventListener('offline', () => {
+                    alert('네트워크 연결이 끊어졌습니다. 연결이 복구되면 자동으로 재연결됩니다.');
+                });
+
+                window.addEventListener('online', () => {
+                    alert('네트워크 연결이 복구되었습니다. 다시 시도해주세요.');
+                    this.initializeSSE();
+                });
+
+                // SSE 수신이 안 될 때 데이터를 주기적으로 새로 고침
+                setInterval(() => {
+                    if (this.selectedCategory) {
+                        this.loadSubcategoryPosts(this.selectedCategory, this.selectedTitle);
+                    }
+                }, 2000); // 2초마다 데이터를 새로 고침
+
+                // 클라이언트가 페이지를 떠날 때 SSE 연결 종료
+                window.addEventListener('beforeunload', () => {
+                    this.closeSSEConnection(); // 페이지를 떠날 때 SSE 연결 종료
+                    this.notifyServerDisconnect(); // 서버에 연결 종료 알림
+                });
+            },
+            beforeDestroy() {
+                this.closeSSEConnection(); // Vue 인스턴스가 파괴될 때 SSE 연결 종료
+            },
+            methods: {
+                initializeSSE() {
+                    if (this.eventSource) {
+                        this.eventSource.close(); // 기존 연결이 있으면 닫기
+                    }
+
+                    this.eventSource = new EventSource('/midea/community/sse');
+
+                    this.eventSource.onmessage = (event) => {
+                        try {
+                            const newPost = JSON.parse(event.data);
+                            console.log("SSE 이벤트 수신 확인: 새로운 게시글이 도착했습니다.", newPost);
+
+                            // JSON이 제대로 파싱되었는지 확인
+                            if (newPost && typeof newPost === 'object') {
+                                this.displayNewPost(newPost);
+                            } else {
+                                console.error("Received data is not a valid JSON object:", event.data);
+                            }
+                        } catch (error) {
+                            console.error("Failed to parse SSE event data as JSON:", error);
+                        }
+                    };
+
+                    // 활성 사용자 목록 수신 처리
+                    this.eventSource.addEventListener('activeUsers', (event) => {
+                        try {
+                            const users = JSON.parse(event.data);
+                            this.activeUsers = users; // 활성 사용자 목록 업데이트
+                            console.log("Active users received:", users);
+                        } catch (error) {
+                            console.error("Failed to parse active users data:", error);
+                        }
+                    });
+
+                    this.eventSource.onerror = (error) => {
+                        console.error("SSE 연결 오류 발생:", error);
+                        this.eventSource.close();
+
+                        setTimeout(() => {
+                            console.log("SSE 연결 재시도 중...");
+                            this.initializeSSE();
+                        }, 3000); // 3초 후 재시도
+                    };
+
+                    this.eventSource.onopen = () => {
+                        console.log("SSE 연결이 열렸습니다.");
                     };
                 },
-                created() {
-                    this.initializeSSE(); // SSE 초기화
-                    this.loadInitialPosts();
-
-                    // 네트워크 상태 변화 감지
-                    window.addEventListener('offline', () => {
-                        alert('네트워크 연결이 끊어졌습니다. 연결이 복구되면 자동으로 재연결됩니다.');
-                    });
-
-                    window.addEventListener('online', () => {
-                        alert('네트워크 연결이 복구되었습니다. 다시 시도해주세요.');
-                        this.initializeSSE();
-                    });
-
-                    // SSE 수신이 안 될 때 데이터를 주기적으로 새로 고침
-                    setInterval(() => {
-                        if (this.selectedCategory) {
-                            this.loadSubcategoryPosts(this.selectedCategory, this.selectedTitle);
-                        }
-                    }, 2000); // 2초마다 데이터를 새로 고침
+                closeSSEConnection() {
+                    if (this.eventSource) {
+                        this.eventSource.close(); // 페이지를 떠날 때 SSE 연결 종료
+                        this.eventSource = null;
+                        console.log("SSE 연결이 종료되었습니다.");
+                    }
                 },
-                methods: {
-                    initializeSSE() {
-                        const eventSource = new EventSource('/midea/community/sse');
+                notifyServerDisconnect() {
+                    // 서버에 사용자 연결 종료를 알림
+                    axios.post('/midea/community/disconnect', {
+                        userId: this.userId
+                    }).catch(error => {
+                        console.error("Failed to notify server about disconnect:", error);
+                    });
+                },
+                loadInitialPosts() {
+                    if (this.selectedCategory) {
+                        this.loadSubcategoryPosts(this.selectedCategory, this.selectedTitle);
+                    }
+                },
+                loadSubcategoryPosts(subcategory, title) {
+                    this.selectedTitle = title; // 새로운 타이틀로 항상 업데이트
 
-                        eventSource.onmessage = (event) => {
-                            try {
-                                const newPost = JSON.parse(event.data);
-                                console.log("SSE 이벤트 수신 확인: 새로운 게시글이 도착했습니다.", newPost);
-
-                                // JSON이 제대로 파싱되었는지 확인
-                                if (newPost && typeof newPost === 'object') {
-                                    this.displayNewPost(newPost);
-                                } else {
-                                    console.error("Received data is not a valid JSON object:", event.data);
-                                }
-                            } catch (error) {
-                                console.error("Failed to parse SSE event data as JSON:", error);
-                            }
-                        };
-
-                        eventSource.onerror = (error) => {
-                            console.error("SSE 연결 오류 발생:", error);
-                            eventSource.close();
-
-                            setTimeout(() => {
-                                console.log("SSE 연결 재시도 중...");
-                                this.initializeSSE();
-                            }, 3000); // 3초 후 재시도
-                        };
-
-                        eventSource.onopen = () => {
-                            console.log("SSE 연결이 열렸습니다.");
-                        };
-
-                        eventSource.onclose = () => {
-                            console.warn("SSE 연결이 닫혔습니다.");
-                        };
-                    },
-                    loadInitialPosts() {
-                        if (this.selectedCategory) {
-                            this.loadSubcategoryPosts(this.selectedCategory, this.selectedTitle);
-                        }
-                    },
-                    loadSubcategoryPosts(subcategory, title) {
-                        this.selectedTitle = title; // 새로운 타이틀로 항상 업데이트
-
-                        axios.get(`/midea/community/subcategory/${subcategory}`)
-                            .then(response => {
+                    axios.get(`/midea/community/subcategory/${subcategory}`)
+                        .then(response => {
                             console.log("Posts data:", response.data);  // 데이터 확인
-                                this.posts = response.data;
-                                this.selectedCategory = subcategory;
-                                this.isLiked = new Array(this.posts.length).fill(false);
-                                this.posts.forEach((post, index) => {
-                                    axios.get(`/midea/community/like-status/${post.id}`)
+                            this.posts = response.data;
+                            this.selectedCategory = subcategory;
+                            this.isLiked = new Array(this.posts.length).fill(false);
+                            this.posts.forEach((post, index) => {
+                                axios.get(`/midea/community/like-status/${post.id}`)
                                     .then(likeResponse => {
                                         if (likeResponse.status === 403) {
                                             alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
@@ -941,30 +978,30 @@
                                     .catch(error => {
                                         console.error("Failed to load like status:", error.response ? error.response.data : error.message);
                                     });
-                                });
-                            })
-                            .catch(error => {
-                                console.error("Failed to load posts:", error.response ? error.response.data : error.message);
                             });
-                    },
-                    displayNewPost(post) {
-                        // 현재 선택된 카테고리와 새 게시글의 카테고리가 일치하는 경우에만 추가
-                        if (this.selectedCategory === post.subcategory) {
-                            this.posts.push(post);
-                            this.isLiked.push(false); // 새 게시글의 좋아요 상태 초기화
+                        })
+                        .catch(error => {
+                            console.error("Failed to load posts:", error.response ? error.response.data : error.message);
+                        });
+                },
+                displayNewPost(post) {
+                    // 현재 선택된 카테고리와 새 게시글의 카테고리가 일치하는 경우에만 추가
+                    if (this.selectedCategory === post.subcategory) {
+                        this.posts.push(post);
+                        this.isLiked.push(false); // 새 게시글의 좋아요 상태 초기화
 
-                            // Vue.js의 reactivity를 활용하여 UI가 업데이트되도록 강제
-                            this.$forceUpdate();
+                        // Vue.js의 reactivity를 활용하여 UI가 업데이트되도록 강제
+                        this.$forceUpdate();
 
-                            this.$nextTick(() => {
-                                let chat = this.$refs.chat;
-                                if (chat) {
-                                    chat.scrollTop = chat.scrollHeight; // 스크롤을 맨 아래로 이동
-                                }
-                            });
-                            console.log("New post displayed in UI:", post);
-                        } else {
-                            console.log("New post received but not displayed due to category mismatch:", post);
+                        this.$nextTick(() => {
+                            let chat = this.$refs.chat;
+                            if (chat) {
+                                chat.scrollTop = chat.scrollHeight; // 스크롤을 맨 아래로 이동
+                            }
+                        });
+                        console.log("New post displayed in UI:", post);
+                    } else {
+                        console.log("New post received but not displayed due to category mismatch:", post);
                         }
                     },
                     createPost() {
@@ -1156,7 +1193,7 @@
                             alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
                             window.location.href = '/midea/login'; // 또는 로그인 페이지로 리다이렉트
                             return;
-                            }
+                        }
 
                         const isCurrentlyLiked = this.isLiked[index];
                         this.$set(this.isLiked, index, !isCurrentlyLiked);
@@ -1171,7 +1208,7 @@
                                 'Content-Type': 'application/json'
                             }
                         })
-                     .then(response => {
+                        .then(response => {
                             console.log("좋아요 상태가 변경되었습니다:", response.data);
                             if (isCurrentlyLiked) {
                                 this.posts[index].likeCount--;  // 좋아요 취소 시 감소
