@@ -802,6 +802,7 @@
                                     <button @click="toggleLike(post.id, index)" style="background: none; border: none;">
                                         <span :style="{color: isLiked[index] ? 'red' : 'white'}">❤</span>
                                     </button>
+                                    <span style="color: white;">{{ post.likeCount }}</span> <!-- 좋아요 수를 항상 표시 -->
                                 </div>
                             </div>
                         </div>
@@ -923,17 +924,23 @@
 
                         axios.get(`/midea/community/subcategory/${subcategory}`)
                             .then(response => {
+                            console.log("Posts data:", response.data);  // 데이터 확인
                                 this.posts = response.data;
                                 this.selectedCategory = subcategory;
                                 this.isLiked = new Array(this.posts.length).fill(false);
                                 this.posts.forEach((post, index) => {
                                     axios.get(`/midea/community/like-status/${post.id}`)
-                                        .then(likeResponse => {
+                                    .then(likeResponse => {
+                                        if (likeResponse.status === 403) {
+                                            alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+                                            window.location.href = '/midea/login';
+                                        } else {
                                             this.$set(this.isLiked, index, likeResponse.data);
-                                        })
-                                        .catch(error => {
-                                            console.error("Failed to load like status:", error.response ? error.response.data : error.message);
-                                        });
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error("Failed to load like status:", error.response ? error.response.data : error.message);
+                                    });
                                 });
                             })
                             .catch(error => {
@@ -964,14 +971,14 @@
                         console.log("User ID:", this.userId);
                         console.log("User Role:", this.userRole);
 
-                        if (!this.selectedCategory) {
-                            alert('메시지를 입력하기 전에 카테고리를 선택해주세요.');
-                            return;
-                        }
-
                         if (this.userRole !== 'MEMBER' && this.userRole !== 'ADMIN') {
                             alert('MIDEA 회원용 커뮤니티입니다. 로그인 해주세요.');
                             window.location.href = '/midea/login';
+                            return;
+                        }
+
+                        if (!this.selectedCategory) {
+                            alert('메시지를 입력하기 전에 카테고리를 선택해주세요.');
                             return;
                         }
 
@@ -1144,6 +1151,12 @@
                             console.error("Post ID is null or undefined!");
                             return;
                         }
+                        // 로그인 여부 확인
+                        if (!this.userId) {
+                            alert("로그인이 필요합니다. 로그인 페이지로 이동합니다.");
+                            window.location.href = '/midea/login'; // 또는 로그인 페이지로 리다이렉트
+                            return;
+                            }
 
                         const isCurrentlyLiked = this.isLiked[index];
                         this.$set(this.isLiked, index, !isCurrentlyLiked);
@@ -1158,8 +1171,13 @@
                                 'Content-Type': 'application/json'
                             }
                         })
-                        .then(response => {
+                     .then(response => {
                             console.log("좋아요 상태가 변경되었습니다:", response.data);
+                            if (isCurrentlyLiked) {
+                                this.posts[index].likeCount--;  // 좋아요 취소 시 감소
+                            } else {
+                                this.posts[index].likeCount++;  // 좋아요 추가 시 증가
+                            }
                         })
                         .catch(error => {
                             console.error("좋아요 상태 변경 실패:", error.response ? error.response.data : error.message);
