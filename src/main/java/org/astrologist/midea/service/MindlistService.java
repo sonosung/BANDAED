@@ -1,6 +1,7 @@
 package org.astrologist.midea.service;
 
 import org.astrologist.midea.dto.*;
+import org.astrologist.midea.entity.Comment;
 import org.astrologist.midea.entity.Mindlist;
 import org.astrologist.midea.entity.User;
 
@@ -24,7 +25,6 @@ public interface MindlistService {
         User user = User.builder()
                 .email(dto.getEmail())
                 .nickname(dto.getNickname())
-//                .password(dto.getPassword())
                 .build();
 
         Mindlist mindlist = Mindlist.builder()
@@ -33,9 +33,7 @@ public interface MindlistService {
                 .title(dto.getTitle())
                 .url(dto.getUrl())
                 .content(dto.getContent())
-//                .email(user)
                 .nickname(dto.getNickname())
-//                .password(user)
                 .calm(dto.isCalm())
                 .happy(dto.isHappy())
                 .joyful(dto.isJoyful())
@@ -46,6 +44,7 @@ public interface MindlistService {
                 .commentCount(dto.getCommentCount())
 //                .viewCount(dto.getViewCount())
                 .build();
+
         return mindlist;
     }
 

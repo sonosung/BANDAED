@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString(exclude = {"mindlist", "mindlistAdmin"})
+@ToString(exclude = {"mindlist", "mindlistAdmin", "commenter"})
 public class Comment extends BaseEntity{
 
     @Id
@@ -17,7 +17,8 @@ public class Comment extends BaseEntity{
 
     private String text;
 
-    private String commenter;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User commenter;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Mindlist mindlist;

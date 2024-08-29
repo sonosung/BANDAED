@@ -55,13 +55,11 @@
                                 <div class="col-lg-4">
                                     <fieldset>
                                         <input class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}"
-                                               aria-label="Default select example">
+                                               aria-label="Default select example" placeholder="Search">
                                     </fieldset>
                                 </div>
-                                <div class="col-lg-2 input-group-append">
-                                    <fieldset>
-                                        <button id="button-addon4" class="border-button btn-search" type="button">Search Results</button>
-                                    </fieldset>
+                                <div class="col-lg-2">
+                                    <button class="btn btn-outline-secondary btn-clear" type="button">Clear</button>
                                 </div>
                                 <div class="col-lg-2">
                                     <span>
@@ -143,11 +141,6 @@
                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                             referrerpolicy="strict-origin-when-cross-origin"
                                             allowfullscreen></iframe>
-<!--                                    <iframe width="560" height="315"
-                                            th:src="https://www.youtube.com/embed/" + 'NXD-WJYtkyc?si=7jrZOsKfjX_X6yv4"
-                                            title="YouTube video player" frameborder="0"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>-->
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="right-content">
@@ -249,26 +242,22 @@
         </div>
 
         <script th:inline="javascript">
+
             var msg = [[${msg}]];
+
             console.log(msg);
 
             if(msg){
                 $(".modal").modal();
             }
 
-            var searchForm = $("#searchForm");
-
-            $('.btn-search').click(function(e){
-
-                searchForm.submit();
-
-            });
-
             $('.btn-clear').click(function(e){
-
-                searchForm.empty().submit();
-
+                e.preventDefault(); // 기본 동작 방지
+                $('#search-form').find('input[name="keyword"], select').val(''); // 모든 입력 필드 초기화
+                $('#search-form').submit(); // 폼 제출
             });
+
+            <!-------------------------------- ↓ 유투브 API ---------------------------------------->
 
             // 2. This code loads the IFrame Player API code asynchronously.
             var tag = document.createElement('script');

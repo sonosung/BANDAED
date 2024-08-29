@@ -16,7 +16,7 @@ public class CommentServiceTests {
     //------------------------------------------유저 게시판 댓글 리스트------------------------------------------
     @Test
     public void testGetList() {
-        Long mno = 100L;
+        Long mno = 1L;
 
         List<CommentDTO> commentDTOList = service.getList(mno);
 
@@ -27,7 +27,7 @@ public class CommentServiceTests {
     //------------------------------------------관리자 게시판 댓글 리스트------------------------------------------
     @Test
     public void testGetMaList() {
-        Long mno = 30L;
+        Long mno = 1L;
 
         List<CommentDTO> commentDTOList = service.getMaList(mno);
 

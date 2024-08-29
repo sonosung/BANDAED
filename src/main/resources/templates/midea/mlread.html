@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <th:block th:replace="~{/layout/wooxtravel :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
 
@@ -86,9 +86,8 @@
 
             <div>
                 <div class="mt-4">
-                    <h5>
-                        <span class="badge badge-secondary commentCount" style="background-color:powderblue;"> Comments [[${dto.commentCount}]]</span>
-                    </h5>
+                    <h5><span class="badge badge-secondary commentCount" style="background-color:powderblue;">Comments [[${dto.commentCount}]]</span></h5>
+                    <h5><span class="badge badge-info addComment" style="background-color:powderblue;">Add Comment</span> </h5>
                 </div>
                 <div class="list-group commentList"></div>
             </div>
@@ -112,14 +111,47 @@
             </div>
         </div>
 
+        <!------------------------------------------- ↓ 댓글 입력 모달창 ------------------------------------------------->
+        
+        <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input class="form-control"  type="text" name="commentText" placeholder="Comment Text...">
+                        </div>
+                        <div class="form-group">
+<!--                            <input class="form-control"  type="text" name="commenter" placeholder="Commenter">-->
+                            <input type="text" class="form-control" name="nickname" th:value="${nickname}" readonly>
+                            <input type="hidden" name="cno" >
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger commentRemove">Remove</button>
+                        <button type="button" class="btn btn-warning commentModify">Modify</button>
+                        <button type="button" class="btn btn-primary commentSave">Save</button>
+                        <button type="button" class="btn btn-outline-secondary commentClose" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script th:inline="javascript">
-            $(document).ready(function() {
+        <!----------------------------------------- ↓ 댓글 목록 출력 함수 ----------------------------------------------->
+                $(function(){
 
                 var mno = [[${dto.mno}]];
 
-                var listGroup  = $(".replyList");
+                var listGroup  = $(".commentList");
 
-                $(".replyCount").click(function(){
+                $(".commentCount").click(function(){
 
                     $.getJSON('/comments/mindlist/'+mno, function(arr){
 
@@ -134,9 +166,9 @@
 
                 //날짜 처리를 위한 함수
                 function formatTime(str){
-                    var sate = new Date(str);
+                    var date = new Date(str);
 
-                    return date.getFullYEar() + '/' +
+                    return date.getFullYear() + '/' +
                     (date.getMonth() + 1) + '/' +
                     date.getDate() + ' ' +
                     date.getHours() + ':' +
@@ -145,33 +177,147 @@
 
                 //특정한 게시글의 댓글을 처리하는 함수
                 function loadJSONData() {
-                    $.getJSON('/comments/mindlist'+mno, function(arr){
+                    $.getJSON('/comments/mindlist/'+mno, function(arr){
 
                         console.log(arr);
 
                         var str ="";
 
-                        $('.commentCount').html(" Comment Count " + arr.length);
+                $('.commentCount').html(" Comment Count " + arr.length);
 
-                        $.each(arr, function(idx, comment){ console.log(comment);
-                            str += ' <div class="card-body" data-cno="'+comment.cno+'"><b>'comment.cno +'</b>';
-                            str += ' <h5 class="card-title">'+comment.text+'</h5>';
-                            str += ' <h6 class="card-subtitle mb-2 text-muted">'+comment.commenter+'</h6>';
-                            str += ' <div class="card-body" data-cno="'+comment.cno+'"><b>'comment.cno +'</b>';
-                            str += ' <p class="card-text">'+ formatTime(comment.regdate)+'</p>';
-                            str += ' </div>';
-                            })
+                $.each(arr, function(idx, comment){
+                    console.log(comment);
+                    str += ' <div class="card-body" data-cno="' + comment.cno + '"><b>' + comment.cno + '</b>';
+                    str += ' <h5 class="card-title">' + comment.text + '</h5>';
+                    str += ' <h6 class="card-subtitle mb-2 text-muted">' + comment.commenter + '</h6>';
+                    str += ' <p class="card-text">' + formatTime(comment.regDate) + '</p>';
+                    str += ' </div>';
+                    })
 
-                            listGroup.html(str)
+                    listGroup.html(str);
 
-                        });
-                    }
+                    });
+                }
 
                 $(".commentCount").click(function(){
 
                     loadJSONData();
 
                 })//end click
+
+        <!----------------------------------------- ↓ 댓글 목록 출력 함수 ----------------------------------------------->
+                var modal = $('.modal');
+
+                $(".addComment").click(function () {
+
+                    modal.modal('show');
+
+                    //댓글 입력하는 부분 초기화 시키기
+                    $('input[name="commentText"]').val('');
+                    $('input[name="commenter"]').val('');
+
+
+                    $(".modal-footer .btn").hide(); //모달 내의 모든 버튼을 안 보이도록
+                    $(".commentSave, .commentClose").show(); //필요한 버튼들만 보이도록
+
+                });
+
+                $(".commentSave").click(function() {
+
+                    var comment = {
+                        mno: mno,
+                        text: $('input[name="commentText"]').val(),
+                        commenter: $('input[name="commenter"]').val()
+                    }
+                    console.log(comment);
+                    $.ajax({
+                        url: '/comments/',
+                        method: 'post',
+                        data:  JSON.stringify(comment),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function(data){
+                            console.log(data);
+
+                            var newCno = parseInt(data);
+
+                            alert(newCno +"번 댓글이 등록되었습니다.")
+                            modal.modal('hide');
+                            loadJSONData();
+                        }
+                    })
+                });
+
+        <!----------------------------------------- ↓ 댓글 조회 ----------------------------------------------->
+
+                $('.commentList').on("click", ".card-body", function(){
+
+                    var cno = $(this).data("cno");
+
+                    $("input[name='commentText']").val( $(this).find('.card-title').html());
+                    $("input[name='commenter']").val( $(this).find('.card-subtitle').html());
+                    $("input[name='cno']").val(cno);
+
+                    $(".modal-footer .btn").hide();
+                    $(".commentRemove, .commentModify, .commentClose").show();
+
+                    modal.modal('show');
+
+                });
+
+        <!----------------------------------------- ↓ 댓글 삭제 ----------------------------------------------->
+
+                $(".commentRemove").on("click", function(){
+
+                    var cno = $("input[name='cno']").val(); //모달 창에 보이는 댓글 번호 hidden처리되어 있음
+
+                    $.ajax({
+                        url: '/comments/' + cno,
+                        method: 'delete',
+
+                        success: function(result){
+                            console.log("result: " + result);
+                            if(result ==='success'){
+                                alert("댓글이 삭제되었습니다");
+                                modal.modal('hide');
+                                loadJSONData();
+                            }
+                        }
+                    })
+                });
+
+        <!----------------------------------------- ↓ 댓글 수정 ----------------------------------------------->
+
+                $(".commentModify").click(function() {
+
+                    var cno = $("input[name='cno']").val();
+
+                    var comment = {
+                        cno: cno,
+                        mno: mno,
+                        text: $('input[name="commentText"]').val(),
+                        commenter: $('input[name="commenter"]').val()
+                    }
+
+                    console.log(comment);
+                    $.ajax({
+                        url: '/comments/' + cno,
+                        method: 'put',
+                        data:  JSON.stringify(comment),
+                        contentType: 'application/json; charset=utf-8',
+                        success: function(result){
+
+                            console.log("RESULT: " + result);
+
+                            if(result ==='success'){
+                                alert("댓글이 수정되었습니다");
+                                modal.modal('hide');
+                                loadJSONData();
+                            }
+                        }
+                    });
+                });
+
 
             });
         </script>

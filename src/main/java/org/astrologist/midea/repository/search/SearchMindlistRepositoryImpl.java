@@ -106,6 +106,8 @@ public class SearchMindlistRepositoryImpl extends QuerydslRepositorySupport impl
 
         log.info("COUNT: " + count);
 
+
+
         return new PageImpl<Object[]>(
                 result.stream().map(Tuple::toArray).collect(Collectors.toList()),
                 pageable,
