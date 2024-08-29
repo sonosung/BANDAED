@@ -148,4 +148,9 @@ public class MindlistRepositoryTests {
 
     }
 
+    @Test
+    public void testSearch1(){
+        mindlistRepository.search1();
+    }
+
 }

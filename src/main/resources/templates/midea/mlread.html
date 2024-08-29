@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<
+
 <th:block th:replace="~{/layout/wooxtravel :: setContent(~{this::content} )}">
     <th:block th:fragment="content">
 
@@ -115,9 +115,19 @@
         <script th:inline="javascript">
             $(document).ready(function() {
 
-
-
                 var mno = [[${dto.mno}]];
+
+                var listGroup  = $(".replyList");
+
+                $(".replyCount").click(function(){
+
+                    $.getJSON('/comments/mindlist/'+mno, function(arr){
+
+                        console.log(arr);
+
+                    })//end getJSON
+
+                })//end click
 
                 //댓글이 추가될 영역
                 var listGroup = $(".commentList");

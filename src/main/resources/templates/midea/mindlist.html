@@ -20,7 +20,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <form id="search-form" name="gs" method="submit" role="search" action="#">
+                        <!--<form id="search-form" name="gs" method="submit" role="search" action="#">-->
+                        <form id="search-form" name="gs" method="get" role="search" action="/midea/mindlist">
                             <div class="row">
                                 <div class="col-lg-2">
                                     <h4>Sort Music By:</h4>
@@ -57,9 +58,9 @@
                                                aria-label="Default select example">
                                     </fieldset>
                                 </div>
-                                <div class="col-lg-2">
+                                <div class="col-lg-2 input-group-append">
                                     <fieldset>
-                                        <button type="button" class="border-button btn-search">Search Results</button>
+                                        <button id="button-addon4" class="border-button btn-search" type="button">Search Results</button>
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-2">
@@ -258,11 +259,17 @@
             var searchForm = $("#searchForm");
 
             $('.btn-search').click(function(e){
-                searchForm.submit();
-            });
-        </script>
 
-        <script th:inline="javascript">
+                searchForm.submit();
+
+            });
+
+            $('.btn-clear').click(function(e){
+
+                searchForm.empty().submit();
+
+            });
+
             // 2. This code loads the IFrame Player API code asynchronously.
             var tag = document.createElement('script');
 
