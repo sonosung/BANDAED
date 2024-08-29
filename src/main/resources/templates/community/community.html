@@ -839,6 +839,16 @@
             </div>
         </div>
         <script>
+            // SSE 연결 초기화
+            const eventSource = new EventSource('/midea/community/sse');
+
+            // 페이지를 떠날 때 SSE 연결 종료
+            window.addEventListener('beforeunload', () => {
+                eventSource.close();
+                console.log("SSE 연결이 종료되었습니다.");
+            });
+        </script>
+        <script>
             new Vue({
             el: ".grid",
             data() {
@@ -854,7 +864,8 @@
                     selectedCategory: null,
                     isPosting: false,
                     activeUsers: [], // 활성 사용자 목록
-                    eventSource: null // SSE 이벤트 소스 객체
+                    eventSource: null, // SSE 이벤트 소스 객체
+                    isOnline: false // 현재 사용자의 온라인 상태
                 };
             },
             mounted() {
@@ -916,6 +927,7 @@
                         try {
                             const users = JSON.parse(event.data);
                             this.activeUsers = users; // 활성 사용자 목록 업데이트
+                            this.updateIsOnlineStatus(); // isOnline 상태 업데이트
                             console.log("Active users received:", users);
                         } catch (error) {
                             console.error("Failed to parse active users data:", error);
@@ -1220,7 +1232,12 @@
                             console.error("좋아요 상태 변경 실패:", error.response ? error.response.data : error.message);
                             this.$set(this.isLiked, index, isCurrentlyLiked); // 오류 발생 시 롤백
                         });
-                    }
+                    },
+                     updateIsOnlineStatus() {
+                // 현재 사용자가 activeUsers에 있는지 확인하여 isOnline 상태를 업데이트
+                this.isOnline = this.activeUsers.includes(this.username);
+                console.log(`User ${this.username} is ${this.isOnline ? 'online' : 'offline'}`);
+                }
                 }
             });
         </script>

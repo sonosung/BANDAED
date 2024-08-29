@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Controller
@@ -243,8 +245,14 @@ public class CommunityController {
             try {
                 emitter.send(event);
             } catch (IOException e) {
+                // IOException 발생 시 emitter를 완전하게 종료
                 deadEmitters.add(emitter);
-                logger.warn("클라이언트로 이벤트 전송 중 오류 발생: {}", e.getMessage());
+                emitter.complete(); // Emitter 명시적 종료
+                logger.warn("클라이언트로 이벤트 전송 중 오류 발생: {}, Emitter를 제거합니다.", e.getMessage());
+            } catch (IllegalStateException e) {
+                // Emitter가 이미 종료된 경우
+                deadEmitters.add(emitter);
+                logger.warn("Emitter가 이미 종료되었습니다. 제거합니다.");
             }
         }
         emitters.removeAll(deadEmitters);
@@ -261,8 +269,9 @@ public class CommunityController {
                 emitter.send(event);
                 logger.info("SSE 이벤트 전송 성공: {}", community);
             } catch (IOException e) {
-                // 클라이언트 연결 끊김 처리
+                // IOException이 발생한 경우 emitter를 완전하게 종료
                 deadEmitters.add(emitter);
+                emitter.complete(); // 이 부분을 추가하여 emitter를 명시적으로 종료
                 logger.warn("클라이언트 연결 끊김으로 Emitter 제거: {}", e.getMessage());
             }
         }
@@ -273,17 +282,22 @@ public class CommunityController {
 
     // SSE Emitter 생성 메서드
     public SseEmitter createEmitter(String userId) {
-        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE); // 타임아웃 설정 (무제한)
+        /*SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);*/
+        SseEmitter emitter = new SseEmitter(60 * 1000L); // 타임아웃 설정 (60초)
 
         emitter.onCompletion(() -> {
             // 연결이 정상적으로 종료되었을 때
             emitters.remove(emitter);
+            activeUsers.remove(userId);
+            broadcastActiveUsers(); // 사용자 상태 업데이트
             logger.info("SSE 연결이 정상적으로 종료됨: {}", userId);
         });
 
         emitter.onTimeout(() -> {
             // 연결이 타임아웃 되었을 때
             emitters.remove(emitter);
+            activeUsers.remove(userId);
+            broadcastActiveUsers(); // 사용자 상태 업데이트
             logger.warn("SSE 연결이 타임아웃됨: {}", userId);
             emitter.complete();
         });
@@ -291,11 +305,22 @@ public class CommunityController {
         emitter.onError((ex) -> {
             // 연결 중 오류 발생 시
             emitters.remove(emitter);
+            activeUsers.remove(userId);
+            broadcastActiveUsers(); // 사용자 상태 업데이트
             logger.error("SSE 연결 중 오류 발생: {}", userId, ex);
             emitter.complete();
         });
 
         emitters.add(emitter);
+        // 주기적으로 "ping" 메시지 전송
+        Executors.newScheduledThreadPool(1).scheduleAtFixedRate(() -> {
+            try {
+                emitter.send(SseEmitter.event().name("ping").data("ping"));
+            } catch (IOException e) {
+                emitter.complete();
+            }
+        }, 0, 2, TimeUnit.SECONDS); // 2초마다 "ping" 전송
+
         return emitter;
     }
 }
