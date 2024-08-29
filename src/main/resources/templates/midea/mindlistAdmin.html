@@ -185,7 +185,9 @@
                 </div>
                 <div class="col-lg-6">
                   <div class="right-content">
-                    <h4>[[${dto.composer}]] - [[${dto.title}]]</h4>
+                    <h4>[[${dto.composer}]] - [[${dto.title}]]
+                      <i class="fa fa-heart heart-icon" style="color: red; cursor: pointer;"></i><!--좋아요추가-->
+                    </h4>
                     <div class="main-button">
 
             <!--======================================== ↓ 상세페이지 링크 =============================================-->
@@ -286,63 +288,85 @@
   </div>
 
     <script th:inline="javascript">
-      <!--========================================== ↓ 모달창 ===============================================-->
 
-      var msg = [[${msg}]];
-      console.log(msg);
+      document.addEventListener('DOMContentLoaded', function () {
+      // 좋아요 버튼 클릭 이벤트 설정
+      document.querySelectorAll('.heart-icon').forEach(function (icon) {
+          icon.addEventListener('click', function () {
+              // 로그 추가: 클릭된 아이콘의 상태 출력
+              console.log('좋아요 버튼 클릭됨:', this);
 
-      if(msg){
-          $(".modal").modal();
-      }
+              // 'empty' 클래스를 토글하여 색상 변경
+              this.classList.toggle('empty');
 
-      var searchForm = $("#searchForm");
-
-      $('.btn-search').click(function(e){
-          searchForm.submit();
+              if (this.classList.contains('empty')) {
+                  this.style.color = '#ddd'; // 빈 하트 색상
+                  console.log('빈 하트로 변경됨:', this); // 로그 추가: 빈 하트 상태
+              } else {
+                  this.style.color = 'red'; // 빨간 하트 색상
+                  console.log('빨간 하트로 변경됨:', this); // 로그 추가: 빨간 하트 상태
+              }
+          });
       });
+  });
 
-      <!--========================================== ↓ 유투브 API ===============================================-->
+    <!--========================================== ↓ 모달창 ===============================================-->
 
-      // 2. This code loads the IFrame Player API code asynchronously.
-      var tag = document.createElement('script');
+    var msg = [[${msg}]];
+    console.log(msg);
 
-      tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    if(msg){
+        $(".modal").modal();
+    }
 
-      // 3. This function creates an <iframe> (and YouTube player)
-      //    after the API code downloads.
-      var player;
-      function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-          height: '360',
-          width: '640',
-          videoId: '유투브링크',
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
-        });
-      }
+    var searchForm = $("#searchForm");
 
-      // 4. The API will call this function when the video player is ready.
-      function onPlayerReady(event) {
-        event.target.playVideo();
-      }
+    $('.btn-search').click(function(e){
+        searchForm.submit();
+    });
 
-      // 5. The API calls this function when the player's state changes.
-      //    The function indicates that when playing a video (state=1),
-      //    the player should play for six seconds and then stop.
-      var done = false;
-      function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-          //setTimeout(stopVideo, 6000);
-          done = true;
+    <!--========================================== ↓ 유투브 API ===============================================-->
+
+    // 2. This code loads the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // 3. This function creates an <iframe> (and YouTube player)
+    //    after the API code downloads.
+    var player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '360',
+        width: '640',
+        videoId: '유투브링크',
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
         }
+      });
+    }
+
+    // 4. The API will call this function when the video player is ready.
+    function onPlayerReady(event) {
+      event.target.playVideo();
+    }
+
+    // 5. The API calls this function when the player's state changes.
+    //    The function indicates that when playing a video (state=1),
+    //    the player should play for six seconds and then stop.
+    var done = false;
+    function onPlayerStateChange(event) {
+      if (event.data == YT.PlayerState.PLAYING && !done) {
+        //setTimeout(stopVideo, 6000);
+        done = true;
       }
-      function stopVideo() {
-        player.stopVideo();
-      }
+    }
+    function stopVideo() {
+      player.stopVideo();
+    }
     </script>
 
 </th:block>

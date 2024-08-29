@@ -266,17 +266,19 @@ public class CommunityController {
         List<SseEmitter> deadEmitters = new ArrayList<>();
         for (SseEmitter emitter : emitters) {
             try {
+                // Emitter가 유효한지 확인 후 전송
                 emitter.send(event);
-                logger.info("SSE 이벤트 전송 성공: {}", community);
             } catch (IOException e) {
-                // IOException이 발생한 경우 emitter를 완전하게 종료
+                // IOException 발생 시 emitter를 완전하게 종료
                 deadEmitters.add(emitter);
-                emitter.complete(); // 이 부분을 추가하여 emitter를 명시적으로 종료
-                logger.warn("클라이언트 연결 끊김으로 Emitter 제거: {}", e.getMessage());
+                emitter.complete(); // 명시적으로 종료
+                logger.warn("클라이언트로 이벤트 전송 중 오류 발생: {}, Emitter를 제거합니다.", e.getMessage());
+            } catch (IllegalStateException e) {
+                // Emitter가 이미 종료된 경우
+                deadEmitters.add(emitter);
+                logger.warn("Emitter가 이미 종료되었습니다. 제거합니다.");
             }
         }
-
-        // 끊긴 emitter를 제거
         emitters.removeAll(deadEmitters);
     }
 
