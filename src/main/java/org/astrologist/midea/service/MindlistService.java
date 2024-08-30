@@ -7,6 +7,7 @@ import org.astrologist.midea.entity.Comment;
 import org.astrologist.midea.entity.Mindlist;
 import org.astrologist.midea.entity.User;
 
+
 public interface MindlistService {
 
     Long register(MindlistDTO dto);
@@ -79,4 +80,9 @@ public interface MindlistService {
         return mindlistDTO;
     }
 
+    void toggleLike(Long mno, User user);/*좋아요*/
+
+    boolean checkUserLiked(Long mno, User currentUser); /*특정 사용자가 좋아요 확인*/
+
+    PageResultDTO<MindlistDTO, Object[]> getListWithLikes(PageRequestDTO pageRequestDTO, User currentUser);
 }

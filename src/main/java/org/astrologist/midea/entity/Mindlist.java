@@ -124,4 +124,9 @@ public class Mindlist extends BaseEntity {
         this.viewCount++;
     }
 
+    /*좋아요*/
+    public void updateLikeCount(int count) {
+        this.likeCount = count;
+    }
+
 }

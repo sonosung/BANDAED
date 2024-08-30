@@ -6,9 +6,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.astrologist.midea.dto.*;
+import org.astrologist.midea.entity.MideaLike;
 import org.astrologist.midea.entity.Mindlist;
 import org.astrologist.midea.entity.User;
 import org.astrologist.midea.repository.CommentRepository;
+import org.astrologist.midea.repository.MideaLikeRepository;
 import org.astrologist.midea.repository.MindlistRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -30,6 +32,8 @@ public class MindlistServiceImpl implements MindlistService {
     private final MindlistRepository repository; //반드시 final로 선언.
 
     private final CommentRepository commentRepository;
+
+    private final MideaLikeRepository mideaLikeRepository; /*좋아요 레포지토리*/
 
     //글쓰기
     @Override
@@ -61,6 +65,35 @@ public class MindlistServiceImpl implements MindlistService {
                 pageRequestDTO.getKeyword(),
                 pageRequestDTO.getPageable(Sort.by("mno").descending())  );
 
+
+        return new PageResultDTO<>(result, fn);
+    }
+
+    // 좋아요 상태 포함 리스트 조회 메서드
+    @Override
+    public PageResultDTO<MindlistDTO, Object[]> getListWithLikes(PageRequestDTO pageRequestDTO, User currentUser) {
+        log.info(pageRequestDTO);
+
+        Page<Object[]> result = repository.searchPage(
+                pageRequestDTO.getType(),
+                pageRequestDTO.getKeyword(),
+                pageRequestDTO.getPageable(Sort.by("mno").descending())
+        );
+
+        // 좋아요 상태 추가
+        Function<Object[], MindlistDTO> fn = (en -> {
+            Mindlist mindlist = (Mindlist) en[0];
+            User user = (User) en[1];
+            Long count = (Long) en[2];
+
+            MindlistDTO dto = entityToDTO(mindlist, user, count);
+
+            // 좋아요 상태 설정
+            boolean liked = mideaLikeRepository.existsByUserAndPost2(currentUser, mindlist);
+            dto.setLiked(liked);
+
+            return dto;
+        });
 
         return new PageResultDTO<>(result, fn);
     }
@@ -180,6 +213,47 @@ public class MindlistServiceImpl implements MindlistService {
 
         }
         return null;
+    }
+
+    @Override
+    @Transactional
+    public void toggleLike(Long mno, User user) {
+        log.info("Attempting to toggle like for mno=" + mno + " by user=" + user.getNickname());
+
+        Mindlist post = repository.findById(mno)
+                .orElseThrow(() -> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
+
+        Optional<MideaLike> existingLike = mideaLikeRepository.findByUserAndPost2(user, post);
+
+        if (existingLike.isPresent()) {
+            log.info("Like exists. Deleting like for mno=" + mno + " by user=" + user.getNickname());
+            mideaLikeRepository.delete(existingLike.get());
+        } else {
+            log.info("Like does not exist. Adding like for mno=" + mno + " by user=" + user.getNickname());
+            MideaLike newLike = new MideaLike();
+            newLike.setUser(user);
+            newLike.setPost2(post);
+            mideaLikeRepository.save(newLike);
+        }
+
+        long likeCount = mideaLikeRepository.countByPost2(post);
+        post.updateLikeCount((int) likeCount);
+        repository.save(post);
+
+        log.info("Updated like count for mno=" + mno + " to " + likeCount);
+    }
+
+    @Override
+    public boolean checkUserLiked(Long mno, User currentUser) {
+        log.info("Checking if user=" + currentUser.getNickname() + " liked post mno=" + mno);
+
+        Mindlist post = repository.findById(mno)
+                .orElseThrow(() -> new IllegalArgumentException("게시물을 찾을 수 없습니다."));
+
+        boolean exists = mideaLikeRepository.existsByUserAndPost2(currentUser, post);
+        log.info("User " + currentUser.getNickname() + " liked status for mno=" + mno + ": " + exists);
+
+        return exists;
     }
 
 }

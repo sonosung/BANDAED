@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<head>
+    <style>
+        .heart-icon {
+            cursor: pointer;
+            color: #ddd; /* 기본 색상 */
+        }
+        .heart-icon.liked {
+            color: red; /* 좋아요 상태의 색상 */
+        }
+    </style>
+</head>
 <th:block th:replace="~{/layout/wooxtravel :: setContent(~{this::content} )}">
 
     <th:block th:fragment="content">
@@ -144,7 +154,13 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="right-content">
-                                        <h4>[[${dto.composer}]] - [[${dto.title}]]</h4>
+                                        <h4>[[${dto.composer}]] - [[${dto.title}]]
+                                            <i class="fa fa-heart heart-icon"
+                                               th:data-mno="${dto.mno}"
+                                               th:data-liked="${dto.liked}"
+                                               th:class="${dto.liked} ? 'fa fa-heart heart-icon liked' : 'fa fa-heart heart-icon'">
+                                            </i><!--좋아요-->
+                                        </h4>
                                         <div class="main-button">
                                             <a th:href="@{/midea/mlread(mno = ${dto.mno},
                                               page=${result.page},
@@ -244,8 +260,33 @@
 
             </div>
         </div>
-
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <script th:inline="javascript">
+
+            document.querySelectorAll('.heart-icon').forEach(function (icon) {
+                icon.addEventListener('click', function () {
+                    const mno = this.getAttribute('data-mno');
+                    const liked = this.getAttribute('data-liked') === 'true';
+                    const newLikedState = !liked;
+
+                    console.log(`Click event on heart icon: mno=${mno}, liked=${liked}`);
+
+                    fetch('/midea/mindlist/like', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ mno: parseInt(mno) })
+                    })
+                    .then(response => {
+                        if (!response.ok) throw new Error('Network response was not ok');
+
+                        console.log(`Like status updated successfully for mno=${mno}, newLikedState=${newLikedState}`);
+                        this.classList.toggle('liked', newLikedState);
+                        this.classList.toggle('unliked', !newLikedState);
+                        this.setAttribute('data-liked', newLikedState.toString());
+                    })
+                    .catch(error => console.error('Error updating like status:', error));
+                });
+            });
 
             var msg = [[${msg}]];
 
@@ -304,7 +345,6 @@
               player.stopVideo();
             }
         </script>
-
     </th:block>
 </th:block>
 </html>
