@@ -150,7 +150,7 @@
                                               page=${result.page},
                                               type = ${pageRequestDTO.type},
                                               keyword = ${pageRequestDTO.keyword}
-                                              )}">Exploer More</a>
+                                              )}">Explore More</a>
                                         </div>
                                         <br>
                                         <ul class="info">
@@ -160,7 +160,7 @@
                                             </li>
                                             <li>
                                                 <span>
-                                                    Views
+                                                    Views <b th:text="${dto.viewCount}"></b>
                                                     Comments <b th:text="${dto.commentCount}"></b>
                                                 </span>
                                             </li>

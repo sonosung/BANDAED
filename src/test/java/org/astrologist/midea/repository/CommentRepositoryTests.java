@@ -19,24 +19,24 @@ public class CommentRepositoryTests {
     private CommentRepository commentRepository;
 
     //관리자 게시판의 댓글 테스트-------------------------------------------------------------------------------------------
-    @Test
-    public void insertCommentinMa(){
-
-        IntStream.rangeClosed(1, 300).forEach(i -> {
-            //1부터 100까지의 임의의 번호를 이용.
-            long mno = (long)(Math.random() * 100) + 1;
-
-            MindlistAdmin mindlistAdmin = MindlistAdmin.builder().mno(mno).build();
-
-            Comment comment = Comment.builder()
-                    .text("sounds good to me.." + i)
-                    .mindlistAdmin(mindlistAdmin)
-                    .commenter("commenter" + i) //comment 테이블의 칼럼명.
-                    .build();
-
-            commentRepository.save(comment);
-        });
-    }
+//    @Test
+//    public void insertCommentinMa(){
+//
+//        IntStream.rangeClosed(1, 300).forEach(i -> {
+//            //1부터 100까지의 임의의 번호를 이용.
+//            long mno = (long)(Math.random() * 100) + 1;
+//
+//            MindlistAdmin mindlistAdmin = MindlistAdmin.builder().mno(mno).build();
+//
+//            Comment comment = Comment.builder()
+//                    .text("sounds good to me.." + i)
+//                    .mindlistAdmin(mindlistAdmin)
+//                    .commenter("commenter" + i) //comment 테이블의 칼럼명.
+//                    .build();
+//
+//            commentRepository.save(comment);
+//        });
+//    }
 
     @Transactional
     @Test
@@ -59,24 +59,26 @@ public class CommentRepositoryTests {
     }
 
     //유저 게시판의 댓글 테스트-------------------------------------------------------------------------------------------
-    @Test
-    public void insertComment(){
+//    @Test
+//    public void insertComment(){
+//
+//        IntStream.rangeClosed(1, 300).forEach(i -> {
+//            //1부터 100까지의 임의의 번호를 이용.
+//            long mno = (long)(Math.random() * 100) + 1;
+//
+//            Mindlist mindlist = Mindlist.builder().mno(mno).build();
 
-        IntStream.rangeClosed(1, 300).forEach(i -> {
-            //1부터 100까지의 임의의 번호를 이용.
-            long mno = (long)(Math.random() * 100) + 1;
 
-            Mindlist mindlist = Mindlist.builder().mno(mno).build();
-
-            Comment comment = Comment.builder()
-                    .text("sounds good to me.." + i)
-                    .mindlist(mindlist)
-                    .commenter("commenter" + i) //comment 테이블의 칼럼명.
-                    .build();
-
-            commentRepository.save(comment);
-        });
-    }
+//
+//            Comment comment = Comment.builder()
+//                    .text("sounds good to me.." + i)
+//                    .mindlist(mindlist)
+//                    .commenter("commenter" + i) //comment 테이블의 칼럼명.
+//                    .build();
+//
+//            commentRepository.save(comment);
+//        });
+//    }
 
     @Transactional
     @Test
@@ -99,24 +101,24 @@ public class CommentRepositoryTests {
     }
 
 
-    @Test
-    public void insertMultiComment(){
-
-        IntStream.rangeClosed(1, 300).forEach(i -> {
-            //1부터 100까지의 임의의 번호를 이용.
-            long mno = (long)(Math.random() * 100) + 1;
-
-            Mindlist mindlist = Mindlist.builder().mno(mno).build();
-            MindlistAdmin mindlistAdmin = MindlistAdmin.builder().mno(mno).build();
-
-            Comment comment = Comment.builder()
-                    .text("sounds good to me.." + i)
-                    .mindlist(mindlist)
-                    .mindlistAdmin(mindlistAdmin)
-                    .commenter("commenter" + i) //comment 테이블의 칼럼명.
-                    .build();
-
-            commentRepository.save(comment);
-        });
-    }
+//    @Test
+//    public void insertMultiComment(){
+//
+//        IntStream.rangeClosed(1, 300).forEach(i -> {
+//            //1부터 100까지의 임의의 번호를 이용.
+//            long mno = (long)(Math.random() * 100) + 1;
+//
+//            Mindlist mindlist = Mindlist.builder().mno(mno).build();
+//            MindlistAdmin mindlistAdmin = MindlistAdmin.builder().mno(mno).build();
+//
+//            Comment comment = Comment.builder()
+//                    .text("sounds good to me.." + i)
+//                    .mindlist(mindlist)
+//                    .mindlistAdmin(mindlistAdmin)
+//                    .commenter("commenter" + i) //comment 테이블의 칼럼명.
+//                    .build();
+//
+//            commentRepository.save(comment);
+//        });
+//    }
 }

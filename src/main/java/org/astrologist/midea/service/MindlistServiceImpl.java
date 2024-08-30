@@ -15,7 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
@@ -52,8 +52,8 @@ public class MindlistServiceImpl implements MindlistService {
 
         log.info(pageRequestDTO);
 
-//        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2],(Long)en[3]));
-        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2]));
+        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2],(Long)en[3]));
+//        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2]));
 //        Page<Object[]> result = repository.getBoardWithReplyCount(
 //                pageRequestDTO.getPageable(Sort.by("bno").descending())  );
         Page<Object[]> result = repository.searchPage(
@@ -65,8 +65,73 @@ public class MindlistServiceImpl implements MindlistService {
         return new PageResultDTO<>(result, fn);
     }
 
+//    @Override
+//    public void viewCountValidation(Mindlist mindlist, HttpServletRequest request, HttpServletResponse response){
+//        Cookie[] cookies = request.getCookies();
+//        Cookie cookie = null;
+//        boolean isCookie = false;
+//
+//        // request에 쿠키들이 있을 때
+//        for (int i = 0; cookies != null && i < cookies.length; i++) {
+//            // postView 쿠키가 있을 때
+//            if (cookies[i].getName().equals("postView")) {
+//                // cookie 변수에 저장
+//                cookie = cookies[i];
+//                // 만약 cookie 값에 현재 게시글 번호가 없을 때
+//                if (!cookie.getValue().contains("[" + mindlist.getMno() + "]")) {
+//                    // 해당 게시글 조회수를 증가시키고, 쿠키 값에 해당 게시글 번호를 추가
+//                    mindlist.addViewCount();
+//                    cookie.setValue(cookie.getValue() + "[" + mindlist.getMno() + "]");
+//                }
+//                isCookie = true;
+//                break;
+//            }
+//        }
+//
+//        // 만약 postView라는 쿠키가 없으면 처음 접속한 것이므로 새로 생성
+//        if (!isCookie) {
+//            mindlist.addViewCount();
+//            cookie = new Cookie("viewCount", "[" + mindlist.getMno() + "]"); // oldCookie에 새 쿠키 생성
+//        }
+//
+//        log.info("cookie: " + cookie);
+//
+//        // 쿠키 유지시간을 오늘 하루 자정까지로 설정
+//        long todayEndSecond = LocalDate.now().atTime(LocalTime.MAX).toEpochSecond(ZoneOffset.UTC);
+//        long currentSecond = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
+//        cookie.setPath("/"); // 모든 경로에서 접근 가능
+//        cookie.setMaxAge((int) (todayEndSecond - currentSecond));
+//        response.addCookie(cookie);
+//
+//    }
+
+    //알고리즘 리스트 조회
     @Override
-    public void viewCountValidation(Mindlist mindlist, HttpServletRequest request, HttpServletResponse response){
+    public AlgorithmResultDTO<MindlistDTO, Object[]> getAlgorithmList(AlgorithmRequestDTO algorithmRequestDTO) {
+
+        log.info(algorithmRequestDTO);
+
+        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2],(Long)en[3]));
+//        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2]));
+//        Page<Object[]> result = repository.getBoardWithReplyCount(
+//                pageRequestDTO.getPageable(Sort.by("bno").descending())  );
+        Page<Object[]> algorithm = repository.searchPage(
+                algorithmRequestDTO.getType(),
+                algorithmRequestDTO.getKeyword(),
+                algorithmRequestDTO.getPageable(Sort.by("mno").descending())  );
+
+
+        return new AlgorithmResultDTO<>(algorithm, fn);
+    }
+
+    //상세페이지 조회
+    @Override
+    public MindlistDTO read(Long mno, Mindlist mindlist, HttpServletRequest request, HttpServletResponse response) {
+
+        Object result = repository.getMindlistByMno(mno);
+
+        Object[] arr = (Object[])result;
+
         Cookie[] cookies = request.getCookies();
         Cookie cookie = null;
         boolean isCookie = false;
@@ -94,6 +159,8 @@ public class MindlistServiceImpl implements MindlistService {
             cookie = new Cookie("viewCount", "[" + mindlist.getMno() + "]"); // oldCookie에 새 쿠키 생성
         }
 
+        log.info("cookie: " + cookie);
+
         // 쿠키 유지시간을 오늘 하루 자정까지로 설정
         long todayEndSecond = LocalDate.now().atTime(LocalTime.MAX).toEpochSecond(ZoneOffset.UTC);
         long currentSecond = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
@@ -101,36 +168,7 @@ public class MindlistServiceImpl implements MindlistService {
         cookie.setMaxAge((int) (todayEndSecond - currentSecond));
         response.addCookie(cookie);
 
-    }
-
-    //알고리즘 리스트 조회
-    @Override
-    public AlgorithmResultDTO<MindlistDTO, Object[]> getAlgorithmList(AlgorithmRequestDTO algorithmRequestDTO) {
-
-        log.info(algorithmRequestDTO);
-
-//        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2],(Long)en[3]));
-        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2]));
-//        Page<Object[]> result = repository.getBoardWithReplyCount(
-//                pageRequestDTO.getPageable(Sort.by("bno").descending())  );
-        Page<Object[]> algorithm = repository.searchPage(
-                algorithmRequestDTO.getType(),
-                algorithmRequestDTO.getKeyword(),
-                algorithmRequestDTO.getPageable(Sort.by("mno").descending())  );
-
-
-        return new AlgorithmResultDTO<>(algorithm, fn);
-    }
-
-    //상세페이지 조회
-    @Override
-    public MindlistDTO read(Long mno) {
-
-        Object result = repository.getMindlistByMno(mno);
-
-        Object[] arr = (Object[])result;
-
-        return entityToDTO((Mindlist)arr[0], (User)arr[1], (Long)arr[2]);
+        return entityToDTO((Mindlist)arr[0], (User)arr[1], (Long)arr[2], (Long)arr[3]);
     }
 
     //삭제

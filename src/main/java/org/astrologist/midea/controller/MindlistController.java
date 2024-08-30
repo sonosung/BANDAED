@@ -104,11 +104,11 @@ public class MindlistController {
     }
 
     @GetMapping({"/mlread", "/mlmodify"}) //수정과 삭제 모두 read()가 필요하므로, 한번에 맵핑
-    public void read(@ModelAttribute("requestDTO") PageRequestDTO requestDTO, Long mno, Model model, HttpServletRequest request, HttpServletResponse response) {
+    public void read(@ModelAttribute("requestDTO") PageRequestDTO requestDTO,Long mno, Model model, Mindlist mindlist, HttpServletRequest request, HttpServletResponse response) {
 
         log.info("mno: " + mno);
 
-        MindlistDTO mindlistDTO = mindlistService.read(mno);
+        MindlistDTO mindlistDTO = mindlistService.read(mno, mindlist, request, response);
 
         log.info(mindlistDTO);
 

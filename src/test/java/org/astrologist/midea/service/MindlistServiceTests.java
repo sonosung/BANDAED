@@ -1,17 +1,31 @@
 package org.astrologist.midea.service;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.astrologist.midea.dto.MindlistDTO;
 import org.astrologist.midea.dto.PageRequestDTO;
 import org.astrologist.midea.dto.PageResultDTO;
+import org.astrologist.midea.entity.Mindlist;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.astrologist.midea.entity.QMindlist.mindlist;
 
 @SpringBootTest
 public class MindlistServiceTests {
 
     @Autowired
     private MindlistService mindlistService;
+
+    @Autowired
+    private Mindlist mindlist;
+
+    @Autowired
+    private HttpServletResponse response;
+
+    @Autowired
+    private HttpServletRequest request;
 
     @Test
     public void testRegister() {
@@ -60,7 +74,7 @@ public class MindlistServiceTests {
 
         Long mno = 10L;
 
-        MindlistDTO mindlistDTO = mindlistService.read(mno);
+        MindlistDTO mindlistDTO = mindlistService.read(mno, mindlist, request, response);
 
         System.out.println(mindlistDTO);
     }

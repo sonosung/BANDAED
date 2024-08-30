@@ -18,7 +18,10 @@ public class Comment extends BaseEntity{
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User commenter;
+    private User writer;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+    private String commenter;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Mindlist mindlist;

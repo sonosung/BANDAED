@@ -15,4 +15,5 @@ public class ViewDTO {
     private Long uId;
     private Long aMno;
     private Long uMno;
+    private Long viewCount;
 }

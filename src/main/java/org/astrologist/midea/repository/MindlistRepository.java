@@ -33,5 +33,10 @@ public interface MindlistRepository extends JpaRepository<Mindlist, Long>, Searc
             " LEFT OUTER JOIN Comment c ON c.mindlist = m" +
             " WHERE m.mno = :mno")
     Object getMindlistByMno(@Param("mno") Long mno);
-    
+
+    @Query("SELECT m, u, count(v) " +
+            " FROM Mindlist m LEFT JOIN m.userIdx u " +
+            " LEFT OUTER JOIN View v ON v.mindlist = m" +
+            " WHERE m.mno = :mno")
+    Object getViewCountByMno(@Param("mno") Long mno);
 }

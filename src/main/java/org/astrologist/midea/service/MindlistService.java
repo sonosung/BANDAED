@@ -15,13 +15,16 @@ public interface MindlistService {
 
     AlgorithmResultDTO<MindlistDTO, Object[]> getAlgorithmList(AlgorithmRequestDTO algorithmRequestDTO);
 
-    MindlistDTO read(Long mno);
+//    MindlistDTO read(Long mno);
+
+    //조회수 같이 구현
+    MindlistDTO read(Long mno, Mindlist mindlist, HttpServletRequest request, HttpServletResponse response);
 
     void removeWithComments(Long mno);
 
     void modify(MindlistDTO mindlistDTO);
 
-    void viewCountValidation(Mindlist mindlist, HttpServletRequest request, HttpServletResponse response);
+//    void viewCountValidation(Mindlist mindlist, HttpServletRequest request, HttpServletResponse response);
 
     default Mindlist dtoToEntity(MindlistDTO dto) {
 
@@ -46,21 +49,19 @@ public interface MindlistService {
                 .stressed(dto.isStressed())
                 .likeCount(dto.getLikeCount())
                 .commentCount(dto.getCommentCount())
-//                .viewCount(dto.getViewCount())
+                .viewCount(dto.getViewCount())
                 .build();
 
         return mindlist;
     }
 
-    default MindlistDTO entityToDTO(Mindlist mindlist, User user, Long commentCount){
+    default MindlistDTO entityToDTO(Mindlist mindlist, User user, Long commentCount, Long viewCount){
 
         MindlistDTO mindlistDTO = MindlistDTO.builder()
                 .mno(mindlist.getMno())
                 .composer(mindlist.getComposer())
                 .title(mindlist.getTitle())
                 .url(mindlist.getUrl())
-//                .email(user.getNickname())
-//                .nickname(user.getNickname())
                 .nickname(mindlist.getNickname())
                 .calm(mindlist.isCalm())
                 .happy(mindlist.isHappy())
@@ -70,7 +71,7 @@ public interface MindlistService {
                 .stressed(mindlist.isStressed())
                 .likeCount(mindlist.getLikeCount())
                 .commentCount(commentCount.intValue())
-//                .viewCount(viewCount.intValue())
+                .viewCount(viewCount.intValue())
                 .content(mindlist.getContent())
                 .regDate(mindlist.getRegDate())
                 .modDate(mindlist.getModDate())

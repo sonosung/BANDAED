@@ -118,6 +118,15 @@ public class MindlistRepositoryTests {
     }
 
     @Test
+    public void getViewCountByMno() {
+        Object result = mindlistRepository.getViewCountByMno(20L);
+
+        Object[] arr = (Object[])result;
+
+        System.out.println(Arrays.toString(arr));
+    }
+
+    @Test
     public void updateTest() {
 
         Optional<Mindlist> result = mindlistRepository.findById(2L);
