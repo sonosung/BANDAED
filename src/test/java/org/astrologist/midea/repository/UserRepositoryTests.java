@@ -64,4 +64,8 @@ public class UserRepositoryTests {
         });
     }
 
+    @Test
+    public void searchMySoulmate() {
+
+    }
 }

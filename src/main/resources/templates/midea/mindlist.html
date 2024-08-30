@@ -152,7 +152,7 @@
                                               keyword = ${pageRequestDTO.keyword}
                                               )}">Exploer More</a>
                                         </div>
-                                        <p>[[${dto.content}]]</p>
+                                        <br>
                                         <ul class="info">
                                             <li>
                                                 <i class="fa fa-user"></i>
@@ -168,10 +168,14 @@
                                                 <span>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</span>
                                             </li>
                                         </ul>
+                                        <div class="card-subtitle" style="height: 180px;">
+                                            <p>[[${dto.content}]]</p>
+                                        </div>
                                         <div class="text-button">
-                                            <a href="">Listen On Spotify?
+                                            <a th:href="@{https://open.spotify.com/search/} + ${dto.composer} + '%20' + ${dto.title}" target="_blank">Wanna Listen On Spotify?
+                                                <i class="fa fa-arrow-right"></i>
                                                 <i class="fa-brands fa-spotify"></i>
-                                                <i class="fa fa-arrow-right"></i></a>
+                                                </a>
                                         </div>
                                     </div>
                                 </div>

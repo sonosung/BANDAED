@@ -1,9 +1,13 @@
 package org.astrologist.midea.controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.astrologist.midea.dto.*;
+import org.astrologist.midea.entity.Mindlist;
 import org.astrologist.midea.entity.User;
 import org.astrologist.midea.service.MindlistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.awt.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static org.astrologist.midea.entity.QMindlist.mindlist;
 
 
 @Controller
@@ -98,7 +104,7 @@ public class MindlistController {
     }
 
     @GetMapping({"/mlread", "/mlmodify"}) //수정과 삭제 모두 read()가 필요하므로, 한번에 맵핑
-    public void read(@ModelAttribute("requestDTO") PageRequestDTO requestDTO, Long mno, Model model, AlgorithmRequestDTO algorithmRequestDTO) {
+    public void read(@ModelAttribute("requestDTO") PageRequestDTO requestDTO, Long mno, Model model, HttpServletRequest request, HttpServletResponse response) {
 
         log.info("mno: " + mno);
 

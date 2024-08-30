@@ -120,4 +120,8 @@ public class Mindlist extends BaseEntity {
         this.energetic = energetic;
     }
 
+    public void addViewCount() {
+        this.viewCount++;
+    }
+
 }

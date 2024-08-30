@@ -1,5 +1,7 @@
 package org.astrologist.midea.service;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.astrologist.midea.dto.*;
 import org.astrologist.midea.entity.Comment;
 import org.astrologist.midea.entity.Mindlist;
@@ -18,6 +20,8 @@ public interface MindlistService {
     void removeWithComments(Long mno);
 
     void modify(MindlistDTO mindlistDTO);
+
+    void viewCountValidation(Mindlist mindlist, HttpServletRequest request, HttpServletResponse response);
 
     default Mindlist dtoToEntity(MindlistDTO dto) {
 

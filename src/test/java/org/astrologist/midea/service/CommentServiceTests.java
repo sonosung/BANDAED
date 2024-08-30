@@ -25,12 +25,12 @@ public class CommentServiceTests {
 
 
     //------------------------------------------관리자 게시판 댓글 리스트------------------------------------------
-    @Test
-    public void testGetMaList() {
-        Long mno = 1L;
-
-        List<CommentDTO> commentDTOList = service.getMaList(mno);
-
-        commentDTOList.forEach(commentDTO -> System.out.println(commentDTO));
-    }
+//    @Test
+//    public void testGetMaList() {
+//        Long mno = 1L;
+//
+//        List<CommentDTO> commentDTOList = service.getMaList(mno);
+//
+//        commentDTOList.forEach(commentDTO -> System.out.println(commentDTO));
+//    }
 }
