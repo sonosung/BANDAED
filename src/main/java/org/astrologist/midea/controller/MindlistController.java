@@ -18,13 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.astrologist.midea.dto.MindlistDTO;
 
-import java.awt.*;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.List;
-
-import static org.astrologist.midea.entity.QMindlist.mindlist;
-
 
 @Controller
 @RequestMapping("/midea")

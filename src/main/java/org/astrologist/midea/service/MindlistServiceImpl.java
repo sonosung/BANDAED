@@ -12,6 +12,7 @@ import org.astrologist.midea.entity.User;
 import org.astrologist.midea.repository.CommentRepository;
 import org.astrologist.midea.repository.MideaLikeRepository;
 import org.astrologist.midea.repository.MindlistRepository;
+import org.astrologist.midea.repository.ViewRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,8 @@ public class MindlistServiceImpl implements MindlistService {
 
     private final MideaLikeRepository mideaLikeRepository; /*좋아요 레포지토리*/
 
+    private final ViewRepository viewRepository;
+
     //글쓰기
     @Override
     public Long register(MindlistDTO dto) {
@@ -56,8 +59,8 @@ public class MindlistServiceImpl implements MindlistService {
 
         log.info(pageRequestDTO);
 
-        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2],(Long)en[3]));
-//        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2]));
+//        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2], (Long) en[3]));
+        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2]));
 //        Page<Object[]> result = repository.getBoardWithReplyCount(
 //                pageRequestDTO.getPageable(Sort.by("bno").descending())  );
         Page<Object[]> result = repository.searchPage(
@@ -144,8 +147,8 @@ public class MindlistServiceImpl implements MindlistService {
 
         log.info(algorithmRequestDTO);
 
-        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2],(Long)en[3]));
-//        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2]));
+//        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2],(Long)en[3]));
+        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2]));
 //        Page<Object[]> result = repository.getBoardWithReplyCount(
 //                pageRequestDTO.getPageable(Sort.by("bno").descending())  );
         Page<Object[]> algorithm = repository.searchPage(
@@ -201,7 +204,8 @@ public class MindlistServiceImpl implements MindlistService {
         cookie.setMaxAge((int) (todayEndSecond - currentSecond));
         response.addCookie(cookie);
 
-        return entityToDTO((Mindlist)arr[0], (User)arr[1], (Long)arr[2], (Long)arr[3]);
+//        return entityToDTO((Mindlist)arr[0], (User)arr[1], (Long)arr[2], (Long)arr[3]);
+        return entityToDTO((Mindlist)arr[0], (User)arr[1], (Long)arr[2]);
     }
 
     //삭제

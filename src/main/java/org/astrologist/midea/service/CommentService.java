@@ -36,7 +36,7 @@ public interface CommentService {
         Comment comment = Comment.builder()
                 .cno(commentDTO.getCno())
                 .text(commentDTO.getText())
-                .commenter(user)
+                .commenter(commentDTO.getCommenter())
 //                .commenter(commentDTO.getCommenter())
                 .mindlist(mindlist)
                 .build();
