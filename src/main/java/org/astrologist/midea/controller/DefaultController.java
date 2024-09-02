@@ -47,51 +47,81 @@ public class DefaultController {
         return "redirect:/midea/index";
     }
 
-    @GetMapping({"/portfolio"})
-    public void midea(){
+//    @GetMapping({"/portfolio"})
+//    public void midea(){
+//
+//        log.info("portfolio......................");
+//    }
 
-        log.info("portfolio......................");
-    }
+//    @GetMapping({"/index", "/contact"})
+//    public void mindlist(Model model, User user, Long userId, UserDTO userDTO) {
+//
+//        // 세션에서 현재 로그인한 사용자 정보를 가져옵니다.
+//        User loggedInUser = (User) session.getAttribute("user");
+//
+//
+//        if (loggedInUser != null) {
+//            String nickname = loggedInUser.getNickname();
+//
+//            model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
+//
+//            log.info("Logged in user's nickname: " + nickname);
+//
+//        } else {
+//            String nickname = "GUEST";
+//            model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
+//        }
+//
+//        model.addAttribute("userRole", user.getUserRole().name());
+//        model.addAttribute("userId", user.getId());
+//
+////        String profileImagePath = user.getProfileImagePath();
+////
+////        if (profileImagePath == null || profileImagePath.isEmpty()) {
+////            profileImagePath = "/default.images/default-profile.jpg";
+////            model.addAttribute("profileImage", profileImagePath);
+////        }
+////        else {
+////            model.addAttribute("profileImage", profileImagePath);
+////        }
+//
+//        String profileImagePath = user.getProfileImagePath();
+//        if (profileImagePath == null || profileImagePath.isEmpty()) {
+//            profileImagePath = "/default.images/default-profile.jpg";
+//        }
+//        model.addAttribute("profileImage", profileImagePath);
+//
+//        log.info("Welcome to Midea.. ");
+//    }
 
-    @GetMapping({"/index", "/contact", "/about"})
-    public void mindlist(Model model, User user, Long userId, UserDTO userDTO) {
-
+    @GetMapping({"/index", "/contact", "/portfolio"})
+    public void mindlist(Model model, HttpSession session) {
         // 세션에서 현재 로그인한 사용자 정보를 가져옵니다.
         User loggedInUser = (User) session.getAttribute("user");
 
-
         if (loggedInUser != null) {
             String nickname = loggedInUser.getNickname();
+            String profileImagePath = loggedInUser.getProfileImagePath();
+
+            if (profileImagePath == null || profileImagePath.isEmpty()) {
+                profileImagePath = "/default.images/default-profile.jpg";
+            }
 
             model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
+            model.addAttribute("profileImage", profileImagePath); // 프로필 이미지 경로 추가
+            model.addAttribute("userRole", loggedInUser.getUserRole().name());
+            model.addAttribute("userId", loggedInUser.getId());
 
             log.info("Logged in user's nickname: " + nickname);
-
         } else {
             String nickname = "GUEST";
             model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
+            model.addAttribute("profileImage", "/default.images/default-profile.jpg"); // 기본 이미지 추가
+            log.info("Guest user logged in.");
         }
-
-        model.addAttribute("userRole", user.getUserRole().name());
-        model.addAttribute("userId", user.getId());
-
-//        String profileImagePath = user.getProfileImagePath();
-//
-//        if (profileImagePath == null || profileImagePath.isEmpty()) {
-//            profileImagePath = "/default.images/default-profile.jpg";
-//            model.addAttribute("profileImage", profileImagePath);
-//        }
-//        else {
-//            model.addAttribute("profileImage", profileImagePath);
-//        }
-
-        String profileImagePath = user.getProfileImagePath();
-        if (profileImagePath == null || profileImagePath.isEmpty()) {
-            profileImagePath = "/default.images/default-profile.jpg";
-        }
-        model.addAttribute("profileImage", profileImagePath);
 
         log.info("Welcome to Midea.. ");
     }
+
 
 }
