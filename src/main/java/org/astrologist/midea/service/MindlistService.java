@@ -1,9 +1,6 @@
 package org.astrologist.midea.service;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.astrologist.midea.dto.*;
-import org.astrologist.midea.entity.Comment;
 import org.astrologist.midea.entity.Mindlist;
 import org.astrologist.midea.entity.User;
 
@@ -16,16 +13,12 @@ public interface MindlistService {
 
     AlgorithmResultDTO<MindlistDTO, Object[]> getAlgorithmList(AlgorithmRequestDTO algorithmRequestDTO);
 
-//    MindlistDTO read(Long mno);
-
     //조회수 같이 구현
     MindlistDTO read(Long mno);
 
     void removeWithComments(Long mno);
 
     void modify(MindlistDTO mindlistDTO);
-
-    void viewCountValidation(Mindlist mindlist, HttpServletRequest request, HttpServletResponse response);
 
     default Mindlist dtoToEntity(MindlistDTO dto) {
 

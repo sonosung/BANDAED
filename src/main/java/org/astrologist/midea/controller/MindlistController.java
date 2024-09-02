@@ -10,7 +10,9 @@ import lombok.extern.log4j.Log4j2;
 import org.astrologist.midea.dto.*;
 import org.astrologist.midea.entity.Mindlist;
 import org.astrologist.midea.entity.User;
+import org.astrologist.midea.repository.MindlistRepository;
 import org.astrologist.midea.service.MindlistService;
+import org.hibernate.boot.MappingNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,8 @@ import org.astrologist.midea.dto.MindlistDTO;
 
 import java.util.Map;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/midea")
@@ -29,6 +33,7 @@ import java.util.List;
 public class MindlistController {
 
     private final MindlistService mindlistService; //MindlistService 인터페이스를 final로 구현.
+    private final MindlistRepository repository;
 
     @Autowired
     private HttpSession session; // 현재 사용자의 세션을 주입받습니다.
@@ -102,8 +107,8 @@ public class MindlistController {
         return "redirect:/midea/mindlist";
     }
 
-    @GetMapping({"/mlread", "/mlmodify"}) //수정과 삭제 모두 read()가 필요하므로, 한번에 맵핑
-    public void read(@ModelAttribute("requestDTO") PageRequestDTO requestDTO, Long mno, Model model) {
+    @GetMapping("/mlread") //수정과 삭제 모두 read()가 필요하므로, 한번에 맵핑
+    public String read(@ModelAttribute("requestDTO") PageRequestDTO requestDTO, Long mno, Model model) {
 
         log.info("mno: " + mno);
 
@@ -111,15 +116,43 @@ public class MindlistController {
 
         log.info(mindlistDTO);
 
+        // 현재 로그인한 사용자 정보 가져와서, 로그인 하지 않았으면 로그인 페이지로 이동시킴.
+        User loggedInUser = (User) session.getAttribute("user");
+
+        if (loggedInUser == null) {
+            model.addAttribute("nickname", "GUEST");  // 모델에 닉네임 추가
+        } else {
+            String nickname = loggedInUser.getNickname();
+            model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
+            log.info("Logged in user's nickname: " + nickname);
+            log.info("user role : " + loggedInUser.getUserRole());
+        }
+
         model.addAttribute("dto", mindlistDTO);
+
+        return "midea/mlread";
     }
 
-//    @GetMapping("/mlread/{mno}")
-//    public String viewCountValidation(@PathVariable("mno") Long mno, HttpServletRequest request, HttpServletResponse response){
-//
-//    }
+    @GetMapping("/mlmodify")
+    public String read(@ModelAttribute("requestDTO") PageRequestDTO requestDTO, Long mno, Model model, MindlistDTO dto) {
 
+        MindlistDTO mindlistDTO = mindlistService.read(mno);
 
+        // 현재 로그인한 사용자 정보 가져와서, 로그인 하지 않았으면 로그인 페이지로 이동시킴.
+        User loggedInUser = (User) session.getAttribute("user");
+
+        String user = dto.getNickname();
+
+        if (loggedInUser != null) {
+            String nickname = loggedInUser.getNickname();
+            if (Objects.equals(nickname, user)){
+                model.addAttribute("dto", mindlistDTO);
+            }
+            return "midea/mlmodify";
+        } else {
+            return "midea/mlread";
+        }
+    }
 
     @PostMapping("/mlremove")
     public String remove(long mno, RedirectAttributes redirectAttributes){

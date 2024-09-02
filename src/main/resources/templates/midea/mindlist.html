@@ -105,7 +105,7 @@
                                                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                                                         referrerpolicy="strict-origin-when-cross-origin"
                                                                         allowfullscreen></iframe>
-                                                                <h4>[[${dto.title}]]</h4>
+                                                                <h4>[[${dto.composer}]]</h4>
                                                             </div>
                                                         </div>
                                                     </a>
@@ -133,6 +133,7 @@
                     <div class="col-lg-12">
                         <div class="item">
                             <div class="row">
+                                <!--================================ ↓ Youtube iframe ==================================-->
                                 <div class="col-lg-6">
                                     <iframe style="border-radius: 23px" width="640" height="360"
                                             th:src="@{https://www.youtube.com/embed/} + ${dto.url} + @{?si=9-XpOM_tjsPNFt0L}"
@@ -141,6 +142,7 @@
                                             referrerpolicy="strict-origin-when-cross-origin"
                                             allowfullscreen></iframe>
                                 </div>
+                                <!--========================= ↓ 작곡가 + 음악 제목 + 좋아요 버튼 ==========================-->
                                 <div class="col-lg-6">
                                     <div class="right-content">
                                         <h4>[[${dto.composer}]] - [[${dto.title}]]
@@ -150,13 +152,6 @@
                                                th:class="${dto.liked} ? 'fa fa-heart heart-icon liked' : 'fa fa-heart heart-icon'">
                                             </i><!--좋아요-->
                                         </h4>
-                                        <div class="main-button">
-                                            <a th:href="@{/midea/mlread(mno = ${dto.mno},
-                                              page=${result.page},
-                                              type = ${pageRequestDTO.type},
-                                              keyword = ${pageRequestDTO.keyword}
-                                              )}">Explore More</a>
-                                        </div>
                                         <br>
                                         <ul class="info">
                                             <li>
@@ -173,14 +168,26 @@
                                                 <span>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</span>
                                             </li>
                                         </ul>
+                                        <!--========================= ↓ 내용 ==========================-->
                                         <div class="card-subtitle" style="height: 180px;">
                                             <p>[[${dto.content}]]</p>
                                         </div>
+
                                         <div class="text-button">
+                                            <!--============================== ↓ 스포티파이 이동 링크 =======================================-->
                                             <a th:href="@{https://open.spotify.com/search/} + ${dto.composer} + '%20' + ${dto.title}" target="_blank">Wanna Listen On Spotify?
                                                 <i class="fa fa-arrow-right"></i>
                                                 <i class="fa-brands fa-spotify"></i>
-                                                </a>
+                                            </a>
+
+                                            <!--=================================== ↓ 상세페이지 링크 ========================================-->
+                                            <div class="main-button">
+                                                <a th:href="@{/midea/mlread(mno = ${dto.mno},
+                                              page=${result.page},
+                                              type = ${pageRequestDTO.type},
+                                              keyword = ${pageRequestDTO.keyword}
+                                              )}">Explore More</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
