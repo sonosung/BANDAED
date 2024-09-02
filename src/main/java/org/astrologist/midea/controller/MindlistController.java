@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.extern.log4j.Log4j2;
 import org.astrologist.midea.dto.*;
 import org.astrologist.midea.entity.Mindlist;
@@ -102,16 +103,23 @@ public class MindlistController {
     }
 
     @GetMapping({"/mlread", "/mlmodify"}) //수정과 삭제 모두 read()가 필요하므로, 한번에 맵핑
-    public void read(@ModelAttribute("requestDTO") PageRequestDTO requestDTO,Long mno, Model model, Mindlist mindlist, HttpServletRequest request, HttpServletResponse response) {
+    public void read(@ModelAttribute("requestDTO") PageRequestDTO requestDTO, Long mno, Model model) {
 
         log.info("mno: " + mno);
 
-        MindlistDTO mindlistDTO = mindlistService.read(mno, mindlist, request, response);
+        MindlistDTO mindlistDTO = mindlistService.read(mno);
 
         log.info(mindlistDTO);
 
         model.addAttribute("dto", mindlistDTO);
     }
+
+//    @GetMapping("/mlread/{mno}")
+//    public String viewCountValidation(@PathVariable("mno") Long mno, HttpServletRequest request, HttpServletResponse response){
+//
+//    }
+
+
 
     @PostMapping("/mlremove")
     public String remove(long mno, RedirectAttributes redirectAttributes){

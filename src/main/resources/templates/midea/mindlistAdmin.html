@@ -124,50 +124,6 @@
           </div>
         </div>
 
-        <!--========================================== ↓ 이전 리스트 폼 ===============================================-->
-
-          <tr th:each="dto : ${result.dtoList}" >
-            <th scope="row">
-              <a th:href="@{/midea/mlAdminRead(mno = ${dto.mno},
-                page=${result.page},
-                type = ${pageRequestDTO.type},
-                keyword = ${pageRequestDTO.keyword}
-                )}">
-                [[${dto.mno}]]
-              </a>
-            </th>
-
-            <div class="col-lg-6 col-xxl-12 col-sm-7">
-              <div class="item">
-                <div class="row">
-                  <div class="col-lg-6">
-                    [[${dto.url}]]
-                  </div>
-                  <div class="col-lg-6 align-self-center">
-                    <div class="content">
-                      <span class="info">[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</span>
-                      <h3>[[${dto.composer}]]</h3>
-                      <div class="row">
-                        <div class="col-6">
-                          <i class="fa-solid fa-music"></i>
-                          <span class="list">[[${dto.title}]]</span>
-                        </div>
-                        <div class="col-6">
-                          <i class="fa-solid fa-user"></i>
-                          <span class="list">[[${dto.nickname}]] ---- [<b th:text="${dto.commentCount}"></b>]</span>
-                        </div>
-                      </div>
-                      <p>[[${dto.content}]]</p>
-                      <div class="main-button">
-                        <a href="https://www.youtube.com/watch?v=NXD-WJYtkyc&t=3149s">음악 들으러 가기</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </tr>
-
         <!--========================================== ↓ 현재 리스트 폼 ===============================================-->
 
         <tr th:each="dto : ${result.dtoList}">
@@ -188,16 +144,18 @@
                     <h4>[[${dto.composer}]] - [[${dto.title}]]
                       <i class="fa fa-heart heart-icon" style="color: red; cursor: pointer;"></i><!--좋아요추가-->
                     </h4>
-                    <div class="main-button">
 
-            <!--======================================== ↓ 상세페이지 링크 =============================================-->
+                    <!--=================================== ↓ 상세페이지 링크 ========================================-->
+                    <div class="main-button">
                       <a th:href="@{/midea/mlAdminRead(mno = ${dto.mno},
                           page=${result.page},
                           type = ${pageRequestDTO.type},
                           keyword = ${pageRequestDTO.keyword}
                           )}">Explore More</a>
                     </div>
+                    <div class="card-subtitle" style="height: 180px;">
                     <p>[[${dto.content}]]</p>
+                    </div>
                     <ul class="info">
                       <li>
                         <i class="fa fa-user"></i>
@@ -205,7 +163,7 @@
                       </li>
                       <li>
                         <span>
-                            Views
+                            Views <b th:text="${dto.viewCount}"></b> /
                             Comments <b th:text="${dto.commentCount}"></b>
                         </span>
                       </li>
@@ -214,10 +172,12 @@
                       </li>
                     </ul>
                     <div class="text-button">
-            <!--======================================== ↓ 스포티라이 이동 링크 =============================================-->
-                      <a href="">Listen On Spotify?
-                        <i class="fa-brands fa-spotify"></i>
-                        <i class="fa fa-arrow-right"></i></a>
+            <!--================================ ↓ 스포티라이 이동 링크 =========================================-->
+<!--                      <a href="">Listen On Spotify?-->
+                        <a th:href="@{https://open.spotify.com/search/} + ${dto.composer} + '%20' + ${dto.title}" target="_blank">Wanna Listen On Spotify?
+                          <i class="fa fa-arrow-right"></i>
+                          <i class="fa-brands fa-spotify"></i>
+                        </a>
                     </div>
                   </div>
                 </div>

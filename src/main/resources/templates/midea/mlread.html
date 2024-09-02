@@ -113,15 +113,15 @@
 
         <!------------------------------------------- ↓ 댓글 입력 모달창 ------------------------------------------------->
         
-        <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal" tabindex="-1" role="dialog" id="modalWindow">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Modal title</h5>
+                        <h5 class="modal-title">Insert Comment</h5>
 
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+<!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                            <span aria-hidden="true">&times;</span>-->
+<!--                        </button>-->
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -129,7 +129,7 @@
                         </div>
                         <div class="form-group">
 <!--                            <input class="form-control"  type="text" name="commenter" placeholder="Commenter">-->
-                            <input type="text" class="form-control" name="nickname" th:value="${nickname}" readonly>
+                            <input type="text" class="form-control" name="nickname" th:value="${dto.nickname}" readonly>
                             <input type="hidden" name="cno" >
                         </div>
                     </div>
@@ -205,7 +205,7 @@
 
                 })//end click
 
-        <!----------------------------------------- ↓ 댓글 목록 출력 함수 ----------------------------------------------->
+        <!----------------------------------------- ↓ 댓글 입력 함수 ----------------------------------------------->
                 var modal = $('.modal');
 
                 $(".addComment").click(function () {
@@ -318,6 +318,9 @@
                     });
                 });
 
+                document.querySelector('.commentClose').addEventListener('click', function() {
+                    $('#modalWindow').modal('hide');
+                  });
 
             });
         </script>

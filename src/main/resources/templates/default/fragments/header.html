@@ -47,10 +47,6 @@
                         <li><a th:href="@{/midea/login}">Login</a></li>
                         </th:block>
 
-<!--                         <li><a th:href="@{/midea/mypage}">MyPage</a></li>
-                        <li><a th:href="@{/midea/logout}">Logout</a></li>-->
-
-
                         <th:block sec:authorize="isAuthenticated()">
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -67,14 +63,6 @@
                                  aria-labelledby="userDropdown" style="background-color:#22b3c1">
                                 <a th:href="@{/midea/mypage}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2"></i> MyPage</a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
-                                </a>
                                 <div class="dropdown-divider"></div>
                                 <a th:href="@{/midea/logout}">Logout</a>
                             </div>

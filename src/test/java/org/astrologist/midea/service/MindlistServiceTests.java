@@ -15,8 +15,11 @@ import static org.astrologist.midea.entity.QMindlist.mindlist;
 @SpringBootTest
 public class MindlistServiceTests {
 
+//    @Autowired
+//    private MindlistService mindlistService;
+
     @Autowired
-    private MindlistService mindlistService;
+    private MindlistServiceImpl mindlistService;
 
     @Autowired
     private Mindlist mindlist;
@@ -72,7 +75,7 @@ public class MindlistServiceTests {
     @Test
     public void testRead(){
 
-        Long mno = 10L;
+        Long mno = 1L;
 
         MindlistDTO mindlistDTO = mindlistService.read(mno, mindlist, request, response);
 

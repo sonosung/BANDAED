@@ -19,13 +19,13 @@ public interface MindlistService {
 //    MindlistDTO read(Long mno);
 
     //조회수 같이 구현
-    MindlistDTO read(Long mno, Mindlist mindlist, HttpServletRequest request, HttpServletResponse response);
+    MindlistDTO read(Long mno);
 
     void removeWithComments(Long mno);
 
     void modify(MindlistDTO mindlistDTO);
 
-//    void viewCountValidation(Mindlist mindlist, HttpServletRequest request, HttpServletResponse response);
+    void viewCountValidation(Mindlist mindlist, HttpServletRequest request, HttpServletResponse response);
 
     default Mindlist dtoToEntity(MindlistDTO dto) {
 

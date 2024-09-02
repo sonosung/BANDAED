@@ -53,7 +53,7 @@ public class DefaultController {
         log.info("portfolio......................");
     }
 
-    @GetMapping({"/index", "/contact"})
+    @GetMapping({"/index", "/contact", "/about"})
     public void mindlist(Model model, User user, Long userId, UserDTO userDTO) {
 
         // 세션에서 현재 로그인한 사용자 정보를 가져옵니다.
@@ -62,7 +62,7 @@ public class DefaultController {
 
         if (loggedInUser != null) {
             String nickname = loggedInUser.getNickname();
-//            String profileImage = loggedInUser.getProfileImagePath();
+
             model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
 
             log.info("Logged in user's nickname: " + nickname);
@@ -75,25 +75,21 @@ public class DefaultController {
         model.addAttribute("userRole", user.getUserRole().name());
         model.addAttribute("userId", user.getId());
 
-/*        String profileImagePath = user.getProfileImagePath();
-
-        if (profileImagePath == null || profileImagePath.isEmpty()) {
-            profileImagePath = "/default.images/default-profile.jpg";
-        } else {
-            profileImagePath = userImage;
-        }
-        model.addAttribute("profileImage", profileImagePath);*/
+//        String profileImagePath = user.getProfileImagePath();
+//
+//        if (profileImagePath == null || profileImagePath.isEmpty()) {
+//            profileImagePath = "/default.images/default-profile.jpg";
+//            model.addAttribute("profileImage", profileImagePath);
+//        }
+//        else {
+//            model.addAttribute("profileImage", profileImagePath);
+//        }
 
         String profileImagePath = user.getProfileImagePath();
-
         if (profileImagePath == null || profileImagePath.isEmpty()) {
             profileImagePath = "/default.images/default-profile.jpg";
-            model.addAttribute("profileImage", profileImagePath);
         }
-        else {
-//            String profileImage = loggedInUser.getProfileImagePath();
-            model.addAttribute("profileImage", profileImagePath);
-        }
+        model.addAttribute("profileImage", profileImagePath);
 
         log.info("Welcome to Midea.. ");
     }
