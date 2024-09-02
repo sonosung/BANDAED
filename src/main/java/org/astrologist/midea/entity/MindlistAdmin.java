@@ -110,5 +110,10 @@ public class MindlistAdmin extends BaseEntity {
         this.energetic = energetic;
     }
 
+    /*좋아요*/
+    public void updateLikeCount(int count) {
+        this.likeCount = count;
+    }
+
 }
 

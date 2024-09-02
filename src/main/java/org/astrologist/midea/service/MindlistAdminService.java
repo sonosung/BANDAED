@@ -69,7 +69,11 @@ public interface MindlistAdminService {
 
         return mindlistAdminDTO;
     }
+    void toggleLike(Long mno, User user);/*좋아요*/
 
+    boolean checkUserLiked(Long mno, User currentUser); /*특정 사용자가 좋아요 확인*/
+
+    PageResultDTO<MindlistAdminDTO, Object[]> getListWithLikes(PageRequestDTO pageRequestDTO, User currentUser);
 }
 
 

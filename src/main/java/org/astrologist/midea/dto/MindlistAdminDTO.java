@@ -33,6 +33,6 @@ public class MindlistAdminDTO {
     private boolean stressed;
     private boolean joyful;
     private boolean energetic;
-
+    private boolean liked; // 좋아요 상태를 나타내는 속성 추가
 }
 
