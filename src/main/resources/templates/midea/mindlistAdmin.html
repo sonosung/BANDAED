@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<link th:href="@{/css/simple-sidebar.css}" rel="stylesheet">
+<!--<link th:href="@{/css/simple-sidebar.css}" rel="stylesheet">-->
 
 <th:block th:replace="~{/layout/wooxtravel :: setContent(~{this::content} )}">
 
@@ -46,7 +46,7 @@
               </div>
               <div class="col-lg-4">
                   <fieldset>
-                    <input class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}" aria-label="Default select example">
+                    <input class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}" aria-label="Default select example" placeholder="Search">
                   </fieldset>
               </div>
               <div class="col-lg-2">                        
@@ -68,7 +68,7 @@
     </div>
   </div>
 
-  <div class="amazing-deals">
+  <div class="visit-country">
     <div class="container">
       <div class="row">
 
@@ -92,17 +92,12 @@
                           <div class="item">
                             <div class="thumb">
                               <iframe style="border-radius: 23px" width="200" height="200"
-                                      th:src="'https://www.youtube.com/embed/' + '${dto.url}' + '?si=9-XpOM_tjsPNFt0L'"
+                                      th:src="@{https://www.youtube.com/embed/} + ${dto.url} + @{?si=9-XpOM_tjsPNFt0L}"
                                       title="YouTube video player" frameborder="0"
                                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                       referrerpolicy="strict-origin-when-cross-origin"
                                       allowfullscreen></iframe>
-                              [[${dto.url}]]
                               <h4>[[${dto.title}]]</h4>
-
-                              <!--<div id="playerAlgorithm"></div>
-                              [[${dto.url}]]
-                              <h4>[[${dto.title}]]</h4>-->
                             </div>
                           </div>
                         </a>
@@ -133,7 +128,7 @@
                 <div class="col-lg-6">
                   <div id="ytplayer"></div>
                   <iframe style="border-radius: 23px" width="640" height="360"
-                          th:src="'https://www.youtube.com/embed/' + '${dto.url}' + '?si=9-XpOM_tjsPNFt0L'"
+                          th:src="@{https://www.youtube.com/embed/} + ${dto.url} + @{?si=9-XpOM_tjsPNFt0L)"
                           title="YouTube video player" frameborder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                           referrerpolicy="strict-origin-when-cross-origin"
@@ -173,7 +168,6 @@
                     </ul>
                     <div class="text-button">
             <!--================================ ↓ 스포티라이 이동 링크 =========================================-->
-<!--                      <a href="">Listen On Spotify?-->
                         <a th:href="@{https://open.spotify.com/search/} + ${dto.composer} + '%20' + ${dto.title}" target="_blank">Wanna Listen On Spotify?
                           <i class="fa fa-arrow-right"></i>
                           <i class="fa-brands fa-spotify"></i>
