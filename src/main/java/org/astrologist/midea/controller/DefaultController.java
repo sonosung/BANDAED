@@ -38,7 +38,7 @@ public class DefaultController {
         return "redirect:/midea/index";
     }
 
-    @GetMapping({"/index", "/contact", "/portfolio"})
+    @GetMapping({"/index", "/portfolio"})
     public void mindlist(Model model, HttpSession session) {
         // 세션에서 현재 로그인한 사용자 정보를 가져옵니다.
         User loggedInUser = (User) session.getAttribute("user");

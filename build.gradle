@@ -47,6 +47,8 @@ dependencies {
 	implementation group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '3.3.0'
 
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
+	//이메일SMTP를 위한 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 // Validation Starter 추가
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	// BCrypt dependency

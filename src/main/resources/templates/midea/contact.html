@@ -191,7 +191,7 @@
                     <div class="bg-light rounded-4 py-5 px-4 px-md-5">
                         <div class="row gx-5 justify-content-center">
                             <div class="col-lg-8 col-xl-6">
-                                <form method="post" id="contactForm" th:action="@{../email/EmailReceiveProcess.jsp}" onsubmit="return validateForm(this);">
+                                <form th:action="@{/midea/contact}" id="contactForm" th:method="post" onsubmit="return validateForm(this);">
                                     <!-- Email address input-->
                                     <div class="form-floating mb-3">
                                         <input class="form-control" name="from" id="email" type="email"
@@ -209,7 +209,7 @@
                                     <div class="form-floating mb-3">
                                         <input class="form-control" name="subject" id="subject" type="text"
                                                placeholder="Enter the title..." data-sb-validations="required"/>
-                                        <label for="name">Title</label>
+                                        <label for="subject">Title</label>
                                         <div class="invalid-feedback" data-sb-feedback="name:required">A title is
                                             required.
                                         </div>
@@ -344,7 +344,19 @@
                  </div>
              </div>
          </div> -->
+        <script>
+            function showSuccessPopup() {
+                alert("메일이 성공적으로 전송되었습니다!");
+            }
 
+            // Execute when DOM is fully loaded
+            document.addEventListener("DOMContentLoaded", function() {
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('success')) {
+                    showSuccessPopup();
+                }
+            });
+        </script>
     </th:block>
 </th:block>
 </html>
