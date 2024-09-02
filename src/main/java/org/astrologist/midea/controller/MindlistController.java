@@ -23,7 +23,6 @@ import org.astrologist.midea.dto.MindlistDTO;
 
 import java.util.Map;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -65,6 +64,8 @@ public class MindlistController {
 
         log.info("algorithm......................" + algorithmRequestDTO);
 
+
+        //유저 프로필사진 정보 가져오기.
         String profileImagePath = user.getProfileImagePath();
 
         if (profileImagePath == null || profileImagePath.isEmpty()) {
@@ -107,8 +108,8 @@ public class MindlistController {
         return "redirect:/midea/mindlist";
     }
 
-    @GetMapping("/mlread") //수정과 삭제 모두 read()가 필요하므로, 한번에 맵핑
-    public String read(@ModelAttribute("requestDTO") PageRequestDTO requestDTO, Long mno, Model model) {
+    @GetMapping({"/mlread", "/mlmodify"}) //수정과 삭제 모두 read()가 필요하므로, 한번에 맵핑
+    public String read(@ModelAttribute("requestDTO") PageRequestDTO requestDTO, Long mno, Model model, HttpServletRequest request) {
 
         log.info("mno: " + mno);
 
@@ -130,28 +131,17 @@ public class MindlistController {
 
         model.addAttribute("dto", mindlistDTO);
 
-        return "midea/mlread";
-    }
+        // 현재 요청된 URL을 확인하여 리다이렉트 경로 설정
+        String requestURI = request.getRequestURI();
 
-    @GetMapping("/mlmodify")
-    public String read(@ModelAttribute("requestDTO") PageRequestDTO requestDTO, Long mno, Model model, MindlistDTO dto) {
-
-        MindlistDTO mindlistDTO = mindlistService.read(mno);
-
-        // 현재 로그인한 사용자 정보 가져와서, 로그인 하지 않았으면 로그인 페이지로 이동시킴.
-        User loggedInUser = (User) session.getAttribute("user");
-
-        String user = dto.getNickname();
-
-        if (loggedInUser != null) {
-            String nickname = loggedInUser.getNickname();
-            if (Objects.equals(nickname, user)){
-                model.addAttribute("dto", mindlistDTO);
-            }
-            return "midea/mlmodify";
-        } else {
+        if (requestURI.contains("/mlread")) {
             return "midea/mlread";
+        } else if (requestURI.contains("/mlmodify")) {
+            return "midea/mlmodify";
         }
+
+        // 기본적으로 mlread 페이지로 리다이렉트
+        return "midea/mlread";
     }
 
     @PostMapping("/mlremove")

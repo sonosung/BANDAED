@@ -49,6 +49,36 @@ public class MindlistServiceImpl implements MindlistService {
         return mindlist.getMno();
     }
 
+    public String extractYouTubeVideoID(String url) {
+        String videoID = null;
+
+        try {
+            // URL에서 비디오 ID 추출
+            if (url != null && url.contains("youtube.com/watch?v=")) {
+                String[] parts = url.split("v=");  // "v=" 기준으로 URL을 자름
+                if (parts.length > 1) {
+                    String videoPart = parts[1];
+                    int ampersandPosition = videoPart.indexOf('&'); // '&'가 있는지 확인
+                    if (ampersandPosition != -1) {
+                        videoID = videoPart.substring(0, ampersandPosition); // '&' 전까지 ID 추출
+                    } else {
+                        videoID = videoPart; // 그냥 ID만 있으면 그대로 사용
+                    }
+                }
+            } else if (url != null && url.contains("youtu.be/")) {
+                // 짧은 URL 처리
+                String[] parts = url.split("youtu.be/");
+                if (parts.length > 1) {
+                    videoID = parts[1].split("\\?")[0]; // '?'가 있으면 그 전까지 ID 추출
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // 에러 발생 시 출력
+        }
+
+        return videoID; // 최종적으로 비디오 ID 반환
+    }
+
     //리스트 조회
     @Override
     public PageResultDTO<MindlistDTO, Object[]> getList(PageRequestDTO pageRequestDTO) {

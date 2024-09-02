@@ -972,7 +972,7 @@ Visit Country Style
 .visit-country .item .right-content .main-button {
   position: absolute;
   right: 0;
-  top: 0;
+  bottom: 30px;
 }
 
 .visit-country .item .right-content .main-button a:hover {

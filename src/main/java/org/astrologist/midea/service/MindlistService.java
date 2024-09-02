@@ -7,6 +7,7 @@ import org.astrologist.midea.entity.User;
 
 public interface MindlistService {
 
+    String extractYouTubeVideoID(String url);
     Long register(MindlistDTO dto);
 
     PageResultDTO<MindlistDTO, Object[]> getList(PageRequestDTO requestDTO);
@@ -21,6 +22,9 @@ public interface MindlistService {
     void modify(MindlistDTO mindlistDTO);
 
     default Mindlist dtoToEntity(MindlistDTO dto) {
+
+        // Extract the video ID from the URL
+        String videoID = extractYouTubeVideoID(dto.getUrl());
 
         //UserDTO에서 게시판에 보여주고 싶은 객체를 가져와서 게시판 dto로 보냄.
         User user = User.builder()

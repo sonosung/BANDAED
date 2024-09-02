@@ -9,17 +9,15 @@ import org.astrologist.midea.entity.Mindlist;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.astrologist.midea.entity.QMindlist.mindlist;
 
 @SpringBootTest
 public class MindlistServiceTests {
 
-//    @Autowired
-//    private MindlistService mindlistService;
-
     @Autowired
-    private MindlistServiceImpl mindlistService;
+    private MindlistService mindlistService;
 
     @Autowired
     private Mindlist mindlist;
@@ -77,7 +75,7 @@ public class MindlistServiceTests {
 
         Long mno = 1L;
 
-        MindlistDTO mindlistDTO = mindlistService.read(mno, mindlist, request, response);
+        MindlistDTO mindlistDTO = mindlistService.read(mno);
 
         System.out.println(mindlistDTO);
     }
