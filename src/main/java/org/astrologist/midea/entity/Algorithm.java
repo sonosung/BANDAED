@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString(exclude = {"user", "mindlist", "mindlistAdmin", "mideaLike"})
+@ToString(exclude = {"user", "mindlist", "mindlistAdmin"})
 public class Algorithm {
 
     @Id
@@ -24,8 +24,9 @@ public class Algorithm {
     @ManyToOne(fetch = FetchType.LAZY)
     private MindlistAdmin mindlistAdmin;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private MideaLike mideaLike;
+    private Long likeCount;
+
+    private Long viewCount;
 
     private Long matchingPercent;
 

@@ -6,6 +6,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,7 +43,20 @@ public class UserService {
     }
 
         // User ID로 사용자 조회 메서드 추가
-        public Optional<User> findById (Long userId){
+        public Optional<User> findById (Long userId) {
             return userRepository.findById(userId);
         }
+
+            // 현재 사용자의 감정 상태와 유사한 사용자 찾기 메서드
+            public List<User> findSimilarUsers(User currentUser) {
+                return userRepository.findUsersWithSameEmotions(
+                        currentUser.isHappy(),
+                        currentUser.isSad(),
+                        currentUser.isCalm(),
+                        currentUser.isStressed(),
+                        currentUser.isJoyful(),
+                        currentUser.isEnergetic(),
+                        currentUser.getId()
+                );
+            }
     }
