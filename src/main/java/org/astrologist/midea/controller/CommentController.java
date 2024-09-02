@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/comments/")
@@ -42,17 +44,39 @@ public class CommentController {
 //        return new ResponseEntity<>( commentService.getMaList(mno), HttpStatus.OK);
 //    }
 
+    //댓글 작성란에 사용자 정보 등록.
+    @GetMapping("/getNickname")
+    public ResponseEntity<Map<String, Object>> getNickname(HttpSession session) {
+        Map<String, Object> response = new HashMap<>();
+
+        User loggedInUser = (User) session.getAttribute("user");
+
+        if (loggedInUser == null) {
+            response.put("nickname", "Guest");
+        } else {
+            response.put("nickname", loggedInUser.getNickname());
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PostMapping("")
-    public ResponseEntity<Long> register(@RequestBody CommentDTO commentDTO, Model model){
+    public ResponseEntity<Map<String, Object>> register(@RequestBody CommentDTO commentDTO, Model model){
+
+        Map<String, Object> response = new HashMap<>();
 
         // 현재 로그인한 사용자 정보 가져와서, 로그인 하지 않았으면 로그인 페이지로 이동시킴.
         User loggedInUser = (User) session.getAttribute("user");
 
         if (loggedInUser == null) {
-            model.addAttribute("commenter", commentDTO.getCommenter());
+//            model.addAttribute("commenter", commentDTO.getCommenter());
+//            model.addAttribute("commenter", "Guest");
+            response.put("nickname", "Guest");
         } else {
+//            String nickname = loggedInUser.getNickname();
+//            model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
             String nickname = loggedInUser.getNickname();
-            model.addAttribute("nickname", nickname);  // 모델에 닉네임 추가
+            response.put("nickname", nickname);
             log.info("Logged in user's nickname: " + nickname);
             log.info("user role : " + loggedInUser.getUserRole());
         }
@@ -60,8 +84,9 @@ public class CommentController {
         log.info(commentDTO);
 
         Long cno = commentService.register(commentDTO);
+        response.put("cno", cno);
 
-        return new ResponseEntity<>(cno, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{cno}")

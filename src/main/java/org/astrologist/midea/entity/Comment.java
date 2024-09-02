@@ -8,7 +8,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString(exclude = {"mindlist", "mindlistAdmin", "commenter"})
+@Setter
+@ToString(exclude = {"mindlist", "mindlistAdmin"/*, "commenter"*/})
 public class Comment extends BaseEntity{
 
     @Id
@@ -17,10 +18,10 @@ public class Comment extends BaseEntity{
 
     private String text;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User writer;
+    @ManyToOne (fetch = FetchType.LAZY)
+    private User userIdx;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(length = 100)
     private String commenter;
 
     @ManyToOne(fetch = FetchType.LAZY)

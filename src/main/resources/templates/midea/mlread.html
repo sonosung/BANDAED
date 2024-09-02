@@ -34,7 +34,7 @@
                 <input type="text" class="form-control" name="title" th:value="${dto.title}" readonly>
             </div>
 
-            <div class="content-row mt-2">
+<!--            <div class="content-row mt-2">
                 <div class="checkbox-grid col-sm-12">
                     <label>
                         <input type="checkbox" th:checked="${dto.happy}" disabled> Happy
@@ -55,7 +55,7 @@
                         <input type="checkbox" th:checked="${dto.energetic}" disabled> Energetic
                     </label>
                 </div>
-            </div>
+            </div>-->
 
             <div class="form-group">
                 <label>URL</label>
@@ -112,23 +112,18 @@
         </div>
 
         <!------------------------------------------- ↓ 댓글 입력 모달창 ------------------------------------------------->
-        
+
         <div class="modal" tabindex="-1" role="dialog" id="modalWindow">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Insert Comment</h5>
-
-<!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                            <span aria-hidden="true">&times;</span>-->
-<!--                        </button>-->
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
                             <input class="form-control"  type="text" name="commentText" placeholder="Comment Text...">
                         </div>
                         <div class="form-group">
-<!--                            <input class="form-control"  type="text" name="commenter" placeholder="Commenter">-->
                             <input type="text" class="form-control" name="nickname" th:value="${dto.nickname}" readonly>
                             <input type="hidden" name="cno" >
                         </div>
@@ -187,9 +182,9 @@
 
                 $.each(arr, function(idx, comment){
                     console.log(comment);
-                    str += ' <div class="card-body" data-cno="' + comment.cno + '"><b>' + comment.cno + '</b>';
+                    str += ' <div class="card-body mt-4" data-cno="' + comment.cno + '">Comment Number<h7>[' + comment.cno + ']</h7>';
+                    str += ' <h6 class="card-subtitle mb-2 text-muted">' + comment.nickname + '</h6>';
                     str += ' <h5 class="card-title">' + comment.text + '</h5>';
-                    str += ' <h6 class="card-subtitle mb-2 text-muted">' + comment.commenter + '</h6>';
                     str += ' <p class="card-text">' + formatTime(comment.regDate) + '</p>';
                     str += ' </div>';
                     })
@@ -214,8 +209,25 @@
 
                     //댓글 입력하는 부분 초기화 시키기
                     $('input[name="commentText"]').val('');
-                    $('input[name="commenter"]').val('');
+                    $('input[name="nickname"]').val('');
 
+                     // 현재 로그인된 사용자 닉네임 가져오기
+                        $.ajax({
+                            url: '/getNickname',  // 사용자 정보를 가져오는 GET 메서드 URL로 수정해야 함
+                            method: 'GET',
+                            contentType: 'application/json',
+                            success: function(response) {
+                                if (response.nickname) {
+                                    $('input[name="nickname"]').val(response.nickname);
+                                } else {
+                                    $('input[name="nickname"]').val('Guest');
+                                }
+                            },
+                            error: function() {
+                                console.log("Error fetching nickname");
+                                $('input[name="nickname"]').val('Guest');
+                            }
+                        });
 
                     $(".modal-footer .btn").hide(); //모달 내의 모든 버튼을 안 보이도록
                     $(".commentSave, .commentClose").show(); //필요한 버튼들만 보이도록
@@ -227,7 +239,7 @@
                     var comment = {
                         mno: mno,
                         text: $('input[name="commentText"]').val(),
-                        commenter: $('input[name="commenter"]').val()
+                        nickname: $('input[name="nickname"]').val()  // 'commenter' 대신 'nickname'을 사용
                     }
                     console.log(comment);
                     $.ajax({
@@ -239,9 +251,10 @@
                         success: function(data){
                             console.log(data);
 
-                            var newCno = parseInt(data);
+                            //var newCno = parseInt(data);
+                            var newCno = parseInt(data.cno);  // 응답이 Map이므로 cno를 가져옴
 
-                            alert(newCno +"번 댓글이 등록되었습니다.")
+                            alert(newCno +"번 댓글이 등록되었습니다.");
                             modal.modal('hide');
                             loadJSONData();
                         }
@@ -255,7 +268,7 @@
                     var cno = $(this).data("cno");
 
                     $("input[name='commentText']").val( $(this).find('.card-title').html());
-                    $("input[name='commenter']").val( $(this).find('.card-subtitle').html());
+                    $("input[name='nickname']").val( $(this).find('.card-subtitle').html());
                     $("input[name='cno']").val(cno);
 
                     $(".modal-footer .btn").hide();
@@ -296,7 +309,7 @@
                         cno: cno,
                         mno: mno,
                         text: $('input[name="commentText"]').val(),
-                        commenter: $('input[name="commenter"]').val()
+                        nickname: $('input[name="commenter"]').val()
                     }
 
                     console.log(comment);

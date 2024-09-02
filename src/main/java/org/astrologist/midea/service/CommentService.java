@@ -1,5 +1,6 @@
 package org.astrologist.midea.service;
 
+import jakarta.servlet.http.HttpSession;
 import org.astrologist.midea.dto.CommentDTO;
 import org.astrologist.midea.entity.Comment;
 import org.astrologist.midea.entity.Mindlist;
@@ -25,18 +26,20 @@ public interface CommentService {
     void remove(Long cno);
 
     //CommentDTO를 Comment 객체로 변환 Mindlist객체의 처리가 수반됨.
-    default Comment dtotoEntity(CommentDTO commentDTO){
+    default Comment dtotoEntity(CommentDTO dto){
 
-        Mindlist mindlist = Mindlist.builder().mno(commentDTO.getMno()).build();
+        Mindlist mindlist = Mindlist.builder()
+                .mno(dto.getMno())
+                .build();
 
-        User user= User.builder()
-                .nickname(commentDTO.getCommenter())
+        User user = User.builder()
+                .nickname(dto.getNickname())
                 .build();
 
         Comment comment = Comment.builder()
-                .cno(commentDTO.getCno())
-                .text(commentDTO.getText())
-                .commenter(commentDTO.getCommenter())
+                .cno(dto.getCno())
+                .text(dto.getText())
+                .commenter(dto.getNickname())
 //                .commenter(commentDTO.getCommenter())
                 .mindlist(mindlist)
                 .build();
@@ -50,7 +53,7 @@ public interface CommentService {
         CommentDTO dto = CommentDTO.builder()
                 .cno(comment.getCno())
                 .text(comment.getText())
-                .commenter(String.valueOf(comment.getCommenter()))
+                .nickname(comment.getCommenter())
                 .regDate(comment.getRegDate())
                 .modDate(comment.getModDate())
                 .build();

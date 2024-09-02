@@ -16,7 +16,7 @@ public class CommentDTO {
 
     private Long cno;
     private String text;
-    private String commenter;
+    private String nickname;
     private Long mno; //게시글 번호
     private LocalDateTime regDate, modDate;
 }
