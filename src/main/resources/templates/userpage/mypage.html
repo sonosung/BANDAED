@@ -211,7 +211,7 @@
                             <img th:src="${user.profileImagePath}" class="rounded-circle" width="150" height="150" alt="Profile Picture">
                             <div class="mt-3">
                                 <h4 th:text="${user.nickname}">Username</h4>
-                                <p class="text-muted font-size-sm">Welcome message</p>
+                                <p class="text-muted font-size-sm">Welcome Midea</p>
                             </div>
                         </div>
                     </div>
@@ -275,8 +275,8 @@
                 </div>
                 <div class="card card-additional">
                     <div class="card-body">
-                        <h5 class="card-title">Additional Information</h5>
-                        <p class="card-text">This is an additional card with more information.</p>
+                        <h4 class="card-title" th:text="${user.nickname}">Username</h4>
+                        <h3 class="card-text">Where words fail, music speaks.</h3>
                     </div>
                 </div>
             </div>
