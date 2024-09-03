@@ -8,16 +8,18 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString(exclude = {"mindlist", "mindlistAdmin"})
-public class View {
+@ToString(exclude = {"mindlist", "mindlistAdmin", "userIdx"})
+public class View extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long vno;
 
-    private Long aMno; //관리자 게시글 번호
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User userIdx;
 
-    private Long uMno; //유저 게시글 번호
+    @Column(length = 100)
+    private String viewUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Mindlist mindlist;

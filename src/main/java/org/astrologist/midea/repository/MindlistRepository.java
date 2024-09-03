@@ -16,8 +16,14 @@ public interface MindlistRepository extends JpaRepository<Mindlist, Long>, Searc
     @Query("select m, u from Mindlist m left join m.userIdx u where m.mno =:mno")
     Object getMindlistWithWriter(@Param("mno") Long mno);
 
+    @Query("select m, v from Mindlist m left join m.userIdx v where m.mno =:mno")
+    Object getMindlistWithViewer(@Param("mno") Long mno);
+
     @Query("SELECT m, c FROM Mindlist m LEFT JOIN Comment c ON c.mindlist = m WHERE m.mno = :mno")
     List<Object[]> getMindlistWithComment(@Param("mno") Long mno);
+
+    @Query("SELECT m, v FROM Mindlist m LEFT JOIN View v ON v.mindlist = m WHERE m.mno = :mno")
+    List<Object[]> getMindlistWithView(@Param("mno") Long mno);
 
     @Query(value ="SELECT m, u, count(c) " +
             " FROM Mindlist m " +
@@ -27,10 +33,19 @@ public interface MindlistRepository extends JpaRepository<Mindlist, Long>, Searc
             countQuery ="SELECT count(m) FROM Mindlist m")
     Page<Object[]> getMindlistWithCommentCount(Pageable pageable);
 
+    @Query(value ="SELECT m, u, count(v) " +
+            " FROM Mindlist m " +
+            " LEFT JOIN m.userIdx u " +
+            " LEFT JOIN View v ON v.mindlist = m " +
+            " GROUP BY m",
+            countQuery ="SELECT count(m) FROM Mindlist m")
+    Page<Object[]> getMindlistWithViewCount(Pageable pageable);
 
-    @Query("SELECT m, u, count(c) " +
+
+    @Query("SELECT m, u, count(c), count(v) " +
             " FROM Mindlist m LEFT JOIN m.userIdx u " +
             " LEFT OUTER JOIN Comment c ON c.mindlist = m" +
+            " LEFT OUTER JOIN View v ON v.mindlist = m" +
             " WHERE m.mno = :mno")
     Object getMindlistByMno(@Param("mno") Long mno);
 

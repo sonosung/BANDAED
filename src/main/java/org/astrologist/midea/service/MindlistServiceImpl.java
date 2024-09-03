@@ -86,7 +86,7 @@ public class MindlistServiceImpl implements MindlistService {
         log.info(pageRequestDTO);
 
 //        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2], (Long) en[3]));
-        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2]));
+        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2], (Long)en[3]));
 //        Page<Object[]> result = repository.getBoardWithReplyCount(
 //                pageRequestDTO.getPageable(Sort.by("bno").descending())  );
         Page<Object[]> result = repository.searchPage(
@@ -116,7 +116,7 @@ public class MindlistServiceImpl implements MindlistService {
             User user = (User) en[1];
             Long count = (Long) en[2];
 
-            MindlistDTO dto = entityToDTO(mindlist, user, count);
+            MindlistDTO dto = entityToDTO(mindlist, user, count, count);
 
             // 좋아요 상태 설정
             boolean liked = mideaLikeRepository.existsByUserAndPost2(currentUser, mindlist);
@@ -134,7 +134,7 @@ public class MindlistServiceImpl implements MindlistService {
         log.info(algorithmRequestDTO);
 
 //        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2],(Long)en[3]));
-        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2]));
+        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2],(Long)en[3]));
 //        Page<Object[]> result = repository.getBoardWithReplyCount(
 //                pageRequestDTO.getPageable(Sort.by("bno").descending())  );
         Page<Object[]> algorithm = repository.searchPage(
@@ -154,7 +154,7 @@ public class MindlistServiceImpl implements MindlistService {
 
         Object[] arr = (Object[])result;
 
-        return entityToDTO((Mindlist)arr[0], (User)arr[1], (Long)arr[2]);
+        return entityToDTO((Mindlist)arr[0], (User)arr[1], (Long)arr[2], (Long)arr[3]);
     }
 
     //삭제

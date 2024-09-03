@@ -29,14 +29,16 @@ public class SearchMindlistRepositoryImpl extends QuerydslRepositorySupport impl
         QMindlist mindlist = QMindlist.mindlist;
         QComment comment = QComment.comment;
         QUser user = QUser.user;
+        QView view = QView.view;
 
 
         JPQLQuery<Mindlist> jpqlQuery = from(mindlist);
 //        jpqlQuery.leftJoin(user).on(mindlist.userIdx.eq(user);
         jpqlQuery.leftJoin(user).on(mindlist.userIdx.eq(mindlist.userIdx));
         jpqlQuery.leftJoin(comment).on(comment.mindlist.eq(mindlist));
+        jpqlQuery.leftJoin(view).on(view.mindlist.eq(mindlist));
 
-        JPQLQuery<Tuple> tuple = jpqlQuery.select(mindlist, user, comment.count());
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(mindlist, user, comment.count(), view.count());
         tuple.groupBy(mindlist);
 
         log.info("---------------------------");
@@ -57,12 +59,14 @@ public class SearchMindlistRepositoryImpl extends QuerydslRepositorySupport impl
         QMindlist mindlist = QMindlist.mindlist;
         QComment comment = QComment.comment;
         QUser user = QUser.user;
+        QView view = QView.view;
 
         JPQLQuery<Mindlist>jpqlQuery = from(mindlist);
         jpqlQuery.leftJoin(user).on(mindlist.userIdx.eq(mindlist.userIdx));
         jpqlQuery.leftJoin(comment).on(comment.mindlist.eq(mindlist));
+        jpqlQuery.leftJoin(view).on(view.mindlist.eq(mindlist));
 
-        JPQLQuery<Tuple> tuple = jpqlQuery.select(mindlist, user, comment.count());
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(mindlist, user, comment.count(), view.count());
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         BooleanExpression booleanExpression = mindlist.mno.gt(0L);
