@@ -74,9 +74,8 @@ public class MindlistAdmin extends BaseEntity {
         this.composer = composer;
     }
 
-    public void changeContent(String content) {
-        this.content = content;
-    }
+    public void changeContent(String content){
+        this.content = content; }
 
     public void changeTitle(String title) {
         this.title = title;

@@ -1,17 +1,13 @@
 package org.astrologist.midea.service;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.astrologist.midea.dto.*;
-import org.astrologist.midea.entity.*;
-import org.astrologist.midea.repository.CommentRepository;
-import org.astrologist.midea.repository.MideaLikeRepository;
-import org.astrologist.midea.repository.MindlistAdminRepository;
-import org.astrologist.midea.repository.MindlistRepository;
+import org.astrologist.midea.entity.MideaLike;
+import org.astrologist.midea.entity.MindlistAdmin;
+import org.astrologist.midea.entity.User;
+import org.astrologist.midea.repository.*;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,24 +20,56 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class MindlistAdminServiceImpl implements MindlistAdminService {
 
-    private final MindlistAdminRepository repository; //반드시 final로 선언.
+    private final MindlistAdminRepository repository;//반드시 final로 선언.
 
     private final CommentRepository commentRepository;
 
     private final MideaLikeRepository mideaLikeRepository; /*좋아요 레포지토리*/
 
+    private final ViewRepository viewRepository;
+
     //글쓰기
     @Override
     public Long register(MindlistAdminDTO dto) {
+
         log.info("-------------MindlistAdminServiceImpl register() 실행--------------");
         log.info(dto);
 
         MindlistAdmin mindlistAdmin = dtoToEntity(dto);
-        log.info(mindlistAdmin);
 
         repository.save(mindlistAdmin);
 
         return mindlistAdmin.getMno();
+    }
+
+    public String extractYouTubeVideoID(String url) {
+        String videoID = null;
+
+        try {
+            // URL에서 비디오 ID 추출
+            if (url != null && url.contains("youtube.com/watch?v=")) {
+                String[] parts = url.split("v=");  // "v=" 기준으로 URL을 자름
+                if (parts.length > 1) {
+                    String videoPart = parts[1];
+                    int ampersandPosition = videoPart.indexOf('&'); // '&'가 있는지 확인
+                    if (ampersandPosition != -1) {
+                        videoID = videoPart.substring(0, ampersandPosition); // '&' 전까지 ID 추출
+                    } else {
+                        videoID = videoPart; // 그냥 ID만 있으면 그대로 사용
+                    }
+                }
+            } else if (url != null && url.contains("youtu.be/")) {
+                // 짧은 URL 처리
+                String[] parts = url.split("youtu.be/");
+                if (parts.length > 1) {
+                    videoID = parts[1].split("\\?")[0]; // '?'가 있으면 그 전까지 ID 추출
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // 에러 발생 시 출력
+        }
+
+        return videoID; // 최종적으로 비디오 ID 반환
     }
 
     //리스트 조회
@@ -50,17 +78,20 @@ public class MindlistAdminServiceImpl implements MindlistAdminService {
 
         log.info(pageRequestDTO);
 
-        Function<Object[], MindlistAdminDTO> fn = (en -> entityToDto((MindlistAdmin) en[0], (User) en[1], (Long) en[2]));
-
+//        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2], (Long) en[3]));
+        Function<Object[], MindlistAdminDTO> fn = (en -> entityToDTO((MindlistAdmin) en[0],(User)en[1],(Long)en[2]));
+//        Page<Object[]> result = repository.getBoardWithReplyCount(
+//                pageRequestDTO.getPageable(Sort.by("bno").descending())  );
         Page<Object[]> result = repository.searchPage(
                 pageRequestDTO.getType(),
                 pageRequestDTO.getKeyword(),
-                pageRequestDTO.getPageable(Sort.by("mno").descending()));
+                pageRequestDTO.getPageable(Sort.by("mno").descending())  );
 
 
         return new PageResultDTO<>(result, fn);
     }
 
+    //알고리즘 리스트 조회
     // 좋아요 상태 포함 리스트 조회 메서드
     @Override
     public PageResultDTO<MindlistAdminDTO, Object[]> getListWithLikes(PageRequestDTO pageRequestDTO, User currentUser) {
@@ -78,11 +109,10 @@ public class MindlistAdminServiceImpl implements MindlistAdminService {
             User user = (User) en[1];
             Long count = (Long) en[2];
 
-            MindlistAdminDTO dto = entityToDto(mindlistAdmin, user, count);
+            MindlistAdminDTO dto = entityToDTO(mindlistAdmin, user, count);
 
             // 좋아요 상태 설정
             boolean liked = mideaLikeRepository.existsByUserAndPost3(currentUser, mindlistAdmin);
-            log.info("Post mno=" + mindlistAdmin.getMno() + " liked by user " + currentUser.getNickname() + ": " + liked);
             dto.setLiked(liked);
 
             return dto;
@@ -91,20 +121,19 @@ public class MindlistAdminServiceImpl implements MindlistAdminService {
         return new PageResultDTO<>(result, fn);
     }
 
-    //알고리즘 리스트 조회
     @Override
     public AlgorithmResultDTO<MindlistAdminDTO, Object[]> getAlgorithmList(AlgorithmRequestDTO algorithmRequestDTO) {
 
         log.info(algorithmRequestDTO);
 
 //        Function<Object[], MindlistDTO> fn = (en -> entityToDTO((Mindlist)en[0],(User)en[1],(Long)en[2],(Long)en[3]));
-        Function<Object[], MindlistAdminDTO> fn = (en -> entityToDto((MindlistAdmin) en[0], (User) en[1], (Long) en[2]));
+        Function<Object[], MindlistAdminDTO> fn = (en -> entityToDTO((MindlistAdmin) en[0],(User)en[1],(Long)en[2]));
 //        Page<Object[]> result = repository.getBoardWithReplyCount(
 //                pageRequestDTO.getPageable(Sort.by("bno").descending())  );
         Page<Object[]> algorithm = repository.searchPage(
                 algorithmRequestDTO.getType(),
                 algorithmRequestDTO.getKeyword(),
-                algorithmRequestDTO.getPageable(Sort.by("mno").descending()));
+                algorithmRequestDTO.getPageable(Sort.by("mno").descending())  );
 
 
         return new AlgorithmResultDTO<>(algorithm, fn);
@@ -116,9 +145,9 @@ public class MindlistAdminServiceImpl implements MindlistAdminService {
 
         Object result = repository.getMindlistAdminByMno(mno);
 
-        Object[] arr = (Object[]) result;
+        Object[] arr = (Object[])result;
 
-        return entityToDto((MindlistAdmin) arr[0], (User) arr[1], (Long) arr[2]);
+        return entityToDTO((MindlistAdmin) arr[0], (User)arr[1], (Long)arr[2]);
     }
 
     //삭제
@@ -127,7 +156,7 @@ public class MindlistAdminServiceImpl implements MindlistAdminService {
     public void removeWithComments(Long mno) {
 
         //댓글 부터 삭제
-        commentRepository.deleteMAByMno(mno);
+        commentRepository.deleteByMno(mno);
 
         repository.deleteById(mno);
 
@@ -138,27 +167,37 @@ public class MindlistAdminServiceImpl implements MindlistAdminService {
     @Override
     public void modify(MindlistAdminDTO mindlistAdminDTO) {
 
-        Optional<MindlistAdmin> result = repository.findById(mindlistAdminDTO.getMno());
+        MindlistAdmin mindlistAdmin = repository.getReferenceById(mindlistAdminDTO.getMno());
 
-        if (result.isPresent()) {
+        if(mindlistAdmin != null) {
 
-            MindlistAdmin entity = result.get();
+            mindlistAdmin.changeComposer(mindlistAdminDTO.getComposer());
+            mindlistAdmin.changeContent(mindlistAdminDTO.getContent());
+            mindlistAdmin.changeTitle(mindlistAdminDTO.getTitle());
+            mindlistAdmin.changeUrl(mindlistAdminDTO.getUrl());
+            mindlistAdmin.changeHappy(mindlistAdminDTO.isHappy());
+            mindlistAdmin.changeSad(mindlistAdminDTO.isSad());
+            mindlistAdmin.changeCalm(mindlistAdminDTO.isCalm());
+            mindlistAdmin.changeStressed(mindlistAdminDTO.isStressed());
+            mindlistAdmin.changeJoyful(mindlistAdminDTO.isJoyful());
+            mindlistAdmin.changeEnergetic(mindlistAdminDTO.isEnergetic());
 
-            entity.changeTitle(mindlistAdminDTO.getTitle());
-            entity.changeUrl(mindlistAdminDTO.getUrl());
-            entity.changeComposer(mindlistAdminDTO.getComposer());
-            entity.changeContent(mindlistAdminDTO.getContent());
-            entity.changeHappy(mindlistAdminDTO.isHappy());
-            entity.changeSad(mindlistAdminDTO.isSad());
-            entity.changeCalm(mindlistAdminDTO.isCalm());
-            entity.changeStressed(mindlistAdminDTO.isStressed());
-            entity.changeJoyful(mindlistAdminDTO.isJoyful());
-            entity.changeEnergetic(mindlistAdminDTO.isEnergetic());
-
-            repository.save(entity);
+            repository.save(mindlistAdmin);
         }
-
     }
+
+//    @Transactional
+//    public Mindlist getViewByMindlistOrderByVno(Long mno) {
+//        Optional<Mindlist> mindlist = this.repository.findById(mno);
+//        if (mindlist.isPresent()) {
+//            Mindlist mindlist1 = mindlist.get();
+//            mindlist1.setViewCount(mindlist1.getViewCount() + 1);
+//            this.repository.save(mindlist1);
+//            return mindlist1;
+//
+//        }
+//        return null;
+//    }
 
     @Override
     @Transactional
@@ -199,14 +238,6 @@ public class MindlistAdminServiceImpl implements MindlistAdminService {
         log.info("User " + currentUser.getNickname() + " liked status for mno=" + mno + ": " + exists);
 
         return exists;
-
-/*//    public Mindlist getMindlist(Long mno){
-//        Optional<MindlistAdmin> mindlistAdmin = this.repository.findById(mno);
-//        if(mindlistAdmin.isPresent()) {
-//            MindlistAdmin mindlistAdmin11 = mindlistAdmin.get();
-//            mindlistAdmin11.setViewCount(mindlistAdmin11.getViewCount()+1);
-//        }
-//    }*/
-
     }
+
 }
