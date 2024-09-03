@@ -81,11 +81,34 @@ public class MindlistRepositoryTests {
 
     }
 
+    @Test
+    public void testReadWithViewer() {
+
+        Object result = mindlistRepository.getMindlistWithViewer(10L);
+
+        Object[] arr = (Object[])result;
+
+        System.out.println("-------------------------------");
+        System.out.println(Arrays.toString(arr));
+
+    }
+
     @Transactional
     @Test
     public void testGetMindlistWithReply() {
 
         List<Object[]> result = mindlistRepository.getMindlistWithComment(100L);
+
+        for (Object[] arr : result) {
+            System.out.println(Arrays.toString(arr));
+        }
+    }
+
+    @Transactional
+    @Test
+    public void testGetMindlistWithView() {
+
+        List<Object[]> result = mindlistRepository.getMindlistWithView(5L);
 
         for (Object[] arr : result) {
             System.out.println(Arrays.toString(arr));
@@ -106,6 +129,22 @@ public class MindlistRepositoryTests {
             System.out.println(Arrays.toString(arr));
         });
     }
+
+    @Transactional
+    @Test
+    public void testWithViewCount() {
+
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("mno").descending());
+
+        Page<Object[]> result = mindlistRepository.getMindlistWithViewCount(pageable);
+
+        result.get().forEach(row -> {
+            Object[] arr = (Object[])row;
+
+            System.out.println(Arrays.toString(arr));
+        });
+    }
+
 
     @Test
     public void testRead3() {

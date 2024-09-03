@@ -88,9 +88,29 @@ public class MindlistAdminRepositoryTests {
     }
 
     @Test
+    public void getViewCountByMno() {
+        Object result = mindlistAdminRepository.getViewCountByMno(20L);
+
+        Object[] arr = (Object[])result;
+
+        System.out.println(Arrays.toString(arr));
+    }
+
+    @Test
     public void testReadWithWriter() {
 
         Object result = mindlistAdminRepository.getMindlistAdminWithWriter(100L);
+
+        Object[] arr = (Object[])result;
+
+        System.out.println("-------------------------------");
+        System.out.println(Arrays.toString(arr));
+
+    }
+    @Test
+    public void testReadWithViewer() {
+
+        Object result = mindlistAdminRepository.getMindlistAdminWithViewer(5L);
 
         Object[] arr = (Object[])result;
 
@@ -119,6 +139,17 @@ public class MindlistAdminRepositoryTests {
 
     @Transactional
     @Test
+    public void testGetMindlistWithView() {
+
+        List<Object[]> result = mindlistAdminRepository.getMindlistAdminWithView(20L);
+
+        for (Object[] arr : result) {
+            System.out.println(Arrays.toString(arr));
+        }
+    }
+
+    @Transactional
+    @Test
     public void testWithCommentCount() {
 
         Pageable pageable = PageRequest.of(0, 10, Sort.by("mno").descending());
@@ -131,6 +162,21 @@ public class MindlistAdminRepositoryTests {
             System.out.println(Arrays.toString(arr));
         });
     }
+    @Transactional
+    @Test
+    public void testWithViewCount() {
+
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("mno").descending());
+
+        Page<Object[]> result = mindlistAdminRepository.getMindlistAdminWithViewCount(pageable);
+
+        result.get().forEach(row -> {
+            Object[] arr = (Object[])row;
+
+            System.out.println(Arrays.toString(arr));
+        });
+    }
+
 
     @Test
     public void testSearchPage() {
