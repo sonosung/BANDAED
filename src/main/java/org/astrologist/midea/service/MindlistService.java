@@ -47,13 +47,13 @@ public interface MindlistService {
                 .stressed(dto.isStressed())
                 .likeCount(dto.getLikeCount())
                 .commentCount(dto.getCommentCount())
-                .viewCount((long) dto.getViewCount())
+                .viewCount(dto.getViewCount())
                 .build();
 
         return mindlist;
     }
 
-    default MindlistDTO entityToDTO(Mindlist mindlist, User user, Long commentCount, Long viewCount){
+    default MindlistDTO entityToDTO(Mindlist mindlist, User user, Long commentCount){
 
         MindlistDTO mindlistDTO = MindlistDTO.builder()
                 .mno(mindlist.getMno())
@@ -69,7 +69,7 @@ public interface MindlistService {
                 .stressed(mindlist.isStressed())
                 .likeCount(mindlist.getLikeCount())
                 .commentCount(commentCount.intValue())
-                .viewCount(viewCount.intValue())
+                .viewCount(mindlist.getViewCount())
                 .content(mindlist.getContent())
                 .regDate(mindlist.getRegDate())
                 .modDate(mindlist.getModDate())

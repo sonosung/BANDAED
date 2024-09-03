@@ -14,6 +14,8 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.astrologist.midea.entity.QView.view;
+
 @Log4j2
 public class SearchMindlistAdminRepositoryImpl extends QuerydslRepositorySupport implements SearchMindlistAdminRepository {
 
@@ -29,13 +31,15 @@ public class SearchMindlistAdminRepositoryImpl extends QuerydslRepositorySupport
         QMindlistAdmin mindlistAdmin = QMindlistAdmin.mindlistAdmin;
         QComment comment = QComment.comment;
         QUser user = QUser.user;
+        QView view = QView.view;
 
 
         JPQLQuery<MindlistAdmin> jpqlQuery = from(mindlistAdmin);
         jpqlQuery.leftJoin(user).on(mindlistAdmin.userIdx.eq(mindlistAdmin.userIdx));
         jpqlQuery.leftJoin(comment).on(comment.mindlistAdmin.eq(mindlistAdmin));
+        jpqlQuery.leftJoin(view).on(view.mindlistAdmin.eq(mindlistAdmin));
 
-        JPQLQuery<Tuple> tuple = jpqlQuery.select(mindlistAdmin, user.email, comment.count());
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(mindlistAdmin, user.email, comment.count(), view.count());
         tuple.groupBy(mindlistAdmin);
 
         log.info("---------------------------");
@@ -56,12 +60,14 @@ public class SearchMindlistAdminRepositoryImpl extends QuerydslRepositorySupport
         QMindlistAdmin mindlistAdmin = QMindlistAdmin.mindlistAdmin;
         QComment comment = QComment.comment;
         QUser user = QUser.user;
+        QView view = QView.view;
 
         JPQLQuery<MindlistAdmin>jpqlQuery = from(mindlistAdmin);
         jpqlQuery.leftJoin(user).on(mindlistAdmin.userIdx.eq(mindlistAdmin.userIdx));
         jpqlQuery.leftJoin(comment).on(comment.mindlistAdmin.eq(mindlistAdmin));
+        jpqlQuery.leftJoin(view).on(view.mindlistAdmin.eq(mindlistAdmin));
 
-        JPQLQuery<Tuple> tuple = jpqlQuery.select(mindlistAdmin, user, comment.count());
+        JPQLQuery<Tuple> tuple = jpqlQuery.select(mindlistAdmin, user, comment.count(), view.count());
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         BooleanExpression booleanExpression = mindlistAdmin.mno.gt(0L);

@@ -49,4 +49,10 @@ public interface MindlistAdminRepository extends JpaRepository<MindlistAdmin, Lo
             " LEFT OUTER JOIN View v ON v.mindlistAdmin = ma" +
             " WHERE ma.mno = :mno")
     Object getMindlistAdminByMno(@Param("mno") Long mno);
+
+    @Query("SELECT ma, u, count(v) " +
+            " FROM MindlistAdmin ma LEFT JOIN ma.userIdx u " +
+            " LEFT OUTER JOIN View v ON v.mindlistAdmin = ma" +
+            " WHERE ma.mno = :mno")
+    Object getViewCountByMno(@Param("mno") Long mno);
 }

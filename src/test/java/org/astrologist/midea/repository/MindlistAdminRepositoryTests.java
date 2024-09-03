@@ -88,6 +88,15 @@ public class MindlistAdminRepositoryTests {
     }
 
     @Test
+    public void getViewCountByMno() {
+        Object result = mindlistAdminRepository.getViewCountByMno(20L);
+
+        Object[] arr = (Object[])result;
+
+        System.out.println(Arrays.toString(arr));
+    }
+
+    @Test
     public void testReadWithWriter() {
 
         Object result = mindlistAdminRepository.getMindlistAdminWithWriter(100L);

@@ -68,7 +68,7 @@ public class MindlistAdmin extends BaseEntity {
 
     @Builder.Default
     @Column(columnDefinition = "integer default 0", nullable = false)
-    private Long viewCount = 0L;  // 게시물에 대한 총 조회수
+    private int viewCount = 0;  // 게시물에 대한 총 조회수
 
     public void changeComposer(String composer) {
         this.composer = composer;
